@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- HEADER -->
+    <div class="header">
+        <span class="header-username">user_name</span>
+        <span class="header-title">Welcome to bud's catalog !!!</span>
+    </div>
+
+    <!-- MAIN LAYOUT -->
+    <div class="container">
+        <!-- SIDEBAR MENU -->
+        <div class="sidebar">
+            <div class="menu-title">MENU</div>
+            <div class="menu-items">
+                <a href="#" class="menu-item">Offers</a>
+                <a href="#" class="menu-item">Sale's</a>
+                <a href="#" class="menu-item">See all</a>
+                <a href="#" class="menu-item menu-item-logout">Logout</a>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <!-- TABS -->
+            <div class="tabs">
+                <a href="#" class="tab">Go to catalog</a>
+                <a href="#" class="tab active">Profile settings</a>
+                <a href="#" class="tab">Your wish list</a>
+            </div>
+
+            <!-- PROFILE CONTENT -->
+            <div class="profile-container">
+                <!-- AVATAR -->
+                <div class="profile-avatar">
+                    Just it photo
+                </div>
+
+                <!-- PROFILE FORM -->
+                <div class="profile-form">
+                    <!-- PHOTO UPLOAD -->
+                    <div style="position: relative; margin-bottom: 20px;">
+                        <div class="dropdown-icon" style="position: absolute; top: -50px; right: 0;">
+                            ⬇️<br><small style="font-size: 8px;">photo</small>
+                        </div>
+                    </div>
+
+                    <!-- FULL NAME -->
+                    <div class="form-group">
+                        <input type="text" class="form-input" placeholder="your full name" id="fullName">
+                        <button class="btn btn-edit" onclick="toggleEdit('fullName')">Edit</button>
+                    </div>
+
+                    <!-- PHONE -->
+                    <div class="form-group">
+                        <input type="text" class="form-input" placeholder="your contact phone" id="phone">
+                        <button class="btn btn-edit" onclick="toggleEdit('phone')">Edit</button>
+                    </div>
+
+                    <!-- EMAIL -->
+                    <div class="form-group">
+                        <input type="text" class="form-input" placeholder="your e-mail @" id="email">
+                        <button class="btn btn-edit" onclick="toggleEdit('email')">Edit</button>
+                    </div>
+
+                    <!-- INFO SECTION -->
+                    <div class="profile-info form-group full">
+                        <div>Your Phone is <strong>+995 123 456 789</strong></div>
+                        <div>Your e-mail is <strong>user_name@mail.com</strong></div>
+                    </div>
+
+                    <!-- AGE -->
+                    <div class="profile-info form-group">
+                        <div>
+                            <span id="ageDisplay">Age - <strong>__</strong></span>
+                            <span id="agePrompt" style="color: var(--blue);">/
+                                <input type="date" id="birthDateInput" class="form-input" style="max-width: 200px; margin: 0 5px;" onchange="updateAge()">
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- GENDER -->
+                    <div class="profile-info form-group">
+                        <div>
+                            <span id="genderDisplay">-</span>
+                            <span id="genderPrompt" style="color: var(--blue);">/
+                                <select id="genderSelect" class="form-input" style="max-width: 150px; margin: 0 5px;" onchange="updateGender()">
+                                    <option value="">add your sex</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/user-profile.js"></script>
+</body>
+</html>

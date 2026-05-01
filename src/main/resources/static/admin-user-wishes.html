@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - User Wishes</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- HEADER -->
+    <div class="header">
+        <span class="header-username">user_name</span>
+        <span class="header-title">Welcome to bud's catalog !!!</span>
+    </div>
+
+    <!-- MAIN LAYOUT -->
+    <div class="container">
+        <!-- SIDEBAR MENU -->
+        <div class="sidebar">
+            <div class="menu-title">MENU</div>
+            <div class="menu-items">
+                <a href="admin-users.html" class="menu-item">Users</a>
+                <a href="admin-user-wishes.html" class="menu-item active">User's wishes</a>
+                <a href="bud's.html" class="menu-item">Buds</a>
+                <a href="#" class="menu-item">Advanced</a>
+                <a href="#" class="menu-item">In stock</a>
+                <a href="#" class="menu-item">Orders</a>
+                <a href="#" class="menu-item">My wishes</a>
+                <a href="#" class="menu-item">Win/Loss</a>
+                <a href="#" class="menu-item">Catalog edit</a>
+                <div class="menu-divider"></div>
+                <a href="#" class="menu-item menu-item-special" style="visibility: hidden; pointer-events: none;">Manufacturers</a>
+                <a href="#" class="menu-item menu-item-special" style="visibility: hidden; pointer-events: none;">Categories</a>
+                <div class="menu-divider" style="visibility: hidden;"></div>
+                <a href="#" class="menu-item menu-item-special" style="visibility: hidden; pointer-events: none;">Browse markets</a>
+                <a href="#" class="menu-item menu-item-special" style="visibility: hidden; pointer-events: none;">Add market</a>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <!-- BREADCRUMBS -->
+            <div class="breadcrumbs">
+                <a href="admin-users.html" class="breadcrumb-link">Users</a>
+                <span class="breadcrumb-separator">=></span>
+                <span class="breadcrumb-current" id="breadcrumbFilters">User's wishes</span>
+            </div>
+
+            <div class="content-header">
+                <span class="content-title">User's wishes => Filters</span>
+                <div class="btn-group">
+                    <input type="text" class="search-box" placeholder="A - Z">
+                    <button class="btn btn-primary">Filters</button>
+                </div>
+            </div>
+
+            <!-- TABLE -->
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Bud_Name</th>
+                            <th>User name</th>
+                            <th style="text-align: right;">Add to Orders</th>
+                        </tr>
+                    </thead>
+                    <tbody id="wishesTable">
+                        <!-- Content will be populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="right-panel">
+            <button class="action-btn action-btn-check">Check in stock</button>
+            <button class="action-btn action-btn-add">Add in orders</button>
+            <button class="logout-btn">Logout</button>
+        </div>
+    </div>
+
+    <script src="js/admin-wishlist.js"></script>
+</body>
+</html>

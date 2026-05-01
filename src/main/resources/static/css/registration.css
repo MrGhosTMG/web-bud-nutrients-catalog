@@ -1,0 +1,82 @@
+/* Registration page specific styles */
+.auth-content {
+    max-width: 900px;
+}
+
+.form-header-text {
+    text-align: center;
+    color: var(--dark-gray);
+    font-size: 14px;
+    margin-bottom: 25px;
+    display: flex;
+    gap: 30px;
+    justify-content: space-around;
+}
+
+.form-rows {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 30px;
+    align-items: start;
+}
+
+.form-row-single {
+    grid-column: 1 / -1;
+}
+
+.form-column {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: space-between;
+}
+
+.form-section {
+    position: relative;
+}
+
+.form-section-label {
+    color: var(--dark-gray);
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.warning-icon {
+    position: absolute;
+    right: 10px;
+    top: 28px;
+    font-size: 24px;
+    display: none;
+}
+
+.warning-icon.show {
+    display: block;
+}
+
+.password-info {
+    font-size: 12px;
+    color: var(--dark-gray);
+    margin-top: 5px;
+    min-height: 18px;
+    line-height: 1.4;
+    transition: all 0.2s ease;
+}
+
+.info-text {
+    text-align: center;
+    font-size: 12px;
+    color: var(--dark-gray);
+    margin: 20px 0;
+}
+
+.auth-btn-secondary {
+    background-color: white;
+    color: var(--light-green);
+    border-color: var(--light-green);
+}
+
+.auth-btn-secondary:hover {
+    background-color: var(--light-green);
+    color: white;
+}

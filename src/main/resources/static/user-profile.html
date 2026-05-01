@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- HEADER -->
+    <div class="header">
+        <span class="header-username" id="headerUsername">user_name</span>
+        <span class="header-title">Welcome to bud's catalog !!!</span>
+    </div>
+
+    <!-- MAIN LAYOUT -->
+    <div class="container">
+        <!-- SIDEBAR MENU -->
+        <div class="sidebar">
+            <div class="menu-title">MENU</div>
+            <div class="menu-items">
+                <a href="#" class="menu-item">Offers</a>
+                <a href="#" class="menu-item">Sale's</a>
+                <a href="#" class="menu-item">See all</a>
+                <a href="#" class="menu-item menu-item-logout">Logout</a>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <!-- TABS -->
+            <div class="tabs">
+                <a href="#" class="tab">Go to catalog</a>
+                <a href="#" class="tab active">Profile settings</a>
+                <a href="#" class="tab">Your wish list</a>
+            </div>
+
+            <!-- PROFILE CONTENT -->
+            <div class="profile-container">
+                <!-- AVATAR -->
+                <div class="profile-avatar-wrapper">
+                    <div class="profile-avatar">
+                        Just it photo
+                    </div>
+                    <!-- PHOTO UPLOAD -->
+                    <button class="photo-upload-btn" onclick="uploadPhoto()">
+                        ⬇️ Upload Photo
+                    </button>
+                    <!-- ADD ADDITIONAL INFO -->
+                    <button class="btn-additional-info" onclick="toggleAdditionalInfo()">
+                        Add Additional info
+                    </button>
+                    <!-- ADDITIONAL INFO TEXTAREA (hidden by default) -->
+                    <textarea id="additionalInfo" class="additional-info-textarea" placeholder="Тут можно добавить информацию о проблемах со здоровьем и указать какие принимаете медикаменты" style="display: none;"></textarea>
+                    <button class="btn btn-success" id="saveAdditionalInfoBtn" onclick="saveAdditionalInfo()" style="display: none; margin-left: 235px; margin-top: 60px;">
+                        Сохранить
+                    </button>
+                </div>
+
+                <!-- INFO SECTION -->
+                <div class="profile-info-section">
+                    <div class="profile-info-item">
+                        <div>Your Name is <strong id="displayFullName">John Doe</strong></div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div>Your Phone is <strong id="displayPhone">+995 123 456 789</strong></div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div>Your e-mail is <strong id="displayEmail">user_name@mail.com</strong></div>
+                    </div>
+                    <!-- Age, Sex, Weight, Height Group (hidden by default) -->
+                    <div id="additionalStatsGroup" style="display: none;">
+                        <div class="profile-info-item" id="ageSection" style="margin-bottom: 5px;">
+                            <div>
+                                <span id="ageDisplay">Age - <strong>__</strong></span>
+                                <span id="agePrompt" style="color: var(--blue);">/
+                                    <input type="date" id="birthDateInput" class="form-input-inline" onchange="updateAge()">
+                                </span>
+                            </div>
+                        </div>
+                        <div class="profile-info-item" id="sexSection" style="margin-bottom: 5px;">
+                            <div>
+                                <span id="genderDisplay">Sex - <strong>__</strong></span>
+                                <span id="genderPrompt" style="color: var(--blue);">/
+                                    <select id="genderSelect" class="form-input-inline" onchange="updateGender()">
+                                        <option value="">add your sex</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </span>
+                            </div>
+                        </div>
+                        <!-- Weight and Height -->
+                        <div class="profile-info-item" id="weightHeightSection">
+                            <div>
+                                <span id="weightDisplay">Weight - <strong>__ kg</strong></span>
+                                <span id="weightPrompt" style="color: var(--blue);">/
+                                    <input type="number" id="weightInput" class="form-input-inline" placeholder="kg" onchange="updateWeight()">
+                                </span>
+                            </div>
+                            <div style="margin-top: 10px;">
+                                <span id="heightDisplay">Height - <strong>__ cm</strong></span>
+                                <span id="heightPrompt" style="color: var(--blue);">/
+                                    <input type="number" id="heightInput" class="form-input-inline" placeholder="cm" onchange="updateHeight()">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Edit Profile Info Button (hidden by default) -->
+                    <button class="btn btn-edit profile-field" id="editProfileInfoBtn" onclick="editProfileInfo()" style="display: none; margin-top: 15px;">
+                        Edit Profile-info
+                    </button>
+                    <!-- Add Weight/Height Button -->
+                    <button class="btn btn-secondary" id="addWeightHeightBtn" onclick="toggleWeightHeight()" style="margin-top: 15px; font-size: 12px;">
+                        Add Weight/Height
+                    </button>
+                </div>
+
+                <!-- PROFILE FORM -->
+                <div class="profile-form">
+                    <!-- Settings Button -->
+                    <button class="btn-settings" onclick="toggleProfileFields()" title="Settings">
+                        ⚙️
+                    </button>
+
+                    <!-- FULL NAME -->
+                    <div class="form-group profile-field" style="display: none;">
+                        <input type="text" class="form-input" placeholder="your full name" id="fullName">
+                        <button class="btn btn-edit" onclick="toggleEditField('fullName')">Edit</button>
+                    </div>
+
+                    <!-- PHONE -->
+                    <div class="form-group profile-field" style="display: none;">
+                        <input type="text" class="form-input" placeholder="your contact phone" id="phone">
+                        <button class="btn btn-edit" onclick="toggleEditField('phone')">Edit</button>
+                    </div>
+
+                    <!-- EMAIL -->
+                    <div class="form-group profile-field" style="display: none;">
+                        <input type="text" class="form-input" placeholder="your e-mail @" id="email">
+                        <button class="btn btn-edit" onclick="toggleEditField('email')">Edit</button>
+                    </div>
+
+                    <!-- SAVE CHANGES BUTTON (hidden by default) -->
+                    <button class="btn btn-success" id="saveChangesBtn" onclick="saveChanges()" style="display: none; margin-top: 20px;">
+                        Save Changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/user-profile.js"></script>
+</body>
+</html>

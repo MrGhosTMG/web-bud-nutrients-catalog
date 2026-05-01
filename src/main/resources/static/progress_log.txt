@@ -1,0 +1,155 @@
+================================================================================
+                    BudsApp Development Progress Log
+================================================================================
+Date: 2026-05-01
+Project: Dietary Supplements Catalog Web Application (BudsApp)
+
+================================================================================
+                        COMPLETED TODAY
+================================================================================
+
+1. MODAL WINDOWS OPTIMIZATION
+   ✓ Fixed modal width conflicts between Users and Buds pages
+   ✓ Created separate CSS classes:
+     - .add-user-modal-content (520px width)
+     - .add-bud-modal-content (630px width)
+   ✓ Updated buds.js to use correct modal class
+
+2. ADD NEW USER MODAL - COMPLETE REDESIGN
+   ✓ Restructured layout from 2-column to single vertical column
+   ✓ Field order optimized:
+     1. Username (min 6 characters)
+     2. Full name (First Last)
+     3. Password (with validation)
+     4. Repeat password
+     5. E-mail
+     6. Phone number
+   ✓ All input fields unified to 100% width
+   ✓ Modal width optimized: 520px (reduced from 900px)
+   ✓ Save button positioned with margin-top: 0px
+   ✓ Password control buttons aligned (margin-left: -10px)
+   ✓ All validation icons and annotations preserved
+   ✓ Password generation, visibility toggle, and copy functions intact
+
+3. BUDS PAGE FUNCTIONALITY
+   ✓ Actions column redesigned with dropdown + Add button
+   ✓ Dropdown options: to Stock / to Orders / my wishes
+   ✓ Photo upload via local file browser implemented
+   ✓ Add New Bud modal with validation
+   ✓ Breadcrumb filters display (A-Z / Z-A)
+   ✓ Manufacturers and Categories management links
+
+4. USERS PAGE
+   ✓ Breadcrumb filters display (A-Z / Z-A)
+   ✓ Sidebar width consistency across all pages
+   ✓ Search and filter functionality
+
+5. SIDEBAR CONSISTENCY
+   ✓ Fixed width inconsistency across Users, User's wishes, and Buds pages
+   ✓ Added invisible placeholder menu items for uniform width
+   ✓ Mobile responsive hiding for invisible elements
+
+6. CSS IMPROVEMENTS
+   ✓ Right panel expansion issue fixed (max-height: 370px)
+   ✓ Filters modal width optimized (350px)
+   ✓ Table headers fixed positioning
+   ✓ Scroll containers for large datasets
+
+================================================================================
+                        TECHNICAL DETAILS
+================================================================================
+
+Files Modified:
+- bud's.html
+- admin-users.html
+- admin-user-wishes.html
+- css/style.css
+- js/buds.js
+- js/admin-users.js
+
+Key CSS Classes:
+- .add-user-modal-content: 520px width, vertical layout
+- .add-bud-modal-content: 630px width
+- .password-controls: margin-left: -10px for alignment
+- .save-user-btn: margin-top: 0px, width: 100%
+- .right-panel-content: max-height: 370px (prevents expansion)
+
+Validation Features:
+- Username: min 6 characters
+- Full name: First + Last name format, letters only
+- Password: min 8 chars, uppercase, number, special char
+- Password match validation
+- Email format validation
+- Phone number validation
+
+================================================================================
+                        TO DO LIST (NEXT STEPS)
+================================================================================
+
+HIGH PRIORITY:
+1. USER'S WISHES PAGE
+   - Redesign/refactor similar to Users page structure
+   - Add filtering and sorting functionality
+   - Implement breadcrumb filter display
+   - Add table header consistency
+
+2. ADVANCED PAGE
+   - Redesign/refactor similar to Buds page structure
+   - Implement filtering system
+   - Add CRUD operations
+   - Table with fixed headers and scroll
+
+MEDIUM PRIORITY:
+3. REMAINING MENU TABS
+   - In stock
+   - Orders
+   - My wishes
+   - Win/Loss
+   - Catalog edit
+   (Waiting for mockups/designs)
+
+4. BROWSE MARKETS & ADD MARKET
+   - Create separate HTML files
+   - Browse Markets: Mini browser dashboard
+     * Display supplier pages
+     * Button links from Add Market
+   - Add Market: Modal window
+     * Add button-links to suppliers
+     * Store URLs and labels
+   - Separate logic from main catalog
+
+LOW PRIORITY:
+5. MOBILE ADAPTATION
+   - Fix scrolling issues
+   - Responsive layout optimization
+   - Touch-friendly controls
+
+6. PERFORMANCE OPTIMIZATION
+   - Code cleanup
+   - Asset optimization
+   - Loading speed improvements
+
+================================================================================
+                        NOTES & OBSERVATIONS
+================================================================================
+
+- Modal system working smoothly with separate classes
+- Validation system robust and user-friendly
+- Sidebar consistency achieved across all pages
+- Right panel expansion issue resolved
+- Photo upload using File API (URL.createObjectURL)
+- Breadcrumb system dynamically updates with filters
+- All icons and annotations preserved during redesign
+
+================================================================================
+                        NEXT SESSION PRIORITIES
+================================================================================
+
+1. Start with User's wishes page refactoring
+2. Move to Advanced page implementation
+3. Prepare structure for Browse Markets feature
+4. Wait for mockups for remaining menu items
+
+================================================================================
+End of Log - Great progress today! 🎉
+================================================================================

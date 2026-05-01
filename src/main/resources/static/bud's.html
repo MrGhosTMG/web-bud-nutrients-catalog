@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Buds</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- HEADER -->
+    <div class="header">
+        <span class="header-username">user_name</span>
+        <span class="header-title">Welcome to bud's catalog !!!</span>
+    </div>
+
+    <!-- MAIN LAYOUT -->
+    <div class="container">
+        <!-- SIDEBAR MENU -->
+        <div class="sidebar">
+            <div class="menu-title">MENU</div>
+            <div class="menu-items">
+                <a href="admin-users.html" class="menu-item">Users</a>
+                <a href="admin-user-wishes.html" class="menu-item">User's wishes</a>
+                <a href="bud's.html" class="menu-item active">Buds</a>
+                <a href="#" class="menu-item">Advanced</a>
+                <a href="#" class="menu-item">In stock</a>
+                <a href="#" class="menu-item">Orders</a>
+                <a href="#" class="menu-item">My wishes</a>
+                <a href="#" class="menu-item">Win/Loss</a>
+                <a href="#" class="menu-item">Catalog edit</a>
+                <div class="menu-divider"></div>
+                <a href="#" class="menu-item menu-item-special" onclick="openManufacturerListModal(); return false;">Manufacturers</a>
+                <a href="#" class="menu-item menu-item-special" onclick="openCategoryListModal(); return false;">Categories</a>
+                <div class="menu-divider"></div>
+                <a href="#" class="menu-item menu-item-special">Browse markets</a>
+                <a href="#" class="menu-item menu-item-special">Add market</a>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <!-- BREADCRUMBS -->
+            <div class="breadcrumbs">
+                <span class="breadcrumb-current" id="breadcrumbFilters">Buds (A-Z)</span>
+            </div>
+
+            <div class="content-header">
+                <span class="content-title">Buds</span>
+                <div class="btn-group">
+                    <input type="text" class="search-box" placeholder="A - Z" id="searchBox">
+                    <button class="btn btn-primary" onclick="openFiltersModal()">Filters</button>
+                </div>
+            </div>
+
+            <!-- TABLE HEADER (fixed) -->
+            <div class="table-header buds-table-header">
+                <div class="table-header-cell">Bud Name</div>
+                <div class="table-header-cell">Photo</div>
+                <div class="table-header-cell">Manufacturer</div>
+                <div class="table-header-cell">Category</div>
+                <div class="table-header-cell">Price</div>
+                <div class="table-header-cell" style="text-align: right;">Actions</div>
+            </div>
+
+            <!-- TABLE -->
+            <div class="table-container">
+                <table>
+                    <tbody id="budsTable">
+                        <!-- Content will be populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="right-panel">
+            <button class="action-btn action-btn-add-bud" onclick="openAddBudModal()">
+                <span style="font-size: 20px; margin-right: 5px;">+</span> Add new Bud
+            </button>
+            <button class="action-btn action-btn-info" onclick="showInfo()">Info</button>
+            <button class="action-btn action-btn-edit" onclick="editBud()">Edit</button>
+            <button class="action-btn action-btn-delete" onclick="deleteBud()">Delete</button>
+
+            <button class="action-btn action-btn-check" onclick="checkInStock()">Check in stock</button>
+            <button class="action-btn action-btn-add" onclick="addInOrders()">Add in orders</button>
+
+            <!-- Dynamic content area -->
+            <div id="rightPanelContent"></div>
+
+            <button class="logout-btn">Logout</button>
+        </div>
+    </div>
+
+    <script src="js/buds.js"></script>
+</body>
+</html>
