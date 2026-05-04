@@ -287,6 +287,22 @@ body {
     grid-template-columns: 1.5fr 1fr 1.5fr 1fr 0.8fr 1fr;
 }
 
+.table-header.wishes-table-header {
+    grid-template-columns: 1.5fr 1fr 1.2fr 1.2fr 1fr 0.8fr 1fr;
+}
+
+.table-header.advanced-table-header {
+    grid-template-columns: 1.5fr 1fr 1.2fr 1.2fr 0.8fr 1fr;
+}
+
+.table-header.in-stock-table-header {
+    grid-template-columns: 1.5fr 1fr 1.2fr 1fr 0.8fr 0.8fr 1fr;
+}
+
+.table-header.my-wishes-table-header {
+    grid-template-columns: 1.5fr 1fr 1.2fr 1fr 0.8fr 1fr;
+}
+
 .table-header-cell {
     padding: 0 12px;
 }
@@ -330,6 +346,79 @@ tbody tr {
 
 tbody tr.buds-table-row {
     grid-template-columns: 1.5fr 1fr 1.5fr 1fr 0.8fr 1fr;
+}
+
+tbody tr.wishes-table-row {
+    grid-template-columns: 1.5fr 1fr 1.2fr 1.2fr 1fr 0.8fr 1fr;
+}
+
+tbody tr.advanced-table-row {
+    grid-template-columns: 1.5fr 1fr 1.2fr 1.2fr 0.8fr 1fr;
+}
+
+tbody tr.in-stock-table-row {
+    grid-template-columns: 1.5fr 1fr 1.2fr 1fr 0.8fr 0.8fr 1fr;
+}
+
+tbody tr.my-wishes-table-row {
+    grid-template-columns: 1.5fr 1fr 1.2fr 1fr 0.8fr 1fr;
+    position: relative;
+}
+
+tbody tr.my-wishes-table-row.selected {
+    background-color: rgba(186, 148, 255, 0.3);
+}
+
+tbody tr.my-wishes-table-row.selected::before {
+    content: '♥';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 40px;
+    color: rgba(186, 148, 255, 0.4);
+    pointer-events: none;
+    z-index: 0;
+}
+
+tbody tr.out-of-stock {
+    background-color: #f5f5f5;
+    color: #9e9e9e;
+}
+
+tbody tr.out-of-stock td {
+    color: #9e9e9e;
+}
+
+tbody tr.out-of-stock .user-name-link {
+    color: #9e9e9e;
+}
+
+tbody tr.low-stock {
+    background-color: #fff3e0;
+}
+
+.quantity-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.quantity-available {
+    background-color: var(--light-green);
+    color: var(--primary-green);
+}
+
+.quantity-low {
+    background-color: #fff3e0;
+    color: #ff9800;
+}
+
+.quantity-out {
+    background-color: #f5f5f5;
+    color: #9e9e9e;
 }
 
 tbody td {
@@ -501,6 +590,19 @@ tr.selected {
     border-radius: 10px;
     padding: 40px;
     max-width: 630px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.add-product-modal-content {
+    background-color: white;
+    border: 3px solid var(--primary-green);
+    border-radius: 10px;
+    padding: 40px;
+    max-width: 520px;
     width: 100%;
     max-height: 90vh;
     overflow-y: auto;
@@ -1297,6 +1399,132 @@ tr.selected {
     }
 }
 
+/* In Stock - Sort Buttons */
+.action-btn-sort-available {
+    background-color: var(--light-green);
+    color: var(--primary-green);
+    font-weight: bold;
+}
+
+.action-btn-sort-available:hover {
+    background-color: var(--primary-green);
+    color: white;
+}
+
+.action-btn-sort-outofstock {
+    background-color: #f5f5f5;
+    color: #9e9e9e;
+    font-weight: bold;
+}
+
+.action-btn-sort-outofstock:hover {
+    background-color: #e0e0e0;
+    color: #757575;
+}
+
+.action-btn-sort-lowstock {
+    background-color: #fff3e0;
+    color: #ff9800;
+    font-weight: bold;
+}
+
+.action-btn-sort-lowstock:hover {
+    background-color: #ffe0b2;
+    color: #f57c00;
+}
+
+/* User's Wishes - Grouping Styles */
+.user-count-badge {
+    display: inline-block;
+    background-color: var(--primary-green);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.view-users-btn {
+    background-color: var(--blue);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.view-users-btn:hover {
+    background-color: var(--dark-blue);
+}
+
+.user-list-row {
+    background-color: #f0f8ff;
+}
+
+.user-list-row td {
+    border-bottom: 2px solid var(--blue) !important;
+}
+
+.wishes-group-row.selected + .user-list-row {
+    background-color: #e8f5e9;
+}
+
+/* Alerts Button Styles */
+.action-btn-alerts {
+    position: relative;
+    font-weight: bold;
+}
+
+.action-btn-alerts-inactive {
+    background-color: #9e9e9e;
+    color: #e0e0e0;
+    cursor: default;
+}
+
+.action-btn-alerts-inactive:hover {
+    background-color: #9e9e9e;
+}
+
+.action-btn-alerts-active {
+    background-color: var(--primary-green);
+    color: white;
+    cursor: pointer;
+    animation: alertBlink 1.5s infinite;
+}
+
+.action-btn-alerts-active:hover {
+    background-color: var(--light-green);
+}
+
+@keyframes alertBlink {
+    0%, 100% {
+        opacity: 1;
+        box-shadow: 0 0 5px var(--primary-green);
+    }
+    50% {
+        opacity: 0.7;
+        box-shadow: 0 0 15px var(--primary-green), 0 0 25px var(--primary-green);
+    }
+}
+
+.alerts-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #ff4444;
+    color: white;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: bold;
+    border: 2px solid white;
+}
+
+/* Mobile Responsive */
 @media (max-width: 768px) {
     .content-header {
         flex-direction: column;

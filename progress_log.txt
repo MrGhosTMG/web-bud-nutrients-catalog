@@ -1,0 +1,212 @@
+=== BudsApp - Frontend Development Progress Log ===
+Дата начала: 2026-05-04
+Последнее обновление: 2026-05-04 19:33
+Проект: Каталог диетических добавок (Dietary Supplements Catalog)
+
+=== ЗАВЕРШЕННЫЕ ВКЛАДКИ ===
+
+1. USERS (admin-users.html)
+   - Таблица пользователей с фото профиля
+   - Функции: Add new User, Info, Edit, Delete
+   - Поиск по имени пользователя
+   - Фильтры (A-Z, Z-A)
+   - Модальные окна для добавления/редактирования
+   - Валидация полей
+
+   **NEW! User Wishlist Management:**
+   - Кнопка "Wish list" открывает полноценную форму управления
+   - Таблица: Checkbox, Bud Name, Photo, Manufacturer, Category, Price, In Stock, Actions
+   - Колонка "In Stock" с цветовой индикацией (Yes/No)
+   - Ограничение отображения: max-height 350px с прокруткой
+   - Сортировка: Name, Manufacturer, Category, In Stock (A-Z, Z-A)
+   - Кнопки управления (в области сортировки):
+     * Add selected - добавляет выбранные в Orders
+     * Add All - добавляет все в Orders
+     * Mark as Done - помечает как завершенные (для скрытия в User's wishes)
+     * Remove selected - удаляет из wishlist
+   - Правая панель:
+     * User Information - постоянно отображается
+     * Bud Information - показывается при выборе продукта
+   - Модальное окно "Add products":
+     * Список доступных продуктов с checkbox
+     * Select all функционал
+     * Колонка "In Stock"
+     * Поиск по продуктам
+     * Кнопка "Add selected"
+   - Заполненные wishlist для 9 пользователей (согласно User's wishes)
+   - Кнопка "Back to Users List" для возврата
+
+2. USER'S WISHES (admin-user-wishes.html)
+   - Группировка бадов по количеству желающих пользователей
+   - Отображение списка пользователей (expandable)
+   - Кнопка Alerts (неактивная, для будущих уведомлений)
+   - Функции: Info, Check in stock, Add to orders, Remove from wishlist
+   - 33 тестовых записи с группировкой
+
+3. BUDS (bud's.html)
+   - Каталог бадов (dietary supplements)
+   - Таблица: Bud Name, Photo, Manufacturer, Category, Price, Actions
+   - Функции: Add new Bud, Info, Edit, Delete, Check in stock, Add in orders
+   - Actions dropdown: to Stock, to Orders, my wishes
+   - Управление списками: Manufacturers, Categories
+   - Модальные окна с валидацией
+
+4. ADVANCED (advanced.html)
+   - Каталог косметики/кремов/других продуктов
+   - Таблица: Product Name, Photo, Brand, Product Type, Price, Actions
+   - Функции: Add new Product, Info, Edit, Delete, Check in stock, Add in orders
+   - Actions dropdown: to Stock, to Orders, my wishes
+   - Управление списками: Product Types, Brands
+   - 12 тестовых продуктов (LOreal, Neutrogena, Nivea, Vaseline и др.)
+
+5. IN STOCK (in-stock.html)
+   - Управление складскими запасами
+   - Таблица: Product Name, Photo, Brand, Category, Quantity, Price, Actions
+   - Цветовая индикация:
+     * Зеленый badge - в наличии (quantity > 5)
+     * Оранжевый badge - мало на складе (quantity <= 5)
+     * Серый badge - нет в наличии (quantity = 0)
+   - Авто-сортировка на правой панели:
+     * Available (by quantity) - сортировка по количеству
+     * Out of Stock - товары с quantity = 0
+     * Low Stock (lowest first) - товары с малым количеством
+   - Кнопка Show All - сброс всех фильтров и сортировок
+   - Actions dropdown: to Catalog, to Orders, my wishes
+   - Функции: Info, Delete (без Add/Edit)
+   - 15 тестовых продуктов с разным количеством
+
+6. ORDERS (orders.html)
+   - Управление заказами
+   - Таблица: Product Name, Photo, Brand, Category, Quantity, Price, Actions
+   - Статусы заказов (orderStatus):
+     * ordered - заказанные
+     * ordernow - готовые для заказа
+     * delivered - доставленные
+   - Сортировка на правой панели:
+     * Ordered - список заказанных
+     * Order now - список готовых для заказа
+     * Delivered - доставленные
+   - Кнопка Show All - сброс всех фильтров
+   - Actions dropdown: to Finished, to Ordered, to Order Now, to Catalog, my wishes, In stock
+   - Кнопка Apply (вместо Add) - применяет выбранное действие
+   - Функции: Info, Delete
+   - 15 тестовых продуктов с разными статусами
+
+7. MY WISHES (my-wishes.html)
+   - Личный список желаемых продуктов
+   - Таблица: Product Name, Photo, Brand, Category, Price, Actions (БЕЗ Quantity)
+   - Светло-фиолетовое выделение выбранной строки (rgba(186, 148, 255, 0.3))
+   - Полупрозрачное сердечко (♥) на выбранной строке
+   - Actions dropdown: to Orders, In stock
+   - Функции: Add wish, Info, Delete (без сортировок)
+   - 5 тестовых продуктов
+   - Sidebar: только одна специальная вкладка - Browse markets
+
+=== ТЕХНИЧЕСКИЕ ДЕТАЛИ ===
+
+Структура файлов:
+- HTML: admin-users.html, admin-user-wishes.html, bud's.html, advanced.html, in-stock.html, orders.html, my-wishes.html
+- JS: admin-users.js, admin-wishlist.js, buds.js, advanced.js, in-stock.js, orders.js, my-wishes.js
+- CSS: style.css (единый файл стилей)
+
+Общие компоненты:
+- Header с username и приветствием
+- Sidebar меню с навигацией
+- Breadcrumbs с динамическим обновлением фильтров
+- Search box для поиска
+- Filters modal для расширенных фильтров
+- Right panel с action buttons
+- Logout button
+
+CSS особенности:
+- CSS Grid для таблиц
+- Цветовая схема: зеленый (#2d8659, #5ac785), синий (#3b5bdb, #4c6ef5)
+- Модальные окна с backdrop
+- Badge компоненты для статусов
+- Кастомные scrollbar стили
+- Адаптивные grid layouts для разных таблиц
+
+JavaScript функционал:
+- Динамическое заполнение таблиц
+- Модальные окна (add/edit/view)
+- Валидация форм
+- Фильтрация и сортировка
+- Группировка данных (User's wishes)
+- Управление состоянием (selected items, filters)
+- Photo upload/preview
+
+=== BROWSE MARKETS (будущая функциональность) ===
+
+Описание:
+- Откроет мини-браузер в dashboard
+- Кнопки-ссылки на сохраненные маркеты (из Add market)
+- Функция "Save this product" - API для парсинга данных со страниц
+- Автоматическое добавление спарсенных продуктов в списки Buds или Advanced
+- Интеграция с внешними источниками данных
+
+Технические требования (для будущей реализации):
+- Встроенный iframe или webview для браузера
+- API endpoints для парсинга
+- Сохранение маркетов в базу данных
+- Маппинг полей из внешних источников в структуру приложения
+
+=== ОСТАВШИЕСЯ ВКЛАДКИ ===
+
+8. WIN/LOSS (в разработке)
+   - Статистика выигрышей/проигрышей
+   - Ожидаются макеты и детальное описание
+
+9. CATALOG EDIT (в разработке)
+   - Редактирование каталога
+   - Ожидаются макеты и детальное описание
+
+=== СЛЕДУЮЩИЕ ШАГИ ===
+
+1. Получить макеты для Win/Loss
+2. Получить макеты для Catalog edit
+3. Реализовать Win/Loss функционал
+4. Реализовать Catalog edit функционал
+5. Мобильная адаптация всех страниц
+6. Backend интеграция (Java + SQL)
+7. Реализация Browse markets с API парсинга
+
+=== ИЗВЕСТНЫЕ ПРОБЛЕМЫ ===
+
+Исправленные:
+- ✅ Apostrophes в именах брендов (L'Oreal → LOreal)
+- ✅ Пробелы в ID (Product Type → ProductType)
+- ✅ Неправильные ID таблиц (productsTable → advancedTable)
+- ✅ Undefined функции (viewProductPhoto, viewProductDetails)
+- ✅ Прозрачные модальные окна
+- ✅ Несоответствие имен функций между HTML и JS
+
+Текущие:
+- Нет
+
+=== СТАТИСТИКА ===
+
+Завершено страниц: 7/9 (78%)
+Строк кода (примерно):
+- HTML: ~700 строк
+- JavaScript: ~8000 строк
+- CSS: ~1500 строк
+
+Тестовых данных:
+- Users: 10 записей
+- User's wishes: 33 записи (с группировкой)
+- Buds: 15 записей
+- Advanced: 12 записей
+- In Stock: 15 записей
+- Orders: 15 записей
+- My Wishes: 5 записей
+
+=== ПРИМЕЧАНИЯ ===
+
+- Все данные пока хранятся в JavaScript массивах (frontend-only)
+- Backend интеграция запланирована после завершения frontend
+- Используется vanilla JavaScript (без фреймворков)
+- Дизайн адаптирован под desktop (мобильная версия - в планах)
+- Все модальные окна используют единый стиль
+- Навигация между страницами работает через прямые ссылки
+
+Последнее обновление: 2026-05-04

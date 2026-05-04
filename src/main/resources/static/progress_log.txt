@@ -87,13 +87,27 @@ Validation Features:
 ================================================================================
 
 HIGH PRIORITY:
-1. USER'S WISHES PAGE
-   - Redesign/refactor similar to Users page structure
-   - Add filtering and sorting functionality
-   - Implement breadcrumb filter display
-   - Add table header consistency
 
-2. ADVANCED PAGE
+1. ✅ USER'S WISHES PAGE - COMPLETED
+   - Redesign/refactor similar to Users page structure ✓
+   - Add filtering and sorting functionality ✓
+   - Implement breadcrumb filter display ✓
+   - Add table header consistency ✓
+   - Grouping by bud with user count ✓
+   - Expandable user lists ✓
+   - Alerts button (inactive state) ✓
+
+2. ADVANCED PAGE - IN PROGRESS
+   - Create advanced.html file
+   - Similar structure to Buds page
+   - Content: Cosmetics, creams, and other non-supplement products
+   - Categories: Cosmetics, Creams, Other goods (not dietary supplements)
+   - Filter by product types
+   - Same table layout with scroll
+   - CRUD operations
+   - Photo upload functionality
+
+MEDIUM PRIORITY:
    - Redesign/refactor similar to Buds page structure
    - Implement filtering system
    - Add CRUD operations
@@ -149,6 +163,406 @@ LOW PRIORITY:
 2. Move to Advanced page implementation
 3. Prepare structure for Browse Markets feature
 4. Wait for mockups for remaining menu items
+
+================================================================================
+                    UPDATE: 2026-05-04
+================================================================================
+
+USER'S WISHES PAGE - COMPLETE REFACTORING ✓
+
+1. HTML STRUCTURE REDESIGN
+   ✓ Removed old breadcrumb navigation (Users => User's wishes)
+   ✓ Added dynamic breadcrumb with filter display (A-Z / Z-A)
+   ✓ Implemented fixed table header outside table-container
+   ✓ Added search functionality with search input field
+   ✓ Updated table columns to display bud data:
+     - Bud Name (with clickable link)
+     - Photo (with view link)
+     - User Name
+     - Manufacturer
+     - Category
+     - Price
+     - Actions (Add to Orders button)
+   ✓ Enhanced right panel with action buttons:
+     - Info
+     - Check in stock
+     - Add to orders
+     - Remove from wishlist
+   ✓ Added dynamic content area for info display
+
+2. JAVASCRIPT FUNCTIONALITY (admin-wishlist.js)
+   ✓ Complete rewrite based on buds.js structure
+   ✓ Sample data with 8 wish items (buds from user wishlists)
+   ✓ Data structure includes:
+     - budName, userName, manufacturer, category, price
+     - photo, budId, userId, addedDate
+   ✓ Table population with proper row selection
+   ✓ Sorting functionality (A-Z / Z-A)
+   ✓ Search by bud name and user name
+   ✓ Advanced filters modal:
+     - Sort order (A-Z / Z-A)
+     - Filter by User
+     - Filter by Manufacturer
+     - Filter by Category
+     - Price range filter
+   ✓ Breadcrumb dynamic updates with active filters
+   ✓ Photo viewing modal
+   ✓ Info panel in right sidebar
+   ✓ Quick "Add to Orders" from table
+   ✓ Action buttons: Check in stock, Add to orders, Remove from wishlist
+   ✓ Filter reset functionality
+
+3. CSS STYLING
+   ✓ Added .wishes-table-header with 7-column grid layout
+   ✓ Added .wishes-table-row with matching grid layout
+   ✓ Grid columns: 1.5fr 1fr 1.2fr 1.2fr 1fr 0.8fr 1fr
+   ✓ Consistent styling with Buds and Users pages
+
+4. FEATURES IMPLEMENTED
+   ✓ Row selection with visual feedback
+   ✓ Clickable bud names to view details
+   ✓ Photo viewing functionality
+   ✓ Search with real-time filtering
+   ✓ Multi-criteria filtering (user, manufacturer, category, price)
+   ✓ Sort order toggle (A-Z / Z-A)
+   ✓ Info display in right panel
+   ✓ Remove from wishlist with confirmation
+   ✓ Add to orders functionality
+   ✓ Check stock availability
+
+FILES MODIFIED:
+- admin-user-wishes.html (complete restructure)
+- js/admin-wishlist.js (complete rewrite)
+- css/style.css (added wishes-table styles)
+
+CONSISTENCY ACHIEVED:
+✓ Same layout structure as Buds and Users pages
+✓ Same filtering and sorting patterns
+✓ Same table scroll behavior
+✓ Same right panel functionality
+✓ Same breadcrumb filter display
+
+================================================================================
+                    UPDATE: 2026-05-04 (Part 4)
+================================================================================
+
+ADVANCED PAGE - COMPLETE IMPLEMENTATION ✓
+
+1. HTML STRUCTURE (advanced.html)
+   ✓ Created new page based on Buds structure
+   ✓ Same layout: header, sidebar, main content, right panel
+   ✓ Fixed table header with 6 columns:
+     - Product Name
+     - Photo
+     - Brand
+     - Product Type
+     - Price
+     - Actions
+   ✓ Breadcrumb with dynamic filter display
+   ✓ Search and filter functionality
+   ✓ Right panel with action buttons
+
+2. PRODUCT DATA (advanced.js)
+   ✓ 12 sample products (cosmetics, creams, other goods)
+   ✓ Product types: Cosmetics, Creams, Other
+   ✓ Brands: L'Oreal, Neutrogena, Nivea, Vaseline, Coppertone,
+            Burt's Bees, Olay, Clinique, Scholl, Garnier,
+            Maybelline, Johnson's
+   ✓ Products include:
+     - Anti-Aging Face Cream
+     - Hydrating Serum
+     - Body Lotion
+     - Hand Cream
+     - Sunscreen SPF 50
+     - Lip Balm
+     - Night Cream
+     - Eye Cream
+     - Foot Cream
+     - Face Mask
+     - BB Cream
+     - Massage Oil
+
+3. FUNCTIONALITY
+   ✓ Table population with product data
+   ✓ Row selection
+   ✓ Product details view (Info panel)
+   ✓ Photo viewing modal
+   ✓ Add to Stock/Orders/Wishes dropdown
+   ✓ Check in stock functionality
+   ✓ Delete product with confirmation
+   ✓ Search by product name
+   ✓ Advanced filters modal
+
+4. FILTERS
+   ✓ Sort by name (A-Z / Z-A)
+   ✓ Filter by Brand
+   ✓ Filter by Product Type (Cosmetics/Creams/Other)
+   ✓ Price range filter
+   ✓ Reset filters
+   ✓ Breadcrumb updates with active filters
+
+5. CSS STYLING
+   ✓ .advanced-table-header grid layout (6 columns)
+   ✓ .advanced-table-row grid layout
+   ✓ Consistent with Buds and Users pages
+   ✓ Scroll container for large datasets
+
+6. SIDEBAR MENU
+   ✓ "Advanced" menu item active
+   ✓ Special menu items:
+     - Product Types (management - coming soon)
+     - Brands (management - coming soon)
+   ✓ Browse markets / Add market links
+
+FILES CREATED:
+- advanced.html (new page)
+- js/advanced.js (complete functionality)
+
+FILES MODIFIED:
+- css/style.css (added advanced-table styles)
+
+FEATURES READY:
+✓ View product information
+✓ Search and filter products
+✓ Sort products A-Z / Z-A
+✓ Filter by product type (Cosmetics/Creams/Other)
+✓ Filter by brand
+✓ Price range filtering
+✓ Add products to stock/orders/wishes
+✓ Check stock availability
+✓ Delete products
+✓ Photo viewing
+
+FEATURES PLANNED (Coming Soon):
+- Add new product modal
+- Edit product functionality
+- Product Types management modal
+- Brands management modal
+- Photo upload for products
+
+================================================================================
+
+================================================================================
+                    UPDATE: 2026-05-04 (Part 3)
+================================================================================
+
+ALERTS BUTTON - NOTIFICATION SYSTEM (Phase 1) ✓
+
+1. ALERTS BUTTON ADDED
+   ✓ Positioned at top of right panel in admin-user-wishes.html
+   ✓ Currently in inactive state (gray color)
+   ✓ Shows "No new alerts" message when clicked
+   ✓ Badge element ready for displaying request count (hidden for now)
+
+2. INACTIVE STATE (Current)
+   ✓ Gray background (#9e9e9e)
+   ✓ Light gray text (#e0e0e0)
+   ✓ No hover effect
+   ✓ Displays informational message about coming features
+
+3. ACTIVE STATE (Future - Ready)
+   ✓ CSS prepared for active state
+   ✓ Green background (var(--primary-green))
+   ✓ Blinking animation with glow effect
+   ✓ Red badge with request count
+   ✓ Will activate when user requests exist
+
+4. INFORMATION PANEL
+   ✓ Shows bell icon and "No new alerts" message
+   ✓ Explains future functionality
+   ✓ Lists coming features:
+     - User catalog view
+     - Request system for missing products
+     - Real-time notifications
+     - Request management
+
+5. CSS ANIMATIONS
+   ✓ @keyframes alertBlink - pulsing effect
+   ✓ Box shadow glow effect
+   ✓ Opacity transition (1.0 → 0.7 → 1.0)
+   ✓ 1.5s infinite loop
+
+6. BADGE STYLING
+   ✓ Red circular badge (#ff4444)
+   ✓ Positioned top-right of button
+   ✓ White border for contrast
+   ✓ Currently hidden (display: none)
+   ✓ Will show count when requests exist
+
+FILES MODIFIED:
+- admin-user-wishes.html (added Alerts button)
+- js/admin-wishlist.js (added showAlerts() function)
+- css/style.css (alerts button styles and animations)
+
+TECHNICAL IMPLEMENTATION:
+- Button class: .action-btn-alerts
+- Inactive class: .action-btn-alerts-inactive
+- Active class: .action-btn-alerts-active (ready for future)
+- Badge ID: alertsBadge
+- Function: showAlerts() - toggles alerts panel
+
+NEXT STEPS FOR ALERTS SYSTEM:
+1. Implement user request data structure
+2. Create request submission form (user side)
+3. Add request list display (admin side)
+4. Activate button when requests > 0
+5. Show badge with count
+6. Add request management actions (approve/reject)
+
+================================================================================
+
+================================================================================
+                    UPDATE: 2026-05-04 (Part 2)
+================================================================================
+
+USER'S WISHES PAGE - GROUPING FEATURE ✓
+
+1. GROUPING BY BUD
+   ✓ Wishes are now grouped by budId (same bud from different users)
+   ✓ Display shows one row per unique bud
+   ✓ User count badge shows "X users" who added this bud
+   ✓ "View users" button to expand/collapse user list
+
+2. EXPANDABLE USER LIST
+   ✓ Hidden row below each bud group
+   ✓ Click "View users" to show/hide list
+   ✓ Displays all users who added this bud to wishlist
+   ✓ Auto-collapse other lists when opening new one
+   ✓ Styled with light blue background
+
+3. GROUP INFORMATION PANEL
+   ✓ New showGroupInfo() function
+   ✓ Displays total user count
+   ✓ Shows all users in comma-separated list
+   ✓ Shows bud details (name, manufacturer, category, price)
+
+4. CSS STYLING
+   ✓ .user-count-badge - green badge with white text
+   ✓ .view-users-btn - blue button with hover effect
+   ✓ .user-list-row - expandable row styling
+   ✓ Selected row highlighting for expanded lists
+
+5. JAVASCRIPT FUNCTIONS ADDED
+   ✓ toggleUserList(budId) - expand/collapse user list
+   ✓ viewGroupDetails(budId) - show group info in right panel
+   ✓ viewGroupPhoto(budId) - view bud photo for group
+   ✓ showGroupInfo(budId) - display group information
+
+FILES MODIFIED:
+- admin-user-wishes.html (updated "User Name" to "Users" header)
+- js/admin-wishlist.js (grouping logic, expand/collapse)
+- css/style.css (badge and button styles)
+
+================================================================================
+                    FUTURE FEATURES ROADMAP
+================================================================================
+
+HIGH PRIORITY (Next Steps):
+
+1. CATALOG EDIT (Admin Panel)
+   Purpose: Administrator manages the main product catalog
+   Features:
+   - Add/Edit/Delete products in main catalog
+   - Set product availability status
+   - Manage product information (name, manufacturer, category, price, photo)
+   - Control what users see in their catalog view
+   Location: New menu item "Catalog edit" in admin panel
+
+2. USER CATALOG VIEW (User Profile)
+   Purpose: Users browse available products and add to wishlist
+   Features:
+   - Display products from admin's catalog
+   - Filter and search products
+   - Add products to personal wishlist
+   - Request products not in catalog (see #3)
+   Location: user-profile.html, "Go to catalog" tab
+
+3. USER REQUEST SYSTEM
+   Purpose: Users can request products not available in catalog
+   Features:
+   - "Order" button in user catalog when product not found
+   - Modal dialog to submit request:
+     * Product name (required)
+     * Link to product online (optional)
+     * Brief description (optional)
+   - Request saved and sent to admin for review
+   - User can track request status
+
+4. ADMIN ALERTS/NOTIFICATIONS
+   Purpose: Notify admin of new user requests
+   Features:
+   - "Alerts" button in right panel (admin-user-wishes.html)
+   - Button blinks/highlights when new requests exist
+   - Click to view list of pending user requests
+   - Admin can:
+     * Review request details
+     * Add product to catalog
+     * Mark request as fulfilled
+     * Contact user about request
+   - Badge shows count of pending requests
+
+MEDIUM PRIORITY:
+
+5. ADVANCED PAGE
+   - Redesign/refactor similar to Buds page structure
+   - Implement filtering system
+   - Add CRUD operations
+   - Table with fixed headers and scroll
+
+6. REMAINING MENU TABS
+   - In stock
+   - Orders
+   - My wishes
+   - Win/Loss
+   (Waiting for mockups/designs)
+
+7. BROWSE MARKETS & ADD MARKET
+   - Create separate HTML files
+   - Browse Markets: Mini browser dashboard
+   - Add Market: Modal window for supplier links
+
+LOW PRIORITY:
+
+8. MOBILE ADAPTATION
+   - Fix scrolling issues
+   - Responsive layout optimization
+   - Touch-friendly controls
+
+9. PERFORMANCE OPTIMIZATION
+   - Code cleanup
+   - Asset optimization
+   - Loading speed improvements
+
+================================================================================
+                    TECHNICAL NOTES
+================================================================================
+
+Request System Data Structure (Proposed):
+{
+    id: number,
+    userId: number,
+    userName: string,
+    productName: string,
+    productLink: string (optional),
+    description: string (optional),
+    status: 'pending' | 'reviewing' | 'fulfilled' | 'rejected',
+    requestDate: string,
+    adminNotes: string (optional)
+}
+
+Catalog Data Structure (Proposed):
+{
+    id: number,
+    name: string,
+    manufacturer: string,
+    category: string,
+    price: number,
+    photo: string (optional),
+    description: string,
+    inStock: boolean,
+    isAvailable: boolean (visible to users),
+    addedDate: string
+}
 
 ================================================================================
 End of Log - Great progress today! 🎉
