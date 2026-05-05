@@ -1,4 +1,12 @@
 // User's Wishes Page functionality
+
+// Currency system
+let currentCurrency = 'GEL';
+let currencies = [
+    { code: 'GEL', name: 'Georgian Lari', symbol: '₾', rateToUSD: 2.65 },
+    { code: 'USD', name: 'US Dollar', symbol: '$', rateToUSD: 1.0 }
+];
+
 let wishesData = [
     // Omega-3 Fish Oil - 5 users want this!
     {
@@ -7,7 +15,8 @@ let wishesData = [
         userName: 'John Smith',
         manufacturer: 'Nature Made',
         category: 'Herbal',
-        price: 25,
+        myPrice: 20,
+        catalogPrice: 25,
         photo: null,
         budId: 1,
         userId: 1,
@@ -19,7 +28,8 @@ let wishesData = [
         userName: 'Sarah Johnson',
         manufacturer: 'Nature Made',
         category: 'Herbal',
-        price: 25,
+        myPrice: 20,
+        catalogPrice: 25,
         photo: null,
         budId: 1,
         userId: 2,
@@ -31,7 +41,8 @@ let wishesData = [
         userName: 'Mike Davis',
         manufacturer: 'Nature Made',
         category: 'Herbal',
-        price: 25,
+        myPrice: 20,
+        catalogPrice: 25,
         photo: null,
         budId: 1,
         userId: 3,
@@ -43,7 +54,8 @@ let wishesData = [
         userName: 'Emily Wilson',
         manufacturer: 'Nature Made',
         category: 'Herbal',
-        price: 25,
+        myPrice: 20,
+        catalogPrice: 25,
         photo: null,
         budId: 1,
         userId: 4,
@@ -55,7 +67,8 @@ let wishesData = [
         userName: 'David Brown',
         manufacturer: 'Nature Made',
         category: 'Herbal',
-        price: 25,
+        myPrice: 20,
+        catalogPrice: 25,
         photo: null,
         budId: 1,
         userId: 5,
@@ -68,7 +81,8 @@ let wishesData = [
         userName: 'Sarah Johnson',
         manufacturer: 'Solgar',
         category: 'Mineral',
-        price: 18,
+        myPrice: 15,
+        catalogPrice: 18,
         photo: null,
         budId: 2,
         userId: 2,
@@ -80,7 +94,8 @@ let wishesData = [
         userName: 'Lisa Anderson',
         manufacturer: 'Solgar',
         category: 'Mineral',
-        price: 18,
+        myPrice: 15,
+        catalogPrice: 18,
         photo: null,
         budId: 2,
         userId: 6,
@@ -92,7 +107,8 @@ let wishesData = [
         userName: 'Tom Martinez',
         manufacturer: 'Solgar',
         category: 'Mineral',
-        price: 18,
+        myPrice: 15,
+        catalogPrice: 18,
         photo: null,
         budId: 2,
         userId: 7,
@@ -105,7 +121,8 @@ let wishesData = [
         userName: 'Mike Davis',
         manufacturer: 'Vital Proteins',
         category: 'Cosmethic',
-        price: 45,
+        myPrice: 36,
+        catalogPrice: 45,
         photo: null,
         budId: 4,
         userId: 3,
@@ -117,7 +134,8 @@ let wishesData = [
         userName: 'Emily Wilson',
         manufacturer: 'Vital Proteins',
         category: 'Cosmethic',
-        price: 45,
+        myPrice: 36,
+        catalogPrice: 45,
         photo: null,
         budId: 4,
         userId: 4,
@@ -129,7 +147,8 @@ let wishesData = [
         userName: 'Lisa Anderson',
         manufacturer: 'Vital Proteins',
         category: 'Cosmethic',
-        price: 45,
+        myPrice: 36,
+        catalogPrice: 45,
         photo: null,
         budId: 4,
         userId: 6,
@@ -141,7 +160,8 @@ let wishesData = [
         userName: 'Jessica Taylor',
         manufacturer: 'Vital Proteins',
         category: 'Cosmethic',
-        price: 45,
+        myPrice: 36,
+        catalogPrice: 45,
         photo: null,
         budId: 4,
         userId: 8,
@@ -154,7 +174,8 @@ let wishesData = [
         userName: 'Emily Wilson',
         manufacturer: 'Garden of Life',
         category: 'Other',
-        price: 35,
+        myPrice: 28,
+        catalogPrice: 35,
         photo: null,
         budId: 5,
         userId: 4,
@@ -166,7 +187,8 @@ let wishesData = [
         userName: 'David Brown',
         manufacturer: 'Garden of Life',
         category: 'Other',
-        price: 35,
+        myPrice: 28,
+        catalogPrice: 35,
         photo: null,
         budId: 5,
         userId: 5,
@@ -179,7 +201,8 @@ let wishesData = [
         userName: 'John Smith',
         manufacturer: 'Solgar',
         category: 'Herbal',
-        price: 28,
+        myPrice: 22,
+        catalogPrice: 28,
         photo: null,
         budId: 7,
         userId: 1,
@@ -191,7 +214,8 @@ let wishesData = [
         userName: 'Sarah Johnson',
         manufacturer: 'Solgar',
         category: 'Herbal',
-        price: 28,
+        myPrice: 22,
+        catalogPrice: 28,
         photo: null,
         budId: 7,
         userId: 2,
@@ -203,7 +227,8 @@ let wishesData = [
         userName: 'Mike Davis',
         manufacturer: 'Solgar',
         category: 'Herbal',
-        price: 28,
+        myPrice: 22,
+        catalogPrice: 28,
         photo: null,
         budId: 7,
         userId: 3,
@@ -215,7 +240,8 @@ let wishesData = [
         userName: 'Tom Martinez',
         manufacturer: 'Solgar',
         category: 'Herbal',
-        price: 28,
+        myPrice: 22,
+        catalogPrice: 28,
         photo: null,
         budId: 7,
         userId: 7,
@@ -227,7 +253,8 @@ let wishesData = [
         userName: 'Jessica Taylor',
         manufacturer: 'Solgar',
         category: 'Herbal',
-        price: 28,
+        myPrice: 22,
+        catalogPrice: 28,
         photo: null,
         budId: 7,
         userId: 8,
@@ -239,7 +266,8 @@ let wishesData = [
         userName: 'Robert Garcia',
         manufacturer: 'Solgar',
         category: 'Herbal',
-        price: 28,
+        myPrice: 22,
+        catalogPrice: 28,
         photo: null,
         budId: 7,
         userId: 9,
@@ -252,7 +280,8 @@ let wishesData = [
         userName: 'Sarah Johnson',
         manufacturer: 'Himalaya',
         category: 'Herbal',
-        price: 32,
+        myPrice: 26,
+        catalogPrice: 32,
         photo: null,
         budId: 10,
         userId: 2,
@@ -264,7 +293,8 @@ let wishesData = [
         userName: 'David Brown',
         manufacturer: 'Himalaya',
         category: 'Herbal',
-        price: 32,
+        myPrice: 26,
+        catalogPrice: 32,
         photo: null,
         budId: 10,
         userId: 5,
@@ -276,7 +306,8 @@ let wishesData = [
         userName: 'Robert Garcia',
         manufacturer: 'Himalaya',
         category: 'Herbal',
-        price: 32,
+        myPrice: 26,
+        catalogPrice: 32,
         photo: null,
         budId: 10,
         userId: 9,
@@ -289,7 +320,8 @@ let wishesData = [
         userName: 'Mike Davis',
         manufacturer: 'Vital Proteins',
         category: 'Cosmethic',
-        price: 38,
+        myPrice: 30,
+        catalogPrice: 38,
         photo: null,
         budId: 13,
         userId: 3,
@@ -301,7 +333,8 @@ let wishesData = [
         userName: 'Lisa Anderson',
         manufacturer: 'Vital Proteins',
         category: 'Cosmethic',
-        price: 38,
+        myPrice: 30,
+        catalogPrice: 38,
         photo: null,
         budId: 13,
         userId: 6,
@@ -314,7 +347,8 @@ let wishesData = [
         userName: 'Emily Wilson',
         manufacturer: 'Nature Made',
         category: 'Mineral',
-        price: 20,
+        myPrice: 16,
+        catalogPrice: 20,
         photo: null,
         budId: 6,
         userId: 4,
@@ -326,7 +360,8 @@ let wishesData = [
         userName: 'John Smith',
         manufacturer: 'Nature Made',
         category: 'Mineral',
-        price: 20,
+        myPrice: 16,
+        catalogPrice: 20,
         photo: null,
         budId: 6,
         userId: 1,
@@ -338,7 +373,8 @@ let wishesData = [
         userName: 'Tom Martinez',
         manufacturer: 'Nature Made',
         category: 'Mineral',
-        price: 20,
+        myPrice: 16,
+        catalogPrice: 20,
         photo: null,
         budId: 6,
         userId: 7,
@@ -350,7 +386,8 @@ let wishesData = [
         userName: 'Jessica Taylor',
         manufacturer: 'Nature Made',
         category: 'Mineral',
-        price: 20,
+        myPrice: 16,
+        catalogPrice: 20,
         photo: null,
         budId: 6,
         userId: 8,
@@ -363,7 +400,8 @@ let wishesData = [
         userName: 'Robert Garcia',
         manufacturer: 'NOW Foods',
         category: 'Medic+',
-        price: 15,
+        myPrice: 12,
+        catalogPrice: 15,
         photo: null,
         budId: 9,
         userId: 9,
@@ -376,7 +414,8 @@ let wishesData = [
         userName: 'Lisa Anderson',
         manufacturer: 'Nature Made',
         category: 'Medic+',
-        price: 19,
+        myPrice: 15,
+        catalogPrice: 19,
         photo: null,
         budId: 14,
         userId: 6,
@@ -388,7 +427,8 @@ let wishesData = [
         userName: 'Jessica Taylor',
         manufacturer: 'Nature Made',
         category: 'Medic+',
-        price: 19,
+        myPrice: 15,
+        catalogPrice: 19,
         photo: null,
         budId: 14,
         userId: 8,
@@ -400,7 +440,8 @@ let wishesData = [
         userName: 'David Brown',
         manufacturer: 'Nature Made',
         category: 'Medic+',
-        price: 19,
+        myPrice: 15,
+        catalogPrice: 19,
         photo: null,
         budId: 14,
         userId: 5,
@@ -444,7 +485,8 @@ function populateWishesTable() {
                 budId: wish.budId,
                 manufacturer: wish.manufacturer,
                 category: wish.category,
-                price: wish.price,
+                myPrice: wish.myPrice,
+                catalogPrice: wish.catalogPrice,
                 photo: wish.photo,
                 users: [],
                 wishIds: []
@@ -484,7 +526,10 @@ function populateWishesTable() {
             </td>
             <td>${group.manufacturer}</td>
             <td>${group.category}</td>
-            <td>$${group.price}</td>
+            <td>
+                <div style="font-size: 11px; color: #666;">My: ${formatPrice(group.myPrice)}</div>
+                <div style="font-weight: 500;">${formatPrice(group.catalogPrice)}</div>
+            </td>
             <td style="text-align: right;">
                 <button class="btn btn-primary" style="padding: 6px 12px; font-size: 12px;" onclick="event.stopPropagation(); quickAddToOrders(${firstWishId});">Add to Orders</button>
             </td>
@@ -804,8 +849,13 @@ function showInfo() {
             </div>
 
             <div class="user-info-item">
-                <label>Price:</label>
-                <div class="value">$${wish.price}</div>
+                <label>My Price (Purchase):</label>
+                <div class="value">${formatPrice(wish.myPrice)}</div>
+            </div>
+
+            <div class="user-info-item">
+                <label>Catalog Price (Users):</label>
+                <div class="value">${formatPrice(wish.catalogPrice)}</div>
             </div>
 
             <div class="user-info-item">
@@ -867,8 +917,13 @@ function showGroupInfo(budId) {
             </div>
 
             <div class="user-info-item">
-                <label>Price:</label>
-                <div class="value">$${firstWish.price}</div>
+                <label>My Price (Purchase):</label>
+                <div class="value">${formatPrice(firstWish.myPrice)}</div>
+            </div>
+
+            <div class="user-info-item">
+                <label>Catalog Price (Users):</label>
+                <div class="value">${formatPrice(firstWish.catalogPrice)}</div>
             </div>
         </div>
     `;
@@ -946,10 +1001,10 @@ function applyFilters() {
 
     // Price filter
     if (currentFilters.priceMin) {
-        filtered = filtered.filter(wish => wish.price >= parseInt(currentFilters.priceMin));
+        filtered = filtered.filter(wish => wish.catalogPrice >= parseInt(currentFilters.priceMin));
     }
     if (currentFilters.priceMax) {
-        filtered = filtered.filter(wish => wish.price <= parseInt(currentFilters.priceMax));
+        filtered = filtered.filter(wish => wish.catalogPrice <= parseInt(currentFilters.priceMax));
     }
 
     // Sort by bud name
@@ -1120,4 +1175,134 @@ function setupLogoutButton() {
             }
         });
     }
+}
+
+// Currency functions
+function cycleCurrency() {
+    const currentIndex = currencies.findIndex(c => c.code === currentCurrency);
+    const nextIndex = (currentIndex + 1) % currencies.length;
+    currentCurrency = currencies[nextIndex].code;
+
+    const currencyText = document.getElementById('currencyText');
+    currencyText.textContent = `💱 ${currentCurrency}`;
+
+    // Refresh display
+    populateTable();
+}
+
+function convertPrice(priceInGEL, targetCurrency) {
+    const currency = currencies.find(c => c.code === targetCurrency);
+    if (!currency) return priceInGEL;
+
+    const priceInUSD = priceInGEL / currencies.find(c => c.code === 'GEL').rateToUSD;
+    return priceInUSD * currency.rateToUSD;
+}
+
+function formatPrice(priceInGEL, targetCurrency = currentCurrency) {
+    const currency = currencies.find(c => c.code === targetCurrency);
+    if (!currency) return `${priceInGEL.toFixed(2)} ₾`;
+
+    const convertedPrice = convertPrice(priceInGEL, targetCurrency);
+    return `${currency.symbol}${convertedPrice.toFixed(2)}`;
+}
+
+function openCurrencySettings() {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.style.display = 'flex';
+    modal.style.zIndex = '9999';
+
+    let currenciesHTML = currencies.map((currency, index) => `
+        <div class="currency-item-compact">
+            <div class="currency-info-compact">
+                <strong>${currency.code}</strong> ${currency.symbol}
+                <span class="currency-rate">1 USD = ${currency.rateToUSD}</span>
+            </div>
+            <div class="currency-actions-compact">
+                <button class="btn-icon" onclick="editCurrencyRate(${index})" title="Edit">✏️</button>
+                ${currency.code !== 'GEL' ? `<button class="btn-icon btn-delete" onclick="deleteCurrency(${index})" title="Delete">🗑️</button>` : ''}
+            </div>
+        </div>
+    `).join('');
+
+    modal.innerHTML = `
+        <div class="modal-content currency-settings-modal-compact">
+            <span class="close" onclick="this.closest('.modal').remove()">&times;</span>
+            <h3>Settings</h3>
+
+            <div class="currency-list-compact">
+                ${currenciesHTML}
+            </div>
+
+            <div class="add-currency-compact">
+                <input type="text" id="newCurrencyCode" placeholder="Code" maxlength="3">
+                <input type="text" id="newCurrencySymbol" placeholder="Symbol" maxlength="3">
+                <input type="number" id="newCurrencyRate" placeholder="Rate" step="0.01" min="0.01">
+                <button class="btn-add" onclick="addNewCurrency()" title="Add">+</button>
+            </div>
+
+            <button class="btn-update-rates" onclick="getUpdatedCurrencyRates()">
+                Get Updated Currency Rates
+            </button>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    setTimeout(() => {
+        modal.querySelector('.currency-settings-modal-compact').classList.add('modal-expand');
+    }, 10);
+}
+
+function editCurrencyRate(index) {
+    const currency = currencies[index];
+    const newRate = prompt(`Enter new rate to USD for ${currency.code}:`, currency.rateToUSD);
+
+    if (newRate !== null && !isNaN(newRate) && parseFloat(newRate) > 0) {
+        currencies[index].rateToUSD = parseFloat(newRate);
+        openCurrencySettings();
+        document.querySelector('.modal').remove();
+        populateTable();
+    }
+}
+
+function deleteCurrency(index) {
+    const currency = currencies[index];
+    if (confirm(`Delete ${currency.code} - ${currency.name}?`)) {
+        currencies.splice(index, 1);
+
+        if (currentCurrency === currency.code) {
+            currentCurrency = 'GEL';
+            document.getElementById('currencyText').textContent = `💱 ${currentCurrency}`;
+        }
+
+        openCurrencySettings();
+        document.querySelector('.modal').remove();
+        populateTable();
+    }
+}
+
+function addNewCurrency() {
+    const code = document.getElementById('newCurrencyCode').value.trim().toUpperCase();
+    const symbol = document.getElementById('newCurrencySymbol').value.trim();
+    const rate = parseFloat(document.getElementById('newCurrencyRate').value);
+
+    if (!code || !symbol || isNaN(rate) || rate <= 0) {
+        alert('Please fill all fields correctly');
+        return;
+    }
+
+    if (currencies.find(c => c.code === code)) {
+        alert('Currency with this code already exists');
+        return;
+    }
+
+    currencies.push({ code, name: code, symbol, rateToUSD: rate });
+
+    openCurrencySettings();
+    document.querySelector('.modal').remove();
+}
+
+function getUpdatedCurrencyRates() {
+    alert('This feature will be implemented with backend API integration');
 }

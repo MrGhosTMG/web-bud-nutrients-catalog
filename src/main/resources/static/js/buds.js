@@ -1,11 +1,20 @@
 // Buds Page functionality
+
+// Currency system
+let currentCurrency = 'GEL';
+let currencies = [
+    { code: 'GEL', name: 'Georgian Lari', symbol: '₾', rateToUSD: 2.65 },
+    { code: 'USD', name: 'US Dollar', symbol: '$', rateToUSD: 1.0 }
+];
+
 let budsData = [
     {
         id: 1,
         name: 'Omega-3 Fish Oil',
         manufacturer: 'Nature Made',
         category: 'Herbal',
-        price: 25,
+        myPrice: 20,
+        catalogPrice: 25,
         inStock: true,
         photo: null,
         description: 'High-quality fish oil supplement'
@@ -15,7 +24,8 @@ let budsData = [
         name: 'Vitamin D3',
         manufacturer: 'Solgar',
         category: 'Mineral',
-        price: 18,
+        myPrice: 15,
+        catalogPrice: 18,
         inStock: true,
         photo: null,
         description: 'Essential vitamin D supplement'
@@ -25,7 +35,8 @@ let budsData = [
         name: 'Multivitamin Complex',
         manufacturer: 'Centrum',
         category: 'Medic+',
-        price: 30,
+        myPrice: 24,
+        catalogPrice: 30,
         inStock: false,
         photo: null,
         description: 'Complete daily multivitamin'
@@ -35,7 +46,8 @@ let budsData = [
         name: 'Collagen Peptides',
         manufacturer: 'Vital Proteins',
         category: 'Cosmethic',
-        price: 45,
+        myPrice: 36,
+        catalogPrice: 45,
         inStock: true,
         photo: null,
         description: 'Skin and joint support'
@@ -45,7 +57,8 @@ let budsData = [
         name: 'Probiotics',
         manufacturer: 'Garden of Life',
         category: 'Other',
-        price: 35,
+        myPrice: 28,
+        catalogPrice: 35,
         inStock: true,
         photo: null,
         description: 'Digestive health support'
@@ -55,7 +68,8 @@ let budsData = [
         name: 'Magnesium Citrate',
         manufacturer: 'Nature Made',
         category: 'Mineral',
-        price: 20,
+        myPrice: 16,
+        catalogPrice: 20,
         inStock: true,
         photo: null,
         description: 'Supports muscle and nerve function'
@@ -65,7 +79,8 @@ let budsData = [
         name: 'Turmeric Curcumin',
         manufacturer: 'Solgar',
         category: 'Herbal',
-        price: 28,
+        myPrice: 22,
+        catalogPrice: 28,
         inStock: true,
         photo: null,
         description: 'Anti-inflammatory support'
@@ -75,7 +90,8 @@ let budsData = [
         name: 'Biotin Hair Growth',
         manufacturer: 'Nature Bounty',
         category: 'Cosmethic',
-        price: 22,
+        myPrice: 18,
+        catalogPrice: 22,
         inStock: false,
         photo: null,
         description: 'Promotes healthy hair growth'
@@ -85,7 +101,8 @@ let budsData = [
         name: 'Zinc Immune Support',
         manufacturer: 'NOW Foods',
         category: 'Medic+',
-        price: 15,
+        myPrice: 12,
+        catalogPrice: 15,
         inStock: true,
         photo: null,
         description: 'Boosts immune system'
@@ -95,7 +112,8 @@ let budsData = [
         name: 'Ashwagandha Extract',
         manufacturer: 'Himalaya',
         category: 'Herbal',
-        price: 32,
+        myPrice: 26,
+        catalogPrice: 32,
         inStock: true,
         photo: null,
         description: 'Stress relief and energy'
@@ -105,7 +123,8 @@ let budsData = [
         name: 'Calcium Plus D',
         manufacturer: 'Centrum',
         category: 'Mineral',
-        price: 24,
+        myPrice: 19,
+        catalogPrice: 24,
         inStock: true,
         photo: null,
         description: 'Bone health support'
@@ -115,7 +134,8 @@ let budsData = [
         name: 'Green Tea Extract',
         manufacturer: 'Garden of Life',
         category: 'Other',
-        price: 27,
+        myPrice: 22,
+        catalogPrice: 27,
         inStock: true,
         photo: null,
         description: 'Antioxidant support'
@@ -125,7 +145,8 @@ let budsData = [
         name: 'Hyaluronic Acid',
         manufacturer: 'Vital Proteins',
         category: 'Cosmethic',
-        price: 38,
+        myPrice: 30,
+        catalogPrice: 38,
         inStock: true,
         photo: null,
         description: 'Skin hydration'
@@ -135,7 +156,8 @@ let budsData = [
         name: 'B-Complex Vitamins',
         manufacturer: 'Nature Made',
         category: 'Medic+',
-        price: 19,
+        myPrice: 15,
+        catalogPrice: 19,
         inStock: false,
         photo: null,
         description: 'Energy and metabolism support'
@@ -145,7 +167,8 @@ let budsData = [
         name: 'Ginkgo Biloba',
         manufacturer: 'Solgar',
         category: 'Herbal',
-        price: 26,
+        myPrice: 21,
+        catalogPrice: 26,
         inStock: true,
         photo: null,
         description: 'Memory and cognitive support'
@@ -199,7 +222,10 @@ function populateBudsTable() {
             </td>
             <td>${bud.manufacturer}</td>
             <td>${bud.category}</td>
-            <td>$${bud.price}</td>
+            <td>
+                <div style="font-size: 11px; color: #666;">My: ${formatPrice(bud.myPrice)}</div>
+                <div style="font-weight: 500;">${formatPrice(bud.catalogPrice)}</div>
+            </td>
             <td style="text-align: right; display: flex; gap: 5px; align-items: center; justify-content: flex-end;">
                 <select class="btn btn-secondary" id="addTarget${bud.id}" style="padding: 6px 8px; font-size: 12px; min-width: 100px;" onclick="event.stopPropagation();">
                     <option value="stock">to Stock</option>
@@ -1176,4 +1202,133 @@ function setupLogoutButton() {
             }
         });
     }
+}
+
+// Currency functions
+function cycleCurrency() {
+    const currentIndex = currencies.findIndex(c => c.code === currentCurrency);
+    const nextIndex = (currentIndex + 1) % currencies.length;
+    currentCurrency = currencies[nextIndex].code;
+
+    const currencyText = document.getElementById('currencyText');
+    currencyText.textContent = `💱 ${currentCurrency}`;
+
+    populateBudsTable();
+}
+
+function convertPrice(priceInGEL, targetCurrency) {
+    const currency = currencies.find(c => c.code === targetCurrency);
+    if (!currency) return priceInGEL;
+
+    const priceInUSD = priceInGEL / currencies.find(c => c.code === 'GEL').rateToUSD;
+    return priceInUSD * currency.rateToUSD;
+}
+
+function formatPrice(priceInGEL, targetCurrency = currentCurrency) {
+    const currency = currencies.find(c => c.code === targetCurrency);
+    if (!currency) return `${priceInGEL.toFixed(2)} ₾`;
+
+    const convertedPrice = convertPrice(priceInGEL, targetCurrency);
+    return `${currency.symbol}${convertedPrice.toFixed(2)}`;
+}
+
+function openCurrencySettings() {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.style.display = 'flex';
+    modal.style.zIndex = '9999';
+
+    let currenciesHTML = currencies.map((currency, index) => `
+        <div class="currency-item-compact">
+            <div class="currency-info-compact">
+                <strong>${currency.code}</strong> ${currency.symbol}
+                <span class="currency-rate">1 USD = ${currency.rateToUSD}</span>
+            </div>
+            <div class="currency-actions-compact">
+                <button class="btn-icon" onclick="editCurrencyRate(${index})" title="Edit">✏️</button>
+                ${currency.code !== 'GEL' ? `<button class="btn-icon btn-delete" onclick="deleteCurrency(${index})" title="Delete">🗑️</button>` : ''}
+            </div>
+        </div>
+    `).join('');
+
+    modal.innerHTML = `
+        <div class="modal-content currency-settings-modal-compact">
+            <span class="close" onclick="this.closest('.modal').remove()">&times;</span>
+            <h3>Settings</h3>
+
+            <div class="currency-list-compact">
+                ${currenciesHTML}
+            </div>
+
+            <div class="add-currency-compact">
+                <input type="text" id="newCurrencyCode" placeholder="Code" maxlength="3">
+                <input type="text" id="newCurrencySymbol" placeholder="Symbol" maxlength="3">
+                <input type="number" id="newCurrencyRate" placeholder="Rate" step="0.01" min="0.01">
+                <button class="btn-add" onclick="addNewCurrency()" title="Add">+</button>
+            </div>
+
+            <button class="btn-update-rates" onclick="getUpdatedCurrencyRates()">
+                Get Updated Currency Rates
+            </button>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    setTimeout(() => {
+        modal.querySelector('.currency-settings-modal-compact').classList.add('modal-expand');
+    }, 10);
+}
+
+function editCurrencyRate(index) {
+    const currency = currencies[index];
+    const newRate = prompt(`Enter new rate to USD for ${currency.code}:`, currency.rateToUSD);
+
+    if (newRate !== null && !isNaN(newRate) && parseFloat(newRate) > 0) {
+        currencies[index].rateToUSD = parseFloat(newRate);
+        openCurrencySettings();
+        document.querySelector('.modal').remove();
+        populateBudsTable();
+    }
+}
+
+function deleteCurrency(index) {
+    const currency = currencies[index];
+    if (confirm(`Delete ${currency.code} - ${currency.name}?`)) {
+        currencies.splice(index, 1);
+
+        if (currentCurrency === currency.code) {
+            currentCurrency = 'GEL';
+            document.getElementById('currencyText').textContent = `💱 ${currentCurrency}`;
+        }
+
+        openCurrencySettings();
+        document.querySelector('.modal').remove();
+        populateBudsTable();
+    }
+}
+
+function addNewCurrency() {
+    const code = document.getElementById('newCurrencyCode').value.trim().toUpperCase();
+    const symbol = document.getElementById('newCurrencySymbol').value.trim();
+    const rate = parseFloat(document.getElementById('newCurrencyRate').value);
+
+    if (!code || !symbol || isNaN(rate) || rate <= 0) {
+        alert('Please fill all fields correctly');
+        return;
+    }
+
+    if (currencies.find(c => c.code === code)) {
+        alert('Currency with this code already exists');
+        return;
+    }
+
+    currencies.push({ code, name: code, symbol, rateToUSD: rate });
+
+    openCurrencySettings();
+    document.querySelector('.modal').remove();
+}
+
+function getUpdatedCurrencyRates() {
+    alert('This feature will be implemented with backend API integration');
 }

@@ -2465,3 +2465,29 @@ tr.selected {
     background-color: var(--dark-blue);
 }
 
+/* Currency Controls on Right Panel */
+.currency-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: auto;
+    margin-bottom: 15px;
+}
+
+.currency-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--blue);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.currency-btn:hover {
+    background-color: var(--dark-blue);
+}
+
