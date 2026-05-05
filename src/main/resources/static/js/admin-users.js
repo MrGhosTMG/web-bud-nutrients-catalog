@@ -1,4 +1,12 @@
 // Admin Users Page functionality
+
+// Currency system
+let currentCurrency = 'GEL';
+let currencies = [
+    { code: 'GEL', name: 'Georgian Lari', symbol: '₾', rateToUSD: 2.65 },
+    { code: 'USD', name: 'US Dollar', symbol: '$', rateToUSD: 1.0 }
+];
+
 let usersData = [
     {
         id: 1,
@@ -200,71 +208,71 @@ let usersData = [
 // Initialize wishlists for users based on User's wishes data
 // User ID 1 (John Doe) = John Smith in wishlist
 usersData[0].wishlist = [
-    { id: 1, name: 'Omega-3 Fish Oil', manufacturer: 'Nature Made', category: 'Herbal', price: 25, inStock: true, photo: null, description: 'High-quality fish oil supplement' },
-    { id: 7, name: 'Turmeric Curcumin', manufacturer: 'Solgar', category: 'Herbal', price: 28, inStock: true, photo: null, description: 'Anti-inflammatory support' },
-    { id: 6, name: 'Magnesium Citrate', manufacturer: 'Nature Made', category: 'Mineral', price: 20, inStock: false, photo: null, description: 'Supports muscle and nerve function' }
+    { id: 1, name: 'Omega-3 Fish Oil', manufacturer: 'Nature Made', category: 'Herbal', catalogPrice: 25, inStock: true, photo: null, description: 'High-quality fish oil supplement' },
+    { id: 7, name: 'Turmeric Curcumin', manufacturer: 'Solgar', category: 'Herbal', catalogPrice: 28, inStock: true, photo: null, description: 'Anti-inflammatory support' },
+    { id: 6, name: 'Magnesium Citrate', manufacturer: 'Nature Made', category: 'Mineral', catalogPrice: 20, inStock: false, photo: null, description: 'Supports muscle and nerve function' }
 ];
 
 // User ID 2 (Jane Smith) = Sarah Johnson in wishlist
 usersData[1].wishlist = [
-    { id: 1, name: 'Omega-3 Fish Oil', manufacturer: 'Nature Made', category: 'Herbal', price: 25, inStock: true, photo: null, description: 'High-quality fish oil supplement' },
-    { id: 2, name: 'Vitamin D3', manufacturer: 'Solgar', category: 'Mineral', price: 18, inStock: true, photo: null, description: 'Essential vitamin D supplement' },
-    { id: 7, name: 'Turmeric Curcumin', manufacturer: 'Solgar', category: 'Herbal', price: 28, inStock: true, photo: null, description: 'Anti-inflammatory support' },
-    { id: 10, name: 'Ashwagandha Extract', manufacturer: 'Himalaya', category: 'Herbal', price: 32, inStock: true, photo: null, description: 'Stress relief and energy' }
+    { id: 1, name: 'Omega-3 Fish Oil', manufacturer: 'Nature Made', category: 'Herbal', catalogPrice: 25, inStock: true, photo: null, description: 'High-quality fish oil supplement' },
+    { id: 2, name: 'Vitamin D3', manufacturer: 'Solgar', category: 'Mineral', catalogPrice: 18, inStock: true, photo: null, description: 'Essential vitamin D supplement' },
+    { id: 7, name: 'Turmeric Curcumin', manufacturer: 'Solgar', category: 'Herbal', catalogPrice: 28, inStock: true, photo: null, description: 'Anti-inflammatory support' },
+    { id: 10, name: 'Ashwagandha Extract', manufacturer: 'Himalaya', category: 'Herbal', catalogPrice: 32, inStock: true, photo: null, description: 'Stress relief and energy' }
 ];
 
 // User ID 3 (Mike Johnson) = Mike Davis in wishlist
 usersData[2].wishlist = [
-    { id: 1, name: 'Omega-3 Fish Oil', manufacturer: 'Nature Made', category: 'Herbal', price: 25, inStock: true, photo: null, description: 'High-quality fish oil supplement' },
-    { id: 4, name: 'Collagen Peptides', manufacturer: 'Vital Proteins', category: 'Cosmethic', price: 45, inStock: true, photo: null, description: 'Skin and joint support' },
-    { id: 7, name: 'Turmeric Curcumin', manufacturer: 'Solgar', category: 'Herbal', price: 28, inStock: true, photo: null, description: 'Anti-inflammatory support' },
-    { id: 13, name: 'Hyaluronic Acid', manufacturer: 'Vital Proteins', category: 'Cosmethic', price: 38, inStock: true, photo: null, description: 'Skin hydration' }
+    { id: 1, name: 'Omega-3 Fish Oil', manufacturer: 'Nature Made', category: 'Herbal', catalogPrice: 25, inStock: true, photo: null, description: 'High-quality fish oil supplement' },
+    { id: 4, name: 'Collagen Peptides', manufacturer: 'Vital Proteins', category: 'Cosmethic', catalogPrice: 45, inStock: true, photo: null, description: 'Skin and joint support' },
+    { id: 7, name: 'Turmeric Curcumin', manufacturer: 'Solgar', category: 'Herbal', catalogPrice: 28, inStock: true, photo: null, description: 'Anti-inflammatory support' },
+    { id: 13, name: 'Hyaluronic Acid', manufacturer: 'Vital Proteins', category: 'Cosmethic', catalogPrice: 38, inStock: true, photo: null, description: 'Skin hydration' }
 ];
 
 // User ID 4 (Sarah Williams) = Emily Wilson in wishlist
 usersData[3].wishlist = [
-    { id: 1, name: 'Omega-3 Fish Oil', manufacturer: 'Nature Made', category: 'Herbal', price: 25, inStock: true, photo: null, description: 'High-quality fish oil supplement' },
-    { id: 4, name: 'Collagen Peptides', manufacturer: 'Vital Proteins', category: 'Cosmethic', price: 45, inStock: true, photo: null, description: 'Skin and joint support' },
-    { id: 5, name: 'Probiotics', manufacturer: 'Garden of Life', category: 'Other', price: 35, inStock: true, photo: null, description: 'Digestive health support' },
-    { id: 6, name: 'Magnesium Citrate', manufacturer: 'Nature Made', category: 'Mineral', price: 20, inStock: false, photo: null, description: 'Supports muscle and nerve function' }
+    { id: 1, name: 'Omega-3 Fish Oil', manufacturer: 'Nature Made', category: 'Herbal', catalogPrice: 25, inStock: true, photo: null, description: 'High-quality fish oil supplement' },
+    { id: 4, name: 'Collagen Peptides', manufacturer: 'Vital Proteins', category: 'Cosmethic', catalogPrice: 45, inStock: true, photo: null, description: 'Skin and joint support' },
+    { id: 5, name: 'Probiotics', manufacturer: 'Garden of Life', category: 'Other', catalogPrice: 35, inStock: true, photo: null, description: 'Digestive health support' },
+    { id: 6, name: 'Magnesium Citrate', manufacturer: 'Nature Made', category: 'Mineral', catalogPrice: 20, inStock: false, photo: null, description: 'Supports muscle and nerve function' }
 ];
 
 // User ID 5 (David Brown) in wishlist
 usersData[4].wishlist = [
-    { id: 1, name: 'Omega-3 Fish Oil', manufacturer: 'Nature Made', category: 'Herbal', price: 25, inStock: true, photo: null, description: 'High-quality fish oil supplement' },
-    { id: 5, name: 'Probiotics', manufacturer: 'Garden of Life', category: 'Other', price: 35, inStock: true, photo: null, description: 'Digestive health support' },
-    { id: 10, name: 'Ashwagandha Extract', manufacturer: 'Himalaya', category: 'Herbal', price: 32, inStock: true, photo: null, description: 'Stress relief and energy' },
+    { id: 1, name: 'Omega-3 Fish Oil', manufacturer: 'Nature Made', category: 'Herbal', catalogPrice: 25, inStock: true, photo: null, description: 'High-quality fish oil supplement' },
+    { id: 5, name: 'Probiotics', manufacturer: 'Garden of Life', category: 'Other', catalogPrice: 35, inStock: true, photo: null, description: 'Digestive health support' },
+    { id: 10, name: 'Ashwagandha Extract', manufacturer: 'Himalaya', category: 'Herbal', catalogPrice: 32, inStock: true, photo: null, description: 'Stress relief and energy' },
     { id: 14, name: 'B-Complex Vitamins', manufacturer: 'Nature Made', category: 'Medic+', price: 19, inStock: false, photo: null, description: 'Energy and metabolism support' }
 ];
 
 // User ID 6 (Emily Davis) = Lisa Anderson in wishlist
 usersData[5].wishlist = [
-    { id: 2, name: 'Vitamin D3', manufacturer: 'Solgar', category: 'Mineral', price: 18, inStock: true, photo: null, description: 'Essential vitamin D supplement' },
-    { id: 4, name: 'Collagen Peptides', manufacturer: 'Vital Proteins', category: 'Cosmethic', price: 45, inStock: true, photo: null, description: 'Skin and joint support' },
-    { id: 13, name: 'Hyaluronic Acid', manufacturer: 'Vital Proteins', category: 'Cosmethic', price: 38, inStock: true, photo: null, description: 'Skin hydration' },
+    { id: 2, name: 'Vitamin D3', manufacturer: 'Solgar', category: 'Mineral', catalogPrice: 18, inStock: true, photo: null, description: 'Essential vitamin D supplement' },
+    { id: 4, name: 'Collagen Peptides', manufacturer: 'Vital Proteins', category: 'Cosmethic', catalogPrice: 45, inStock: true, photo: null, description: 'Skin and joint support' },
+    { id: 13, name: 'Hyaluronic Acid', manufacturer: 'Vital Proteins', category: 'Cosmethic', catalogPrice: 38, inStock: true, photo: null, description: 'Skin hydration' },
     { id: 14, name: 'B-Complex Vitamins', manufacturer: 'Nature Made', category: 'Medic+', price: 19, inStock: false, photo: null, description: 'Energy and metabolism support' }
 ];
 
 // User ID 7 (Robert Miller) = Tom Martinez in wishlist
 usersData[6].wishlist = [
-    { id: 2, name: 'Vitamin D3', manufacturer: 'Solgar', category: 'Mineral', price: 18, inStock: true, photo: null, description: 'Essential vitamin D supplement' },
-    { id: 7, name: 'Turmeric Curcumin', manufacturer: 'Solgar', category: 'Herbal', price: 28, inStock: true, photo: null, description: 'Anti-inflammatory support' },
-    { id: 6, name: 'Magnesium Citrate', manufacturer: 'Nature Made', category: 'Mineral', price: 20, inStock: false, photo: null, description: 'Supports muscle and nerve function' }
+    { id: 2, name: 'Vitamin D3', manufacturer: 'Solgar', category: 'Mineral', catalogPrice: 18, inStock: true, photo: null, description: 'Essential vitamin D supplement' },
+    { id: 7, name: 'Turmeric Curcumin', manufacturer: 'Solgar', category: 'Herbal', catalogPrice: 28, inStock: true, photo: null, description: 'Anti-inflammatory support' },
+    { id: 6, name: 'Magnesium Citrate', manufacturer: 'Nature Made', category: 'Mineral', catalogPrice: 20, inStock: false, photo: null, description: 'Supports muscle and nerve function' }
 ];
 
 // User ID 8 (Lisa Anderson) = Jessica Taylor in wishlist
 usersData[7].wishlist = [
-    { id: 4, name: 'Collagen Peptides', manufacturer: 'Vital Proteins', category: 'Cosmethic', price: 45, inStock: true, photo: null, description: 'Skin and joint support' },
-    { id: 7, name: 'Turmeric Curcumin', manufacturer: 'Solgar', category: 'Herbal', price: 28, inStock: true, photo: null, description: 'Anti-inflammatory support' },
-    { id: 6, name: 'Magnesium Citrate', manufacturer: 'Nature Made', category: 'Mineral', price: 20, inStock: false, photo: null, description: 'Supports muscle and nerve function' },
+    { id: 4, name: 'Collagen Peptides', manufacturer: 'Vital Proteins', category: 'Cosmethic', catalogPrice: 45, inStock: true, photo: null, description: 'Skin and joint support' },
+    { id: 7, name: 'Turmeric Curcumin', manufacturer: 'Solgar', category: 'Herbal', catalogPrice: 28, inStock: true, photo: null, description: 'Anti-inflammatory support' },
+    { id: 6, name: 'Magnesium Citrate', manufacturer: 'Nature Made', category: 'Mineral', catalogPrice: 20, inStock: false, photo: null, description: 'Supports muscle and nerve function' },
     { id: 14, name: 'B-Complex Vitamins', manufacturer: 'Nature Made', category: 'Medic+', price: 19, inStock: false, photo: null, description: 'Energy and metabolism support' }
 ];
 
 // User ID 9 (James Wilson) = Robert Garcia in wishlist
 usersData[8].wishlist = [
-    { id: 7, name: 'Turmeric Curcumin', manufacturer: 'Solgar', category: 'Herbal', price: 28, inStock: true, photo: null, description: 'Anti-inflammatory support' },
-    { id: 10, name: 'Ashwagandha Extract', manufacturer: 'Himalaya', category: 'Herbal', price: 32, inStock: true, photo: null, description: 'Stress relief and energy' },
-    { id: 9, name: 'Zinc Immune Support', manufacturer: 'NOW Foods', category: 'Medic+', price: 15, inStock: true, photo: null, description: 'Boosts immune system' }
+    { id: 7, name: 'Turmeric Curcumin', manufacturer: 'Solgar', category: 'Herbal', catalogPrice: 28, inStock: true, photo: null, description: 'Anti-inflammatory support' },
+    { id: 10, name: 'Ashwagandha Extract', manufacturer: 'Himalaya', category: 'Herbal', catalogPrice: 32, inStock: true, photo: null, description: 'Stress relief and energy' },
+    { id: 9, name: 'Zinc Immune Support', manufacturer: 'NOW Foods', category: 'Medic+', catalogPrice: 15, inStock: true, photo: null, description: 'Boosts immune system' }
 ];
 
 // Other users have empty wishlists
@@ -1387,16 +1395,16 @@ function populateAvailableProducts(userId) {
 
     // Mock products data (in real app, this would come from buds.js data)
     const allProducts = [
-        { id: 1, name: 'Omega-3 Fish Oil', manufacturer: 'Nature Made', category: 'Herbal', price: 25, inStock: true, photo: null, description: 'High-quality fish oil supplement' },
-        { id: 2, name: 'Vitamin D3', manufacturer: 'Solgar', category: 'Mineral', price: 18, inStock: true, photo: null, description: 'Essential vitamin D supplement' },
-        { id: 3, name: 'Multivitamin Complex', manufacturer: 'Centrum', category: 'Medic+', price: 30, inStock: false, photo: null, description: 'Complete daily multivitamin' },
-        { id: 4, name: 'Collagen Peptides', manufacturer: 'Vital Proteins', category: 'Cosmethic', price: 45, inStock: true, photo: null, description: 'Skin and joint support' },
-        { id: 5, name: 'Probiotics', manufacturer: 'Garden of Life', category: 'Other', price: 35, inStock: true, photo: null, description: 'Digestive health support' },
-        { id: 6, name: 'Magnesium Citrate', manufacturer: 'Nature Made', category: 'Mineral', price: 20, inStock: false, photo: null, description: 'Supports muscle and nerve function' },
-        { id: 7, name: 'Turmeric Curcumin', manufacturer: 'Solgar', category: 'Herbal', price: 28, inStock: true, photo: null, description: 'Anti-inflammatory support' },
-        { id: 8, name: 'Biotin Hair Growth', manufacturer: 'Nature Bounty', category: 'Cosmethic', price: 22, inStock: false, photo: null, description: 'Promotes healthy hair growth' },
-        { id: 9, name: 'Zinc Immune Support', manufacturer: 'NOW Foods', category: 'Medic+', price: 15, inStock: true, photo: null, description: 'Boosts immune system' },
-        { id: 10, name: 'Ashwagandha Extract', manufacturer: 'Himalaya', category: 'Herbal', price: 32, inStock: true, photo: null, description: 'Stress relief and energy' }
+        { id: 1, name: 'Omega-3 Fish Oil', manufacturer: 'Nature Made', category: 'Herbal', catalogPrice: 25, inStock: true, photo: null, description: 'High-quality fish oil supplement' },
+        { id: 2, name: 'Vitamin D3', manufacturer: 'Solgar', category: 'Mineral', catalogPrice: 18, inStock: true, photo: null, description: 'Essential vitamin D supplement' },
+        { id: 3, name: 'Multivitamin Complex', manufacturer: 'Centrum', category: 'Medic+', catalogPrice: 30, inStock: false, photo: null, description: 'Complete daily multivitamin' },
+        { id: 4, name: 'Collagen Peptides', manufacturer: 'Vital Proteins', category: 'Cosmethic', catalogPrice: 45, inStock: true, photo: null, description: 'Skin and joint support' },
+        { id: 5, name: 'Probiotics', manufacturer: 'Garden of Life', category: 'Other', catalogPrice: 35, inStock: true, photo: null, description: 'Digestive health support' },
+        { id: 6, name: 'Magnesium Citrate', manufacturer: 'Nature Made', category: 'Mineral', catalogPrice: 20, inStock: false, photo: null, description: 'Supports muscle and nerve function' },
+        { id: 7, name: 'Turmeric Curcumin', manufacturer: 'Solgar', category: 'Herbal', catalogPrice: 28, inStock: true, photo: null, description: 'Anti-inflammatory support' },
+        { id: 8, name: 'Biotin Hair Growth', manufacturer: 'Nature Bounty', category: 'Cosmethic', catalogPrice: 22, inStock: false, photo: null, description: 'Promotes healthy hair growth' },
+        { id: 9, name: 'Zinc Immune Support', manufacturer: 'NOW Foods', category: 'Medic+', catalogPrice: 15, inStock: true, photo: null, description: 'Boosts immune system' },
+        { id: 10, name: 'Ashwagandha Extract', manufacturer: 'Himalaya', category: 'Herbal', catalogPrice: 32, inStock: true, photo: null, description: 'Stress relief and energy' }
     ];
 
     // Filter out products already in wishlist
@@ -2004,4 +2012,115 @@ function setupLogoutButton() {
             }
         });
     }
+}
+
+// Currency functions
+function cycleCurrency() {
+    const currentIndex = currencies.findIndex(c => c.code === currentCurrency);
+    const nextIndex = (currentIndex + 1) % currencies.length;
+    currentCurrency = currencies[nextIndex].code;
+    const currencyText = document.getElementById('currencyText');
+    currencyText.textContent = `💱 ${currentCurrency}`;
+    // Refresh wishlist display if open
+    if (document.getElementById('rightPanelContent').innerHTML.includes('wishlist')) {
+        const userId = selectedUserId;
+        if (userId) showUserWishlist(userId);
+    }
+}
+
+function convertPrice(priceInGEL, targetCurrency) {
+    const currency = currencies.find(c => c.code === targetCurrency);
+    if (!currency) return priceInGEL;
+    const priceInUSD = priceInGEL / currencies.find(c => c.code === 'GEL').rateToUSD;
+    return priceInUSD * currency.rateToUSD;
+}
+
+function formatPrice(priceInGEL, targetCurrency = currentCurrency) {
+    const currency = currencies.find(c => c.code === targetCurrency);
+    if (!currency) return `${priceInGEL.toFixed(2)} ₾`;
+    const convertedPrice = convertPrice(priceInGEL, targetCurrency);
+    return `${currency.symbol}${convertedPrice.toFixed(2)}`;
+}
+
+function openCurrencySettings() {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.style.display = 'flex';
+    modal.style.zIndex = '9999';
+    let currenciesHTML = currencies.map((currency, index) => `
+        <div class="currency-item-compact">
+            <div class="currency-info-compact">
+                <strong>${currency.code}</strong> ${currency.symbol}
+                <span class="currency-rate">1 USD = ${currency.rateToUSD}</span>
+            </div>
+            <div class="currency-actions-compact">
+                <button class="btn-icon" onclick="editCurrencyRate(${index})" title="Edit">✏️</button>
+                ${currency.code !== 'GEL' ? `<button class="btn-icon btn-delete" onclick="deleteCurrency(${index})" title="Delete">🗑️</button>` : ''}
+            </div>
+        </div>
+    `).join('');
+    modal.innerHTML = `
+        <div class="modal-content currency-settings-modal-compact">
+            <span class="close" onclick="this.closest('.modal').remove()">&times;</span>
+            <h3>Settings</h3>
+            <div class="currency-list-compact">${currenciesHTML}</div>
+            <div class="add-currency-compact">
+                <input type="text" id="newCurrencyCode" placeholder="Code" maxlength="3">
+                <input type="text" id="newCurrencySymbol" placeholder="Symbol" maxlength="3">
+                <input type="number" id="newCurrencyRate" placeholder="Rate" step="0.01" min="0.01">
+                <button class="btn-add" onclick="addNewCurrency()" title="Add">+</button>
+            </div>
+            <button class="btn-update-rates" onclick="getUpdatedCurrencyRates()">Get Updated Currency Rates</button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    setTimeout(() => { modal.querySelector('.currency-settings-modal-compact').classList.add('modal-expand'); }, 10);
+}
+
+function editCurrencyRate(index) {
+    const currency = currencies[index];
+    const newRate = prompt(`Enter new rate to USD for ${currency.code}:`, currency.rateToUSD);
+    if (newRate !== null && !isNaN(newRate) && parseFloat(newRate) > 0) {
+        currencies[index].rateToUSD = parseFloat(newRate);
+        openCurrencySettings();
+        document.querySelector('.modal').remove();
+        const userId = selectedUserId;
+        if (userId) showUserWishlist(userId);
+    }
+}
+
+function deleteCurrency(index) {
+    const currency = currencies[index];
+    if (confirm(`Delete ${currency.code} - ${currency.name}?`)) {
+        currencies.splice(index, 1);
+        if (currentCurrency === currency.code) {
+            currentCurrency = 'GEL';
+            document.getElementById('currencyText').textContent = `💱 ${currentCurrency}`;
+        }
+        openCurrencySettings();
+        document.querySelector('.modal').remove();
+        const userId = selectedUserId;
+        if (userId) showUserWishlist(userId);
+    }
+}
+
+function addNewCurrency() {
+    const code = document.getElementById('newCurrencyCode').value.trim().toUpperCase();
+    const symbol = document.getElementById('newCurrencySymbol').value.trim();
+    const rate = parseFloat(document.getElementById('newCurrencyRate').value);
+    if (!code || !symbol || isNaN(rate) || rate <= 0) {
+        alert('Please fill all fields correctly');
+        return;
+    }
+    if (currencies.find(c => c.code === code)) {
+        alert('Currency with this code already exists');
+        return;
+    }
+    currencies.push({ code, name: code, symbol, rateToUSD: rate });
+    openCurrencySettings();
+    document.querySelector('.modal').remove();
+}
+
+function getUpdatedCurrencyRates() {
+    alert('This feature will be implemented with backend API integration');
 }

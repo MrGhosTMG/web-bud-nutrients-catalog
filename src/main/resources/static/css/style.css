@@ -2469,25 +2469,25 @@ tr.selected {
 .currency-controls {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
     margin-top: auto;
-    margin-bottom: 15px;
+    margin-bottom: 8px;
 }
 
 .currency-btn {
     width: 100%;
-    padding: 12px;
-    background-color: var(--blue);
+    padding: 10px;
+    background-color: #9e9e9e;
     color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
     transition: background-color 0.3s;
 }
 
 .currency-btn:hover {
-    background-color: var(--dark-blue);
+    background-color: var(--primary-green);
 }
 

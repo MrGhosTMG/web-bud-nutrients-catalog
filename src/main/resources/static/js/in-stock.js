@@ -239,7 +239,10 @@ function populateStockTable() {
             <td>${product.manufacturer}</td>
             <td>${product.category}</td>
             <td><span class="quantity-badge ${quantityBadgeClass}">${product.quantity}</span></td>
-            <td>$${product.price}</td>
+            <td>
+                <div style="font-size: 11px; color: #666;">My: ${formatPrice(product.myPrice)}</div>
+                <div style="font-weight: 500;">${formatPrice(product.catalogPrice)}</div>
+            </td>
             <td style="text-align: right; display: flex; gap: 5px; align-items: center; justify-content: flex-end;">
                 <select class="btn btn-secondary" id="addTarget${product.id}" style="padding: 6px 8px; font-size: 12px; min-width: 100px;" onclick="event.stopPropagation();">
                     <option value="catalog">to Catalog</option>
@@ -788,8 +791,13 @@ function showInfo() {
             </div>
 
             <div class="user-info-item">
-                <label>Price:</label>
-                <div class="value">$${product.price}</div>
+                <label>My Price (Purchase):</label>
+                <div class="value">${formatPrice(product.myPrice)}</div>
+            </div>
+
+            <div class="user-info-item">
+                <label>Catalog Price (Users):</label>
+                <div class="value">${formatPrice(product.catalogPrice)}</div>
             </div>
 
             <div class="user-info-item">
