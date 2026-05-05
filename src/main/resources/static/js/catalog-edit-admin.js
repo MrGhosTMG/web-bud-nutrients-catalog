@@ -3,6 +3,13 @@ let currentViewMode = 'list'; // 'list' or 'info'
 let currentTab = 'seeAll'; // 'seeAll', 'sales', 'offers'
 let selectedProductIds = []; // Array for multiple selection
 
+// Currency system
+let currentCurrency = 'GEL';
+let currencies = [
+    { code: 'GEL', name: 'Georgian Lari', symbol: '₾', rateToUSD: 2.65 },
+    { code: 'USD', name: 'US Dollar', symbol: '$', rateToUSD: 1.0 }
+];
+
 // Sales list - products on sale with sale prices
 let salesList = [
     { productId: 1, salePrice: 20 },
@@ -957,8 +964,8 @@ function populateTable() {
         // Check if product is on sale
         const saleItem = salesList.find(s => s.productId === product.id);
         const catalogPriceDisplay = saleItem
-            ? `<span class="original-price">$${product.catalogPrice}</span> <span class="sale-price">$${saleItem.salePrice}</span>`
-            : `$${product.catalogPrice}`;
+            ? `<span class="original-price">${formatPrice(product.catalogPrice)}</span> <span class="sale-price">${formatPrice(saleItem.salePrice)}</span>`
+            : formatPrice(product.catalogPrice);
 
         // Build action dropdown options based on current tab
         let actionOptions = '';
@@ -992,7 +999,7 @@ function populateTable() {
             <td><a href="#" onclick="viewPhoto(${product.id}); return false;">View</a></td>
             <td>${product.manufacturer}</td>
             <td>${product.category}</td>
-            <td>$${product.myPrice}</td>
+            <td>${formatPrice(product.myPrice)}</td>
             <td>${catalogPriceDisplay}</td>
             <td>${availabilityBadge}</td>
             <td style="text-align: right;">
@@ -1306,7 +1313,7 @@ function showInfo() {
 
     const saleInfo = saleItem
         ? `<div class="info-item">
-                <strong>Sale Price:</strong> $${saleItem.salePrice} <span style="color: #999; text-decoration: line-through;">$${product.catalogPrice}</span>
+                <strong>Sale Price:</strong> ${formatPrice(saleItem.salePrice)} <span style="color: #999; text-decoration: line-through;">${formatPrice(product.catalogPrice)}</span>
            </div>`
         : '';
 
@@ -1329,10 +1336,10 @@ function showInfo() {
                 <strong>Category:</strong> ${product.category}
             </div>
             <div class="info-item">
-                <strong>My Price (Purchase):</strong> $${product.myPrice}
+                <strong>My Price (Purchase):</strong> ${formatPrice(product.myPrice)}
             </div>
             <div class="info-item">
-                <strong>Catalog Price (Users):</strong> $${product.catalogPrice}
+                <strong>Catalog Price (Users):</strong> ${formatPrice(product.catalogPrice)}
             </div>
             ${saleInfo}
             ${offerInfo}
@@ -1439,14 +1446,14 @@ function previewElement() {
     if (saleItem) {
         priceDisplay = `
             <div class="preview-price-section">
-                <span class="preview-original-price">$${product.catalogPrice}</span>
-                <span class="preview-sale-price">$${saleItem.salePrice}</span>
-                <span class="preview-save-badge">Save $${(product.catalogPrice - saleItem.salePrice).toFixed(2)}</span>
+                <span class="preview-original-price">${formatPrice(product.catalogPrice)}</span>
+                <span class="preview-sale-price">${formatPrice(saleItem.salePrice)}</span>
+                <span class="preview-save-badge">Save ${formatPrice(product.catalogPrice - saleItem.salePrice)}</span>
             </div>
         `;
         saleBadge = '<div class="preview-sale-badge">ON SALE</div>';
     } else {
-        priceDisplay = `<div class="preview-price">$${product.catalogPrice}</div>`;
+        priceDisplay = `<div class="preview-price">${formatPrice(product.catalogPrice)}</div>`;
     }
 
     // Offer badge
@@ -1911,6 +1918,167 @@ function toggleViewMode() {
     }
 }
 
+// Currency functions
+function cycleCurrency() {
+    const currentIndex = currencies.findIndex(c => c.code === currentCurrency);
+    const nextIndex = (currentIndex + 1) % currencies.length;
+    currentCurrency = currencies[nextIndex].code;
+
+    const currencyText = document.getElementById('currencyText');
+    currencyText.textContent = `💱 ${currentCurrency}`;
+
+    // Refresh display
+    if (currentViewMode === 'list') {
+        populateTable();
+    } else {
+        populateInfoMode();
+    }
+}
+
+function convertPrice(priceInGEL, targetCurrency) {
+    const currency = currencies.find(c => c.code === targetCurrency);
+    if (!currency) return priceInGEL;
+
+    // Convert GEL to USD first, then to target currency
+    const priceInUSD = priceInGEL / currencies.find(c => c.code === 'GEL').rateToUSD;
+    return priceInUSD * currency.rateToUSD;
+}
+
+function formatPrice(priceInGEL, targetCurrency = currentCurrency) {
+    const currency = currencies.find(c => c.code === targetCurrency);
+    if (!currency) return `${priceInGEL.toFixed(2)} ₾`;
+
+    const convertedPrice = convertPrice(priceInGEL, targetCurrency);
+    return `${currency.symbol}${convertedPrice.toFixed(2)}`;
+}
+
+function openCurrencySettings() {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.style.display = 'flex';
+    modal.style.zIndex = '9999';
+
+    let currenciesHTML = currencies.map((currency, index) => `
+        <div class="currency-item-compact">
+            <div class="currency-info-compact">
+                <strong>${currency.code}</strong> ${currency.symbol}
+                <span class="currency-rate">1 USD = ${currency.rateToUSD}</span>
+            </div>
+            <div class="currency-actions-compact">
+                <button class="btn-icon" onclick="editCurrencyRate(${index})" title="Edit">✏️</button>
+                ${currency.code !== 'GEL' ? `<button class="btn-icon btn-delete" onclick="deleteCurrency(${index})" title="Delete">🗑️</button>` : ''}
+            </div>
+        </div>
+    `).join('');
+
+    modal.innerHTML = `
+        <div class="modal-content currency-settings-modal-compact">
+            <span class="close" onclick="this.closest('.modal').remove()">&times;</span>
+            <h3>Settings</h3>
+
+            <div class="currency-list-compact">
+                ${currenciesHTML}
+            </div>
+
+            <div class="add-currency-compact">
+                <input type="text" id="newCurrencyCode" placeholder="Code" maxlength="3">
+                <input type="text" id="newCurrencySymbol" placeholder="Symbol" maxlength="3">
+                <input type="number" id="newCurrencyRate" placeholder="Rate" step="0.01" min="0.01">
+                <button class="btn-add" onclick="addNewCurrency()" title="Add">+</button>
+            </div>
+
+            <div class="settings-checkboxes">
+                <label class="settings-checkbox-label">
+                    <input type="checkbox" id="saveViewMode" checked>
+                    <span>Save View Mode</span>
+                </label>
+                <label class="settings-checkbox-label">
+                    <input type="checkbox" id="saveCurrency" checked>
+                    <span>Save Currency type</span>
+                </label>
+            </div>
+
+            <button class="btn-update-rates" onclick="getUpdatedCurrencyRates()">
+                Get Updated Currency Rates
+            </button>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    // Add animation class after a brief delay
+    setTimeout(() => {
+        modal.querySelector('.currency-settings-modal-compact').classList.add('modal-expand');
+    }, 10);
+}
+
+function editCurrencyRate(index) {
+    const currency = currencies[index];
+    const newRate = prompt(`Enter new rate to USD for ${currency.code}:`, currency.rateToUSD);
+
+    if (newRate !== null && !isNaN(newRate) && parseFloat(newRate) > 0) {
+        currencies[index].rateToUSD = parseFloat(newRate);
+        openCurrencySettings();
+        document.querySelector('.modal').remove();
+
+        // Refresh display
+        if (currentViewMode === 'list') {
+            populateTable();
+        } else {
+            populateInfoMode();
+        }
+    }
+}
+
+function deleteCurrency(index) {
+    const currency = currencies[index];
+    if (confirm(`Delete ${currency.code} - ${currency.name}?`)) {
+        currencies.splice(index, 1);
+
+        // If deleted currency was selected, switch to GEL
+        if (currentCurrency === currency.code) {
+            currentCurrency = 'GEL';
+            document.getElementById('currencyText').textContent = `💱 ${currentCurrency}`;
+        }
+
+        openCurrencySettings();
+        document.querySelector('.modal').remove();
+
+        // Refresh display
+        if (currentViewMode === 'list') {
+            populateTable();
+        } else {
+            populateInfoMode();
+        }
+    }
+}
+
+function addNewCurrency() {
+    const code = document.getElementById('newCurrencyCode').value.trim().toUpperCase();
+    const symbol = document.getElementById('newCurrencySymbol').value.trim();
+    const rate = parseFloat(document.getElementById('newCurrencyRate').value);
+
+    if (!code || !symbol || isNaN(rate) || rate <= 0) {
+        alert('Please fill all fields correctly');
+        return;
+    }
+
+    if (currencies.find(c => c.code === code)) {
+        alert('Currency with this code already exists');
+        return;
+    }
+
+    currencies.push({ code, name: code, symbol, rateToUSD: rate });
+
+    openCurrencySettings();
+    document.querySelector('.modal').remove();
+}
+
+function getUpdatedCurrencyRates() {
+    // TODO: Implement API call to backend for updated currency rates
+    alert('This feature will be implemented with backend API integration');
+}
+
 // Populate info mode (grid view with cards)
 function populateInfoMode() {
     const container = document.getElementById('infoModeContainer');
@@ -1935,8 +2103,8 @@ function populateInfoMode() {
         // Check if product is on sale
         const saleItem = salesList.find(s => s.productId === product.id);
         const priceDisplay = saleItem
-            ? `<span class="original-price">$${product.catalogPrice}</span> <span class="sale-price">$${saleItem.salePrice}</span>`
-            : `<span class="info-price">$${product.catalogPrice}</span>`;
+            ? `<span class="original-price">${formatPrice(product.catalogPrice)}</span> <span class="sale-price">${formatPrice(saleItem.salePrice)}</span>`
+            : `<span class="info-price">${formatPrice(product.catalogPrice)}</span>`;
 
         // Check if product has an offer
         const offer = offersList.find(o => o.productId === product.id);
