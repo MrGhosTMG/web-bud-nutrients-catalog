@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Catalog Edit</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- HEADER -->
+    <div class="header">
+        <span class="header-username">user_name</span>
+        <span class="header-title">Welcome to bud's catalog !!!</span>
+    </div>
+
+    <!-- MAIN LAYOUT -->
+    <div class="container">
+        <!-- SIDEBAR MENU -->
+        <div class="sidebar">
+            <div class="menu-title">MENU</div>
+            <div class="menu-items">
+                <a href="admin-users.html" class="menu-item">Users</a>
+                <a href="admin-user-wishes.html" class="menu-item">User's wishes</a>
+                <a href="bud's.html" class="menu-item">Buds</a>
+                <a href="advanced.html" class="menu-item">Advanced</a>
+                <a href="in-stock.html" class="menu-item">In stock</a>
+                <a href="orders.html" class="menu-item">Orders</a>
+                <a href="my-wishes.html" class="menu-item">My wishes</a>
+                <a href="#" class="menu-item">Win/Loss</a>
+                <a href="catalog-edit-admin.html" class="menu-item active">Catalog edit</a>
+                <div class="menu-divider"></div>
+                <a href="#" class="menu-item menu-item-special" onclick="toggleViewMode(); return false;">
+                    <span id="viewModeText">📋 List Mode</span>
+                </a>
+                <div class="menu-divider" style="visibility: hidden;"></div>
+                <a href="#" class="menu-item menu-item-special" style="visibility: hidden; pointer-events: none;">Hidden</a>
+                <a href="#" class="menu-item menu-item-special" style="visibility: hidden; pointer-events: none;">Hidden</a>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <!-- BREADCRUMBS -->
+            
+
+            <div class="content-header">
+                <div class="tabs">
+                    <button class="tab-btn" id="tabSeeAll" onclick="switchTab('seeAll')">See All</button>
+                    <button class="tab-btn" id="tabSales" onclick="switchTab('sales')">Sale's</button>
+                    <button class="tab-btn" id="tabOffers" onclick="switchTab('offers')">Offers</button>
+                </div>
+                <div class="btn-group">
+                    <input type="text" class="search-box" placeholder="Search..." id="searchBox">
+                    <button class="btn btn-primary" onclick="openFiltersModal()">Filters</button>
+                </div>
+            </div>
+
+            <!-- TABLE HEADER (fixed) -->
+            <div class="table-header catalog-table-header" id="listModeHeader">
+                <div class="table-header-cell" style="padding-left: 10px;">
+                    <input type="checkbox" id="selectAll" onclick="toggleSelectAll()" style="margin-right: 8px;">
+                    Product Name
+                </div>
+                <div class="table-header-cell">Photo</div>
+                <div class="table-header-cell">Brand</div>
+                <div class="table-header-cell">Category</div>
+                <div class="table-header-cell">My Price</div>
+                <div class="table-header-cell">Catalog Price</div>
+                <div class="table-header-cell">Available</div>
+                <div class="table-header-cell" style="text-align: right;">Actions</div>
+            </div>
+
+            <!-- TABLE (List Mode) -->
+            <div class="table-container" id="listModeContainer">
+                <table>
+                    <tbody id="catalogTable">
+                        <!-- Content will be populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- INFO MODE (Grid View) -->
+            <div class="info-mode-container" id="infoModeContainer" style="display: none;">
+                <!-- Content will be populated by JS -->
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="right-panel">
+            <!-- Buttons for See All tab -->
+            <div id="seeAllButtons">
+                <button class="action-btn action-btn-primary" onclick="addNewProduct()">Add New Product</button>
+                <button class="action-btn action-btn-secondary" onclick="openFullList()">Full List</button>
+                <button class="action-btn action-btn-preview" onclick="previewElement()">Preview Element</button>
+                <button class="action-btn action-btn-info" onclick="showInfo()">Info</button>
+                <button class="action-btn action-btn-edit" onclick="editProduct()">Edit</button>
+                <button class="action-btn action-btn-toggle" onclick="toggleAvailabilitySelected()">Toggle Availability (Selected)</button>
+                <button class="action-btn action-btn-delete" onclick="deleteSelected()">Delete (Selected)</button>
+            </div>
+
+            <!-- Buttons for Sales tab -->
+            <div id="salesButtons" style="display: none;">
+                <button class="action-btn action-btn-primary" onclick="openFullList()">Full List</button>
+                <button class="action-btn action-btn-info" onclick="showInfo()">Info</button>
+                <button class="action-btn action-btn-delete" onclick="removeFromSalesList()">Remove from Sale's</button>
+                <button class="action-btn action-btn-edit" onclick="setSalePrice()">Set Sale Price</button>
+            </div>
+
+            <!-- Buttons for Offers tab -->
+            <div id="offersButtons" style="display: none;">
+                <button class="action-btn action-btn-primary" onclick="openFullList()">Full List</button>
+                <button class="action-btn action-btn-info" onclick="showInfo()">Info</button>
+                <button class="action-btn action-btn-delete" onclick="removeFromOffersList()">Remove from Offers</button>
+                <button class="action-btn action-btn-edit" onclick="editOfferDetails()">Edit Offer Details</button>
+            </div>
+
+            <!-- Dynamic content area -->
+            <div id="rightPanelContent"></div>
+        </div>
+    </div>
+
+    <script src="js/catalog-edit-admin.js"></script>
+</body>
+</html>
