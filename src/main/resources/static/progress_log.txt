@@ -569,6 +569,315 @@ End of Log - Great progress today! 🎉
 ================================================================================
 
 ================================================================================
+                    UPDATE: 2026-05-05 (CATALOG EDIT ADMIN - COMPLETE)
+================================================================================
+
+CATALOG EDIT ADMIN PAGE - FULL IMPLEMENTATION ✓
+
+1. PAGE STRUCTURE & NAVIGATION
+   ✓ Created catalog-edit-admin.html based on My Wishes template
+   ✓ Fixed all navigation links across 8 HTML pages
+   ✓ Three main tabs: See All, Sale's, Offers
+   ✓ View mode toggle: List Mode (📋) / Info Mode (🖼️)
+   ✓ Special menu item for view mode switching (only on this page)
+
+2. DATA STRUCTURE & PRODUCTS (40 items)
+   ✓ Extended catalog from 10 to 40 products
+   ✓ Categories: Herbal, Mineral, Medic+, Cosmethic, Creams, Shampoos, Other
+   ✓ Brands: Nature Made, Solgar, Centrum, Vital Proteins, Neutrogena, Olay,
+            Pantene, Dove, The Ordinary, Clinique, TRESemmé, L'Oreal, etc.
+   ✓ Two price fields:
+     - myPrice: Purchase price (admin's cost)
+     - catalogPrice: Price shown to users
+   ✓ Photos: All products have images from ../../Images/ folder
+   ✓ Sale's list: 9 products with sale prices
+   ✓ Offers list: 8 products with special offers
+
+3. LIST MODE (Table View)
+   ✓ 8-column table structure:
+     - Checkbox (with Select All)
+     - Product Name (clickable)
+     - Photo (View link, shifted 40px left)
+     - Brand
+     - My Price
+     - Catalog Price (shows sale price if applicable)
+     - Available (badge)
+     - Actions (dropdown + Apply button)
+
+   ✓ Multiple selection with checkboxes
+   ✓ Sale price display: strikethrough original + red sale price
+   ✓ Action dropdown options (tab-dependent):
+     - See All: Move to Sale's, Move to Offers
+     - Sale's: Remove from list, Move to Offers
+     - Offers: Remove from list, Move to Sale's
+   ✓ Apply button executes selected action
+
+4. INFO MODE (Grid View)
+   ✓ Fixed 4-column grid layout
+   ✓ Card height: 420px (fixed)
+   ✓ Max 8 cards visible, overflow with scroll
+   ✓ Each card displays:
+     - Product photo (200x200)
+     - Sale ribbon "SALE" (if on sale)
+     - Product name
+     - Offer badge (if has offer)
+     - Brand, Category
+     - Price (with sale price if applicable)
+     - Available status badge
+     - Edit and Toggle buttons
+   ✓ Click card to select and show info
+   ✓ Consistent across all tabs (See All, Sale's, Offers)
+
+5. TAB FUNCTIONALITY
+   ✓ See All: Shows all products, sales first (by name), then others
+   ✓ Sale's: Only products in salesList, sorted by name
+   ✓ Offers: Only products in offersList, sorted by name
+   ✓ Dynamic button sets per tab
+
+6. RIGHT PANEL BUTTONS (Tab-specific)
+
+   See All Tab:
+   ✓ Add New Product - create new product
+   ✓ Full List - browse all products to add
+   ✓ Preview Element - user view preview modal
+   ✓ Info - show/hide product details (toggle)
+   ✓ Edit - edit selected product
+   ✓ Toggle Availability (Selected) - bulk toggle
+   ✓ Delete (Selected) - bulk delete
+
+   Sale's Tab:
+   ✓ Full List - add products from full catalog
+   ✓ Info - show product details
+   ✓ Remove from Sale's - remove from sales list
+   ✓ Set Sale Price - update sale price
+
+   Offers Tab:
+   ✓ Full List - add products from full catalog
+   ✓ Info - show product details
+   ✓ Remove from Offers - remove from offers list
+   ✓ Edit Offer Details - update offer description
+
+7. MODALS & DIALOGS
+
+   Add New Product Modal:
+   ✓ Width: 450px (compact)
+   ✓ Fields: Name, Manufacturer, Category, My Price, Catalog Price,
+            Description, Photo upload, Available checkbox
+   ✓ Photo preview before save
+   ✓ Categories include Creams and Shampoos
+
+   Edit Product Modal:
+   ✓ Same structure as Add New Product
+   ✓ Pre-filled with current product data
+   ✓ Updates myPrice and catalogPrice
+
+   Photo Preview Modal:
+   ✓ Uses photo-modal structure (like Users page)
+   ✓ Shows photo-modal-image or photo-modal-placeholder
+   ✓ Title with product name
+   ✓ Close button and click-outside to close
+
+   Full List Modal:
+   ✓ Shows all 40 products in scrollable list
+   ✓ Grid: Name, Category, Price
+   ✓ Click product to add to current tab
+   ✓ For Sale's: prompts for sale price
+   ✓ For Offers: prompts for offer type
+
+   Preview Element Modal:
+   ✓ Width: 900px (like main-content)
+   ✓ Grid layout: Photo (1fr) + Info (1.5fr)
+   ✓ Left side: Product photo with sale badge
+   ✓ Right side:
+     - Product name (large title)
+     - Brand and Category
+     - Offer badge (if applicable)
+     - Price display (sale or regular)
+     - Description in styled box
+     - Action buttons: Add to Wishlist, Request Info
+     - Availability status
+   ✓ Shows exactly how users will see the product
+
+   Filters Modal:
+   ✓ Sort by name (A-Z / Z-A)
+   ✓ Filter by Manufacturer (dropdown)
+   ✓ Filter by Category (dropdown)
+   ✓ Filter by Availability (All/Available/Hidden)
+   ✓ Price range (min/max)
+   ✓ Reset filters button
+
+8. KEY FEATURES & FUNCTIONALITY
+
+   Multiple Selection:
+   ✓ Select All checkbox in header
+   ✓ Individual checkboxes per product
+   ✓ selectedProductIds[] array tracks selections
+   ✓ Bulk operations: Toggle Availability, Delete
+
+   Product Movement:
+   ✓ Move between Sale's and Offers lists
+   ✓ Automatic removal from one list when added to another
+   ✓ Products always remain in See All tab
+   ✓ Remove from list only removes from Sale's/Offers, not catalog
+
+   Info Panel Toggle:
+   ✓ First click: shows product info
+   ✓ Second click: hides info panel
+   ✓ Displays: name, manufacturer, category, myPrice, catalogPrice,
+              sale price (if applicable), offer (if applicable),
+              availability status, added date, description
+
+   Photo Management:
+   ✓ Photo upload with file browser
+   ✓ Preview before save (in Add/Edit modals)
+   ✓ Photo viewing in dedicated modal
+   ✓ Placeholder when no photo available
+   ✓ All 40 products have photos from Images folder
+
+   Search & Filters:
+   ✓ Real-time search by product name, manufacturer, category
+   ✓ Advanced filters modal
+   ✓ Filters work in both List and Info modes
+   ✓ Filter results update dynamically
+
+9. CSS STYLING & LAYOUT
+
+   Table Grid (List Mode):
+   ✓ 8 columns: 2.2fr 0.6fr 1fr 0.9fr 0.7fr 0.9fr 0.8fr 1.2fr
+   ✓ Photo column shifted -40px left
+   ✓ Fixed header with sticky positioning
+   ✓ Row hover and selection states
+
+   Info Mode Grid:
+   ✓ 4 columns: repeat(4, 1fr)
+   ✓ Fixed card height: 420px
+   ✓ Container max-height with overflow scroll
+   ✓ Card hover effects and selection highlighting
+
+   Badges & Ribbons:
+   ✓ availability-badge: green (Available) / gray (Hidden)
+   ✓ sale-ribbon: red "SALE" badge on cards
+   ✓ offer-badge: orange with offer description
+   ✓ original-price: strikethrough gray
+   ✓ sale-price: bold red
+
+   Preview Modal Styles:
+   ✓ preview-modal-content: 900px width
+   ✓ preview-container: grid layout
+   ✓ preview-sale-badge: red "ON SALE"
+   ✓ preview-offer-badge: orange with emoji
+   ✓ preview-price-section: prices with save badge
+   ✓ preview-description: styled box with green border
+   ✓ preview-btn: action buttons
+   ✓ preview-status: availability indicators
+
+   Action Buttons:
+   ✓ action-btn-primary: green (Add New Product)
+   ✓ action-btn-secondary: white/green outline (Full List)
+   ✓ action-btn-preview: blue (Preview Element)
+   ✓ action-btn-info: light blue (Info)
+   ✓ action-btn-edit: gray (Edit)
+   ✓ action-btn-toggle: orange (Toggle Availability)
+   ✓ action-btn-delete: red outline (Delete)
+
+   Mobile Responsive:
+   ✓ Info mode: 2 columns on mobile
+   ✓ Card height: 380px on mobile
+   ✓ Table columns adjusted for smaller screens
+
+10. TECHNICAL IMPLEMENTATION
+
+    JavaScript Functions:
+    ✓ switchTab() - tab switching logic
+    ✓ getTabFilteredData() - filter products by tab
+    ✓ toggleViewMode() - switch between list/info modes
+    ✓ populateTable() - render list mode
+    ✓ populateInfoMode() - render info mode
+    ✓ toggleSelectAll() - select/deselect all checkboxes
+    ✓ toggleProductSelection() - individual selection
+    ✓ toggleAvailabilitySelected() - bulk availability toggle
+    ✓ deleteSelected() - bulk delete
+    ✓ applyAction() - execute dropdown action
+    ✓ moveToSalesList() - move product to sales
+    ✓ moveToOffersList() - move product to offers
+    ✓ removeFromCurrentList() - remove from sale/offer list
+    ✓ addNewProduct() - create product modal
+    ✓ editProduct() - edit product modal
+    ✓ saveNewProduct() - save new product
+    ✓ saveEditProduct() - save edited product
+    ✓ viewPhoto() - photo preview modal
+    ✓ closePhotoModal() - close photo modal
+    ✓ previewElement() - user preview modal
+    ✓ showInfo() - toggle info panel
+    ✓ openFullList() - full list modal
+    ✓ addProductToCurrentTab() - add from full list
+    ✓ setSalePrice() - update sale price
+    ✓ addToSalesList() - add to sales (from right panel)
+    ✓ removeFromSalesList() - remove from sales
+    ✓ addToOffersList() - add to offers (from right panel)
+    ✓ removeFromOffersList() - remove from offers
+    ✓ editOfferDetails() - update offer description
+    ✓ openFiltersModal() - filters dialog
+    ✓ applyFiltersFromModal() - apply filters
+    ✓ resetFilters() - clear all filters
+
+    Data Structures:
+    ✓ catalogData[] - 40 products with full details
+    ✓ salesList[] - 9 products with sale prices
+    ✓ offersList[] - 8 products with offer details
+    ✓ selectedProductIds[] - multiple selection tracking
+    ✓ currentFilters{} - filter state
+    ✓ currentViewMode - 'list' or 'info'
+    ✓ currentTab - 'seeAll', 'sales', 'offers'
+    ✓ selectedProductId - single selection for info/edit
+
+FILES CREATED:
+- catalog-edit-admin.html (new admin page)
+- js/catalog-edit-admin.js (2000+ lines, complete functionality)
+
+FILES MODIFIED:
+- admin-user-wishes.html (navigation link)
+- admin-users.html (navigation link)
+- advanced.html (navigation link)
+- bud's.html (navigation link)
+- in-stock.html (navigation link)
+- my-wishes.html (navigation link)
+- orders.html (navigation link)
+- css/style.css (catalog edit styles, preview modal, badges)
+
+FEATURES READY FOR PRODUCTION:
+✓ Full catalog management (CRUD operations)
+✓ Sale's list management with pricing
+✓ Offers list management with offer types
+✓ Multiple view modes (list/info)
+✓ Bulk operations (toggle, delete)
+✓ Product movement between lists
+✓ User preview functionality
+✓ Photo management
+✓ Search and filtering
+✓ Mobile responsive design
+
+NEXT STEPS (From Original Plan):
+1. USER CATALOG VIEW (user-profile.html)
+   - Display products where isAvailable = true
+   - Filter and search products
+   - Add to personal wishlist
+   - Request products not in catalog
+
+2. USER REQUEST SYSTEM
+   - Modal for product requests
+   - Fields: name, link (optional), description (optional)
+   - Save requests for admin review
+
+3. ADMIN ALERTS ACTIVATION
+   - Activate alerts button when requests exist
+   - Display request count in badge
+   - Show pending requests list
+   - Admin actions: review, add to catalog, mark fulfilled
+
+================================================================================
+
+================================================================================
                     UPDATE: 2026-05-05
 ================================================================================
 
