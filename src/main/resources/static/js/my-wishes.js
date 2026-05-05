@@ -13,7 +13,7 @@ let wishesData = [
         name: 'Omega-3 Fish Oil',
         manufacturer: 'Nature Made',
         category: 'Herbal',
-        catalogPrice: 25,
+        myPrice: 25,
         quantity: 0,
         photo: null,
         description: 'High-quality fish oil supplement'
@@ -23,7 +23,7 @@ let wishesData = [
         name: 'Collagen Peptides',
         manufacturer: 'Vital Proteins',
         category: 'Cosmethic',
-        catalogPrice: 45,
+        myPrice: 45,
         quantity: 0,
         photo: null,
         description: 'Skin and joint support'
@@ -33,7 +33,7 @@ let wishesData = [
         name: 'Turmeric Curcumin',
         manufacturer: 'Solgar',
         category: 'Herbal',
-        catalogPrice: 28,
+        myPrice: 28,
         quantity: 0,
         photo: null,
         description: 'Anti-inflammatory support'
@@ -43,7 +43,7 @@ let wishesData = [
         name: 'Ashwagandha Extract',
         manufacturer: 'Himalaya',
         category: 'Herbal',
-        catalogPrice: 32,
+        myPrice: 32,
         quantity: 0,
         photo: null,
         description: 'Stress relief and energy'
@@ -53,7 +53,7 @@ let wishesData = [
         name: 'Hyaluronic Acid',
         manufacturer: 'Vital Proteins',
         category: 'Cosmethic',
-        catalogPrice: 38,
+        myPrice: 38,
         quantity: 0,
         photo: null,
         description: 'Skin hydration'
@@ -108,7 +108,7 @@ function populateWishesTable() {
             </td>
             <td>${product.manufacturer}</td>
             <td>${product.category}</td>
-            <td>${formatPrice(product.catalogPrice)}</td>
+            <td>${formatPrice(product.myPrice)}</td>
             <td style="text-align: right; display: flex; gap: 5px; align-items: center; justify-content: flex-end;">
                 <select class="btn btn-secondary" id="wishTarget${product.id}" style="padding: 6px 8px; font-size: 12px; min-width: 120px;" onclick="event.stopPropagation();">
                     <option value="" selected>select action</option>
@@ -658,7 +658,7 @@ function showInfo() {
 
             <div class="user-info-item">
                 <label>Price:</label>
-                <div class="value">${formatPrice(product.catalogPrice)}</div>
+                <div class="value">${formatPrice(product.myPrice)}</div>
             </div>
 
             <div class="user-info-item">

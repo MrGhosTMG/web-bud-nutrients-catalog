@@ -994,7 +994,7 @@ function populateUserWishlistTable(userId) {
             </td>
             <td>${product.manufacturer}</td>
             <td>${product.category}</td>
-            <td>$${product.price}</td>
+            <td>${formatPrice(product.catalogPrice)}</td>
             <td>${inStockBadge}</td>
             <td style="text-align: right; display: flex; gap: 5px; align-items: center; justify-content: flex-end;">
                 <button class="btn btn-primary" style="padding: 6px 12px; font-size: 12px;" onclick="event.stopPropagation(); addToOrders(${userId}, ${product.id});">Add Orders</button>

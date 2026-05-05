@@ -46,6 +46,12 @@
 
             <div class="content-header">
                 <span class="content-title">Inventory Management</span>
+                <button class="currency-btn" style="width: 85px;" onclick="cycleCurrency()">
+                    <span id="currencyText">💱 GEL</span>
+                </button>
+                <button class="currency-btn" style="width: 85px;" onclick="openCurrencySettings()">
+                    ⚙️ Settings
+                </button>
                 <div class="btn-group">
                     <button class="btn btn-secondary" onclick="showAll()">Show All</button>
                     <input type="text" class="search-box" placeholder="Search..." id="searchBox">
@@ -91,16 +97,6 @@
 
             <!-- Dynamic content area -->
             <div id="rightPanelContent"></div>
-
-            <!-- Currency Controls -->
-            <div class="currency-controls">
-                <button class="currency-btn" onclick="cycleCurrency()">
-                    <span id="currencyText">💱 GEL</span>
-                </button>
-                <button class="currency-btn" onclick="openCurrencySettings()">
-                    ⚙️ Settings
-                </button>
-            </div>
 
             <button class="logout-btn">Logout</button>
         </div>

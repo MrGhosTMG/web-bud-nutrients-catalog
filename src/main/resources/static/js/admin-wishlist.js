@@ -1187,7 +1187,7 @@ function cycleCurrency() {
     currencyText.textContent = `💱 ${currentCurrency}`;
 
     // Refresh display
-    populateTable();
+    populateWishesTable();
 }
 
 function convertPrice(priceInGEL, targetCurrency) {
@@ -1262,7 +1262,7 @@ function editCurrencyRate(index) {
         currencies[index].rateToUSD = parseFloat(newRate);
         openCurrencySettings();
         document.querySelector('.modal').remove();
-        populateTable();
+        populateWishesTable();
     }
 }
 
@@ -1278,7 +1278,7 @@ function deleteCurrency(index) {
 
         openCurrencySettings();
         document.querySelector('.modal').remove();
-        populateTable();
+        populateWishesTable();
     }
 }
 

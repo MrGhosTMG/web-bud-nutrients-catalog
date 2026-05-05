@@ -46,6 +46,12 @@
 
             <div class="content-header">
                 <span class="content-title">Advanced Products</span>
+                <button class="currency-btn" style="width: 85px;" onclick="cycleCurrency()">
+                    <span id="currencyText">💱 GEL</span>
+                </button>
+                <button class="currency-btn" style="width: 85px;" onclick="openCurrencySettings()">
+                    ⚙️ Settings
+                </button>
                 <div class="btn-group">
                     <input type="text" class="search-box" placeholder="A - Z" id="searchBox">
                     <button class="btn btn-primary" onclick="openFiltersModal()">Filters</button>
@@ -86,16 +92,6 @@
 
             <!-- Dynamic content area -->
             <div id="rightPanelContent"></div>
-
-            <!-- Currency Controls -->
-            <div class="currency-controls">
-                <button class="currency-btn" onclick="cycleCurrency()">
-                    <span id="currencyText">💱 GEL</span>
-                </button>
-                <button class="currency-btn" onclick="openCurrencySettings()">
-                    ⚙️ Settings
-                </button>
-            </div>
 
             <button class="logout-btn">Logout</button>
         </div>
