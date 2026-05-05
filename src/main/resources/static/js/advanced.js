@@ -1,11 +1,20 @@
 // Advanced Products Page functionality
+
+// Currency system
+let currentCurrency = 'GEL';
+let currencies = [
+    { code: 'GEL', name: 'Georgian Lari', symbol: '₾', rateToUSD: 2.65 },
+    { code: 'USD', name: 'US Dollar', symbol: '$', rateToUSD: 1.0 }
+];
+
 let productsData = [
     {
         id: 1,
         name: 'Anti-Aging Face Cream',
         brand: 'L\'Oreal',
         productType: 'Cosmetics',
-        price: 45,
+        myPrice: 36,
+        catalogPrice: 45,
         inStock: true,
         photo: null,
         description: 'Advanced anti-aging formula'
@@ -15,7 +24,8 @@ let productsData = [
         name: 'Hydrating Serum',
         brand: 'Neutrogena',
         productType: 'Cosmetics',
-        price: 35,
+        myPrice: 28,
+        catalogPrice: 35,
         inStock: true,
         photo: null,
         description: 'Deep hydration serum'
@@ -25,7 +35,8 @@ let productsData = [
         name: 'Body Lotion',
         brand: 'Nivea',
         productType: 'Creams',
-        price: 18,
+        myPrice: 14,
+        catalogPrice: 18,
         inStock: true,
         photo: null,
         description: 'Moisturizing body lotion'
@@ -35,7 +46,8 @@ let productsData = [
         name: 'Hand Cream',
         brand: 'Vaseline',
         productType: 'Creams',
-        price: 12,
+        myPrice: 10,
+        catalogPrice: 12,
         inStock: true,
         photo: null,
         description: 'Intensive hand care'
@@ -45,7 +57,8 @@ let productsData = [
         name: 'Sunscreen SPF 50',
         brand: 'Coppertone',
         productType: 'Cosmetics',
-        price: 28,
+        myPrice: 22,
+        catalogPrice: 28,
         inStock: false,
         photo: null,
         description: 'High protection sunscreen'
@@ -55,7 +68,8 @@ let productsData = [
         name: 'Lip Balm',
         brand: 'Burts Bees',
         productType: 'Other',
-        price: 8,
+        myPrice: 6,
+        catalogPrice: 8,
         inStock: true,
         photo: null,
         description: 'Natural lip care'
@@ -65,7 +79,8 @@ let productsData = [
         name: 'Night Cream',
         brand: 'Olay',
         productType: 'Creams',
-        price: 38,
+        myPrice: 30,
+        catalogPrice: 38,
         inStock: true,
         photo: null,
         description: 'Regenerating night cream'
@@ -75,7 +90,8 @@ let productsData = [
         name: 'Eye Cream',
         brand: 'Clinique',
         productType: 'Cosmetics',
-        price: 52,
+        myPrice: 42,
+        catalogPrice: 52,
         inStock: true,
         photo: null,
         description: 'Reduces dark circles'
@@ -85,7 +101,8 @@ let productsData = [
         name: 'Foot Cream',
         brand: 'Scholl',
         productType: 'Creams',
-        price: 15,
+        myPrice: 12,
+        catalogPrice: 15,
         inStock: true,
         photo: null,
         description: 'Softening foot care'
@@ -95,7 +112,8 @@ let productsData = [
         name: 'Face Mask',
         brand: 'Garnier',
         productType: 'Cosmetics',
-        price: 22,
+        myPrice: 18,
+        catalogPrice: 22,
         inStock: true,
         photo: null,
         description: 'Purifying face mask'
@@ -105,7 +123,8 @@ let productsData = [
         name: 'BB Cream',
         brand: 'Maybelline',
         productType: 'Cosmetics',
-        price: 16,
+        myPrice: 13,
+        catalogPrice: 16,
         inStock: true,
         photo: null,
         description: 'Beauty balm with SPF'
@@ -115,7 +134,8 @@ let productsData = [
         name: 'Massage Oil',
         brand: 'Johnsons',
         productType: 'Other',
-        price: 14,
+        myPrice: 11,
+        catalogPrice: 14,
         inStock: true,
         photo: null,
         description: 'Relaxing massage oil'
@@ -169,7 +189,9 @@ function populateProductsTable() {
             </td>
             <td>${product.brand}</td>
             <td>${product.productType}</td>
-            <td>$${product.price}</td>
+            <td><div style="font-size: 11px; color: #666;">My: ${formatPrice(product.myPrice)}</div>
+                <div style="font-weight: 500;">${formatPrice(product.catalogPrice)}</div>
+            </td>
             <td style="text-align: right; display: flex; gap: 5px; align-items: center; justify-content: flex-end;">
                 <select class="btn btn-secondary" id="addTarget${product.id}" style="padding: 6px 8px; font-size: 12px; min-width: 100px;" onclick="event.stopPropagation();">
                     <option value="stock">to Stock</option>
@@ -711,7 +733,9 @@ function showInfo() {
 
             <div class="user-info-item">
                 <label>Price:</label>
-                <div class="value">$${product.price}</div>
+                <div class="value"><div style="font-size: 11px; color: #666;">My: ${formatPrice(product.myPrice)}</div>
+                <div style="font-weight: 500;">${formatPrice(product.catalogPrice)}</div>
+            </div>
             </div>
 
             <div class="user-info-item">
@@ -984,10 +1008,10 @@ function applyFilters() {
 
     // Price filter
     if (currentFilters.priceMin) {
-        filtered = filtered.filter(product => product.price >= parseInt(currentFilters.priceMin));
+        filtered = filtered.filter(product => product.catalogPrice >= parseInt(currentFilters.priceMin));
     }
     if (currentFilters.priceMax) {
-        filtered = filtered.filter(product => product.price <= parseInt(currentFilters.priceMax));
+        filtered = filtered.filter(product => product.catalogPrice <= parseInt(currentFilters.priceMax));
     }
 
     // Sort by name
@@ -1138,4 +1162,109 @@ function setupLogoutButton() {
             }
         });
     }
+}
+
+// Currency functions
+function cycleCurrency() {
+    const currentIndex = currencies.findIndex(c => c.code === currentCurrency);
+    const nextIndex = (currentIndex + 1) % currencies.length;
+    currentCurrency = currencies[nextIndex].code;
+    const currencyText = document.getElementById('currencyText');
+    currencyText.textContent = `💱 ${currentCurrency}`;
+    populateProductsTable();
+}
+
+function convertPrice(priceInGEL, targetCurrency) {
+    const currency = currencies.find(c => c.code === targetCurrency);
+    if (!currency) return priceInGEL;
+    const priceInUSD = priceInGEL / currencies.find(c => c.code === 'GEL').rateToUSD;
+    return priceInUSD * currency.rateToUSD;
+}
+
+function formatPrice(priceInGEL, targetCurrency = currentCurrency) {
+    const currency = currencies.find(c => c.code === targetCurrency);
+    if (!currency) return `${priceInGEL.toFixed(2)} ₾`;
+    const convertedPrice = convertPrice(priceInGEL, targetCurrency);
+    return `${currency.symbol}${convertedPrice.toFixed(2)}`;
+}
+
+function openCurrencySettings() {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.style.display = 'flex';
+    modal.style.zIndex = '9999';
+    let currenciesHTML = currencies.map((currency, index) => `
+        <div class="currency-item-compact">
+            <div class="currency-info-compact">
+                <strong>${currency.code}</strong> ${currency.symbol}
+                <span class="currency-rate">1 USD = ${currency.rateToUSD}</span>
+            </div>
+            <div class="currency-actions-compact">
+                <button class="btn-icon" onclick="editCurrencyRate(${index})" title="Edit">✏️</button>
+                ${currency.code !== 'GEL' ? `<button class="btn-icon btn-delete" onclick="deleteCurrency(${index})" title="Delete">🗑️</button>` : ''}
+            </div>
+        </div>
+    `).join('');
+    modal.innerHTML = `
+        <div class="modal-content currency-settings-modal-compact">
+            <span class="close" onclick="this.closest('.modal').remove()">&times;</span>
+            <h3>Settings</h3>
+            <div class="currency-list-compact">${currenciesHTML}</div>
+            <div class="add-currency-compact">
+                <input type="text" id="newCurrencyCode" placeholder="Code" maxlength="3">
+                <input type="text" id="newCurrencySymbol" placeholder="Symbol" maxlength="3">
+                <input type="number" id="newCurrencyRate" placeholder="Rate" step="0.01" min="0.01">
+                <button class="btn-add" onclick="addNewCurrency()" title="Add">+</button>
+            </div>
+            <button class="btn-update-rates" onclick="getUpdatedCurrencyRates()">Get Updated Currency Rates</button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    setTimeout(() => { modal.querySelector('.currency-settings-modal-compact').classList.add('modal-expand'); }, 10);
+}
+
+function editCurrencyRate(index) {
+    const currency = currencies[index];
+    const newRate = prompt(`Enter new rate to USD for ${currency.code}:`, currency.rateToUSD);
+    if (newRate !== null && !isNaN(newRate) && parseFloat(newRate) > 0) {
+        currencies[index].rateToUSD = parseFloat(newRate);
+        openCurrencySettings();
+        document.querySelector('.modal').remove();
+        populateProductsTable();
+    }
+}
+
+function deleteCurrency(index) {
+    const currency = currencies[index];
+    if (confirm(`Delete ${currency.code} - ${currency.name}?`)) {
+        currencies.splice(index, 1);
+        if (currentCurrency === currency.code) {
+            currentCurrency = 'GEL';
+            document.getElementById('currencyText').textContent = `💱 ${currentCurrency}`;
+        }
+        openCurrencySettings();
+        document.querySelector('.modal').remove();
+        populateProductsTable();
+    }
+}
+
+function addNewCurrency() {
+    const code = document.getElementById('newCurrencyCode').value.trim().toUpperCase();
+    const symbol = document.getElementById('newCurrencySymbol').value.trim();
+    const rate = parseFloat(document.getElementById('newCurrencyRate').value);
+    if (!code || !symbol || isNaN(rate) || rate <= 0) {
+        alert('Please fill all fields correctly');
+        return;
+    }
+    if (currencies.find(c => c.code === code)) {
+        alert('Currency with this code already exists');
+        return;
+    }
+    currencies.push({ code, name: code, symbol, rateToUSD: rate });
+    openCurrencySettings();
+    document.querySelector('.modal').remove();
+}
+
+function getUpdatedCurrencyRates() {
+    alert('This feature will be implemented with backend API integration');
 }
