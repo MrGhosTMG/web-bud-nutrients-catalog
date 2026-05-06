@@ -50,6 +50,9 @@ let offersList = [
     { productId: 39, offerType: 'custom', offerDescription: 'Buy 2 Get 30% Off' }
 ];
 
+// User's wishlist - stores product IDs
+let userWishlist = [1, 5, 12, 15, 20, 23, 28, 35]; // Example wishlist with 8 products
+
 // Catalog data (only available products will be shown to users)
 let catalogData = [
     { id: 1, name: 'Omega-3 Fish Oil', manufacturer: 'Nature Made', category: 'Herbal', myPrice: 20, catalogPrice: 25, photo: 'img/1_57.jpg', description: 'High-quality fish oil supplement', isAvailable: true, addedDate: '2026-04-15' },
@@ -151,6 +154,8 @@ function switchTabContent(tabName) {
         wishlistContent.style.display = 'block';
         // Hide catalog-only buttons
         catalogOnlyButtons.forEach(btn => btn.style.display = 'none');
+        // Populate wishlist
+        populateWishlist();
     }
 }
 
@@ -1225,8 +1230,97 @@ function addToWishlist(productId) {
     const product = catalogData.find(p => p.id === productId);
     if (!product) return;
 
+    // Check if already in wishlist
+    if (userWishlist.includes(productId)) {
+        alert(`"${product.name}" is already in your wishlist!`);
+        return;
+    }
+
+    // Add to wishlist
+    userWishlist.push(productId);
     alert(`"${product.name}" has been added to your wishlist!`);
-    // TODO: Implement actual wishlist functionality
+
+    // Refresh wishlist view if currently displayed
+    if (document.getElementById('wishlistContent').style.display === 'block') {
+        populateWishlist();
+    }
+}
+
+// Remove product from wishlist
+function removeFromWishlist(productId) {
+    const product = catalogData.find(p => p.id === productId);
+    if (!product) return;
+
+    const index = userWishlist.indexOf(productId);
+    if (index > -1) {
+        userWishlist.splice(index, 1);
+        alert(`"${product.name}" has been removed from your wishlist.`);
+        populateWishlist(); // Refresh the view
+    }
+}
+
+// Populate wishlist view
+function populateWishlist() {
+    const wishlistContent = document.getElementById('wishlistContent');
+
+    if (userWishlist.length === 0) {
+        wishlistContent.innerHTML = `
+            <div style="text-align: center; padding: 50px; color: #666;">
+                <h2 style="font-size: 24px; margin-bottom: 10px;">Your Wishlist is Empty</h2>
+                <p>Browse the catalog and add products to your wishlist!</p>
+            </div>
+        `;
+        return;
+    }
+
+    // Get wishlist products
+    const wishlistProducts = catalogData.filter(p => userWishlist.includes(p.id));
+
+    let html = `
+        <div style="padding: 20px;">
+            <h2 style="font-size: 20px; margin-bottom: 20px;">Your Wishlist (${wishlistProducts.length} items)</h2>
+            <div class="info-mode-container" style="max-height: 580px; overflow-y: auto;">
+    `;
+
+    wishlistProducts.forEach(product => {
+        const photoUrl = product.photo || 'https://via.placeholder.com/200x200?text=No+Photo';
+
+        // Check if product is on sale
+        const saleItem = salesList.find(s => s.productId === product.id);
+        const priceDisplay = saleItem
+            ? `<span class="original-price">${formatPrice(product.catalogPrice)}</span> <span class="sale-price">${formatPrice(saleItem.salePrice)}</span>`
+            : `<span class="info-price">${formatPrice(product.catalogPrice)}</span>`;
+
+        // Check if product has an offer
+        const offer = offersList.find(o => o.productId === product.id);
+        const offerBadge = offer
+            ? `<div class="offer-badge">🎁 ${offer.offerDescription}</div>`
+            : '';
+
+        html += `
+            <div class="info-card">
+                <div class="info-card-photo" style="position: relative;">
+                    <img src="${photoUrl}" alt="${product.name}">
+                    ${offerBadge}
+                </div>
+                <div class="info-card-name">${product.name}</div>
+                <div class="info-card-manufacturer">${product.manufacturer}</div>
+                <div class="info-card-category">${product.category}</div>
+                <div class="info-card-price">${priceDisplay}</div>
+                <div class="info-card-actions">
+                    <button class="btn btn-secondary" style="font-size: 11px; padding: 5px 10px;" onclick="viewProductDetails(${product.id})">View Details</button>
+                    <button class="btn btn-danger" style="font-size: 11px; padding: 5px 10px;" onclick="removeFromWishlist(${product.id})">Remove</button>
+                </div>
+            </div>
+        `;
+    });
+
+    html += `
+            </div>
+        </div>
+    `;
+
+    wishlistContent.innerHTML = html;
 }
 
 // Request product info
