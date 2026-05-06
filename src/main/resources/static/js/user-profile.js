@@ -914,9 +914,6 @@ function submitRequest(event) {
     document.getElementById('requestPhotoPreview').innerHTML = '';
 }
 
-    closeRequestModal();
-}
-
 // ============================================
 // NAVIGATION & VIEW MODE FUNCTIONS
 // ============================================
