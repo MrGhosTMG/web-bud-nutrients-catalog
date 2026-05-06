@@ -53,6 +53,14 @@ let offersList = [
 // User's wishlist - stores product IDs
 let userWishlist = [1, 5, 12, 15, 20, 23, 28, 35]; // Example wishlist with 8 products
 
+// User's product requests - stores custom requests
+let userRequests = [
+    { id: 1, productName: 'Vitamin B12 Complex', category: 'Vitamins', manufacturer: 'Solgar', photo: null, link: '', notes: 'Need high-dose formula', dateAdded: '2026-05-01' },
+    { id: 2, productName: 'Omega-7 Sea Buckthorn', category: 'Herbal', manufacturer: 'Nordic Naturals', photo: null, link: 'https://example.com/product', notes: '', dateAdded: '2026-05-03' },
+    { id: 3, productName: 'Collagen Type II', category: 'Cosmethic', manufacturer: 'Doctor\'s Best', photo: null, link: '', notes: 'For joint support', dateAdded: '2026-05-04' }
+];
+let nextRequestId = 4;
+
 // Catalog data (only available products will be shown to users)
 let catalogData = [
     { id: 1, name: 'Omega-3 Fish Oil', manufacturer: 'Nature Made', category: 'Herbal', myPrice: 20, catalogPrice: 25, photo: 'img/1_57.jpg', description: 'High-quality fish oil supplement', isAvailable: true, addedDate: '2026-04-15' },
@@ -138,22 +146,29 @@ function switchTabContent(tabName) {
 
     // Show/hide catalog-only buttons
     const catalogOnlyButtons = document.querySelectorAll('.catalog-only');
+    const wishlistOnlyButtons = document.querySelectorAll('.wishlist-only');
 
     // Show selected tab content
     if (tabName === 'Go to catalog') {
         catalogContent.style.display = 'block';
         // Show catalog-only buttons
         catalogOnlyButtons.forEach(btn => btn.style.display = btn.id === 'catalogDivider' ? 'block' : 'flex');
+        // Hide wishlist-only buttons
+        wishlistOnlyButtons.forEach(btn => btn.style.display = 'none');
         // Initialize catalog on first load
         populateCatalogInfoMode();
     } else if (tabName === 'Profile settings') {
         profileContent.style.display = 'block';
         // Hide catalog-only buttons
         catalogOnlyButtons.forEach(btn => btn.style.display = 'none');
+        // Hide wishlist-only buttons
+        wishlistOnlyButtons.forEach(btn => btn.style.display = 'none');
     } else if (tabName === 'Your wish list') {
         wishlistContent.style.display = 'block';
         // Hide catalog-only buttons
         catalogOnlyButtons.forEach(btn => btn.style.display = 'none');
+        // Show wishlist-only buttons
+        wishlistOnlyButtons.forEach(btn => btn.style.display = btn.id === 'wishlistDivider' ? 'block' : 'flex');
         // Populate wishlist
         populateWishlist();
     }
@@ -876,19 +891,28 @@ function submitRequest(event) {
 
     // Create request object
     const request = {
+        id: nextRequestId++,
         productName: productName,
         category: category,
         manufacturer: manufacturer,
+        photo: null,
         link: link,
         notes: notes,
-        requestDate: new Date().toISOString(),
-        status: 'pending'
+        dateAdded: new Date().toISOString().split('T')[0]
     };
+
+    // Add to user requests
+    userRequests.push(request);
 
     console.log('New product request:', request);
 
-    // TODO: Send to backend and add to admin alerts
-    alert(`Request created successfully!\n\nProduct: ${productName}\nCategory: ${category}\nManufacturer: ${manufacturer}\n\nAdmin will be notified.`);
+    alert(`Request created successfully!\n\nProduct: ${productName}\nCategory: ${category}\nManufacturer: ${manufacturer}\n\nYou can view it in "Your wish list" tab.`);
+
+    // Close modal and reset form
+    closeRequestModal();
+    document.getElementById('requestForm').reset();
+    document.getElementById('requestPhotoPreview').innerHTML = '';
+}
 
     closeRequestModal();
 }
@@ -1263,64 +1287,171 @@ function removeFromWishlist(productId) {
 function populateWishlist() {
     const wishlistContent = document.getElementById('wishlistContent');
 
-    if (userWishlist.length === 0) {
-        wishlistContent.innerHTML = `
-            <div style="text-align: center; padding: 50px; color: #666;">
-                <h2 style="font-size: 24px; margin-bottom: 10px;">Your Wishlist is Empty</h2>
-                <p>Browse the catalog and add products to your wishlist!</p>
-            </div>
-        `;
-        return;
-    }
-
-    // Get wishlist products
-    const wishlistProducts = catalogData.filter(p => userWishlist.includes(p.id));
-
     let html = `
         <div style="padding: 20px;">
-            <h2 style="font-size: 20px; margin-bottom: 20px;">Your Wishlist (${wishlistProducts.length} items)</h2>
-            <div class="info-mode-container" style="max-height: 580px; overflow-y: auto;">
+            <!-- WISHLIST SECTION -->
+            <div style="margin-bottom: 40px;">
+                <h2 style="font-size: 20px; margin-bottom: 15px;">Your Wishlist (${userWishlist.length} items)</h2>
+
+                <!-- TABLE HEADER -->
+                <div class="table-header" style="display: grid; grid-template-columns: 2fr 0.6fr 1fr 1fr 0.8fr 1fr; background: #f5f5f5; padding: 10px; border-radius: 5px; font-weight: 600; margin-bottom: 10px;">
+                    <div class="table-header-cell" style="padding-left: 10px;">Product Name</div>
+                    <div class="table-header-cell">Photo</div>
+                    <div class="table-header-cell">Brand</div>
+                    <div class="table-header-cell">Category</div>
+                    <div class="table-header-cell">Price</div>
+                    <div class="table-header-cell" style="text-align: right;">Actions</div>
+                </div>
+
+                <!-- TABLE CONTENT -->
+                <div class="table-container" style="max-height: 400px; overflow-y: auto; border: 1px solid #e0e0e0; border-radius: 5px;">
     `;
 
-    wishlistProducts.forEach(product => {
-        const photoUrl = product.photo || 'https://via.placeholder.com/200x200?text=No+Photo';
-
-        // Check if product is on sale
-        const saleItem = salesList.find(s => s.productId === product.id);
-        const priceDisplay = saleItem
-            ? `<span class="original-price">${formatPrice(product.catalogPrice)}</span> <span class="sale-price">${formatPrice(saleItem.salePrice)}</span>`
-            : `<span class="info-price">${formatPrice(product.catalogPrice)}</span>`;
-
-        // Check if product has an offer
-        const offer = offersList.find(o => o.productId === product.id);
-        const offerBadge = offer
-            ? `<div class="offer-badge">🎁 ${offer.offerDescription}</div>`
-            : '';
-
+    if (userWishlist.length === 0) {
         html += `
-            <div class="info-card">
-                <div class="info-card-photo" style="position: relative;">
-                    <img src="${photoUrl}" alt="${product.name}">
-                    ${offerBadge}
-                </div>
-                <div class="info-card-name">${product.name}</div>
-                <div class="info-card-manufacturer">${product.manufacturer}</div>
-                <div class="info-card-category">${product.category}</div>
-                <div class="info-card-price">${priceDisplay}</div>
-                <div class="info-card-actions">
-                    <button class="btn btn-secondary" style="font-size: 11px; padding: 5px 10px;" onclick="viewProductDetails(${product.id})">View Details</button>
-                    <button class="btn btn-danger" style="font-size: 11px; padding: 5px 10px;" onclick="removeFromWishlist(${product.id})">Remove</button>
-                </div>
+            <div style="text-align: center; padding: 30px; color: #666;">
+                <p>Your wishlist is empty. Browse the catalog to add products!</p>
             </div>
         `;
-    });
+    } else {
+        const wishlistProducts = catalogData.filter(p => userWishlist.includes(p.id));
+
+        html += '<table style="width: 100%;"><tbody>';
+
+        wishlistProducts.forEach(product => {
+            const photoUrl = product.photo || 'https://via.placeholder.com/50x50?text=No+Photo';
+
+            const saleItem = salesList.find(s => s.productId === product.id);
+            const priceDisplay = saleItem
+                ? `<span class="original-price" style="text-decoration: line-through; color: #999; font-size: 12px;">${formatPrice(product.catalogPrice)}</span> <span class="sale-price" style="color: #e74c3c; font-weight: 600;">${formatPrice(saleItem.salePrice)}</span>`
+                : `<span style="font-weight: 600;">${formatPrice(product.catalogPrice)}</span>`;
+
+            html += `
+                <tr style="border-bottom: 1px solid #f0f0f0;">
+                    <td style="padding: 10px;">${product.name}</td>
+                    <td style="padding: 10px; text-align: center;">
+                        <img src="${photoUrl}" alt="${product.name}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
+                    </td>
+                    <td style="padding: 10px;">${product.manufacturer}</td>
+                    <td style="padding: 10px;">${product.category}</td>
+                    <td style="padding: 10px;">${priceDisplay}</td>
+                    <td style="padding: 10px; text-align: right;">
+                        <button class="btn btn-danger" style="font-size: 11px; padding: 5px 10px;" onclick="removeFromWishlist(${product.id})">Delete</button>
+                    </td>
+                </tr>
+            `;
+        });
+
+        html += '</tbody></table>';
+    }
 
     html += `
+                </div>
+
+                <!-- SEND WISHLIST BUTTON -->
+                <div style="margin-top: 15px; text-align: right;">
+                    <button class="btn btn-primary" style="padding: 8px 20px;" onclick="sendWishlist()">Send my WishList</button>
+                </div>
+            </div>
+
+            <!-- REQUESTS SECTION -->
+            <div>
+                <h2 style="font-size: 20px; margin-bottom: 15px;">Your Requests (${userRequests.length} items)</h2>
+
+                <!-- TABLE HEADER -->
+                <div class="table-header" style="display: grid; grid-template-columns: 2fr 1fr 1fr 2fr 1fr; background: #f5f5f5; padding: 10px; border-radius: 5px; font-weight: 600; margin-bottom: 10px;">
+                    <div class="table-header-cell" style="padding-left: 10px;">Product Name</div>
+                    <div class="table-header-cell">Brand</div>
+                    <div class="table-header-cell">Category</div>
+                    <div class="table-header-cell">Notes</div>
+                    <div class="table-header-cell" style="text-align: right;">Actions</div>
+                </div>
+
+                <!-- TABLE CONTENT -->
+                <div class="table-container" style="max-height: 400px; overflow-y: auto; border: 1px solid #e0e0e0; border-radius: 5px;">
+    `;
+
+    if (userRequests.length === 0) {
+        html += `
+            <div style="text-align: center; padding: 30px; color: #666;">
+                <p>No requests yet. Use "Add Request" button in catalog to request products!</p>
+            </div>
+        `;
+    } else {
+        html += '<table style="width: 100%;"><tbody>';
+
+        userRequests.forEach(request => {
+            const notesDisplay = request.notes ? request.notes : '<span style="color: #999;">No notes</span>';
+
+            html += `
+                <tr style="border-bottom: 1px solid #f0f0f0;">
+                    <td style="padding: 10px;">${request.productName}</td>
+                    <td style="padding: 10px;">${request.manufacturer}</td>
+                    <td style="padding: 10px;">${request.category}</td>
+                    <td style="padding: 10px; font-size: 12px; color: #666;">${notesDisplay}</td>
+                    <td style="padding: 10px; text-align: right;">
+                        <button class="btn btn-danger" style="font-size: 11px; padding: 5px 10px;" onclick="deleteRequest(${request.id})">Delete</button>
+                    </td>
+                </tr>
+            `;
+        });
+
+        html += '</tbody></table>';
+    }
+
+    html += `
+                </div>
+
+                <!-- SEND REQUESTS BUTTON -->
+                <div style="margin-top: 15px; text-align: right;">
+                    <button class="btn btn-primary" style="padding: 8px 20px;" onclick="sendRequests()">Send my Requests</button>
+                </div>
             </div>
         </div>
     `;
 
     wishlistContent.innerHTML = html;
+}
+
+// Delete request from user requests
+function deleteRequest(requestId) {
+    const request = userRequests.find(r => r.id === requestId);
+    if (!request) return;
+
+    if (confirm(`Delete request for "${request.productName}"?`)) {
+        const index = userRequests.findIndex(r => r.id === requestId);
+        if (index > -1) {
+            userRequests.splice(index, 1);
+            populateWishlist(); // Refresh the view
+        }
+    }
+}
+
+// Send wishlist to admin
+function sendWishlist() {
+    if (userWishlist.length === 0) {
+        alert('Your wishlist is empty!');
+        return;
+    }
+
+    const wishlistProducts = catalogData.filter(p => userWishlist.includes(p.id));
+    const productNames = wishlistProducts.map(p => p.name).join(', ');
+
+    alert(`Your wishlist has been sent to admin!\n\nProducts (${userWishlist.length}):\n${productNames}\n\nAdmin will contact you soon.`);
+    // TODO: Implement actual API call to notify admin
+}
+
+// Send requests to admin
+function sendRequests() {
+    if (userRequests.length === 0) {
+        alert('You have no requests to send!');
+        return;
+    }
+
+    const requestNames = userRequests.map(r => r.productName).join(', ');
+
+    alert(`Your requests have been sent to admin!\n\nRequests (${userRequests.length}):\n${requestNames}\n\nAdmin will review and respond soon.`);
+    // TODO: Implement actual API call to notify admin
 }
 
 // Request product info
@@ -1352,6 +1483,33 @@ function closePhotoModal() {
     const modal = document.getElementById('photoModal');
     if (modal) {
         modal.style.display = 'none';
+    }
+}
+
+// Wishlist currency functions
+function cycleWishlistCurrency() {
+    const currentIndex = currencies.findIndex(c => c.code === currentCurrency);
+    const nextIndex = (currentIndex + 1) % currencies.length;
+    currentCurrency = currencies[nextIndex].code;
+
+    // Update button text
+    document.getElementById('wishlistCurrencyText').textContent = `💱 ${currentCurrency}`;
+
+    // Refresh wishlist to show new prices
+    populateWishlist();
+}
+
+function openWishlistCurrencySettings() {
+    const currentRate = currencies.find(c => c.code === 'GEL').rateToUSD;
+
+    const newRate = prompt(`Current exchange rate:\n1 USD = ${currentRate} GEL\n\nEnter new rate (or cancel to keep current):`, currentRate);
+
+    if (newRate !== null && !isNaN(newRate) && parseFloat(newRate) > 0) {
+        currencies.find(c => c.code === 'GEL').rateToUSD = parseFloat(newRate);
+        alert(`Exchange rate updated!\n1 USD = ${newRate} GEL`);
+
+        // Refresh wishlist to show new prices
+        populateWishlist();
     }
 }
 
