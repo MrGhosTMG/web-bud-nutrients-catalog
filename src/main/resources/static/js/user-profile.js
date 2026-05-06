@@ -602,7 +602,7 @@ function populateCatalogInfoMode() {
         card.className = 'info-card';
         card.onclick = () => viewProductDetails(product.id);
 
-        const photoUrl = 'https://via.placeholder.com/200x200?text=Product';
+        const photoUrl = product.photo || 'https://via.placeholder.com/200x200?text=No+Photo';
 
         // Check if product is on sale
         const saleItem = salesList.find(s => s.productId === product.id);
@@ -746,7 +746,7 @@ function searchCatalogInfo() {
         card.className = 'info-card';
         card.onclick = () => viewProductDetails(product.id);
 
-        const photoUrl = 'https://via.placeholder.com/200x200?text=Product';
+        const photoUrl = product.photo || 'https://via.placeholder.com/200x200?text=No+Photo';
 
         const saleItem = salesList.find(s => s.productId === product.id);
         const priceDisplay = saleItem
@@ -1172,7 +1172,7 @@ function viewProductDetails(productId) {
 
     // Populate product detail view (FULL PAGE)
     const detailView = document.getElementById('productDetailView');
-    const photoUrl = 'https://via.placeholder.com/400x400?text=Product+Photo';
+    const photoUrl = product.photo || 'https://via.placeholder.com/400x400?text=No+Photo';
 
     // Check if product is on sale
     const saleItem = salesList.find(s => s.productId === product.id);
@@ -1247,7 +1247,7 @@ function viewCatalogPhoto(productId) {
     const img = document.getElementById('photoModalImage');
 
     if (modal && img) {
-        img.src = 'https://via.placeholder.com/350x250?text=Product+Photo';
+        img.src = product.photo || 'https://via.placeholder.com/350x250?text=No+Photo';
         img.alt = product.name;
         modal.style.display = 'flex';
     }
