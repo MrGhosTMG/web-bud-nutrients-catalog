@@ -19,9 +19,22 @@
         <div class="sidebar">
             <div class="menu-title">MENU</div>
             <div class="menu-items">
-                <a href="#" class="menu-item">Offers</a>
-                <a href="#" class="menu-item">Sale's</a>
-                <a href="#" class="menu-item">See all</a>
+                <a href="#" class="menu-item" onclick="navigateToCatalog('offers'); return false;">Offers</a>
+                <a href="#" class="menu-item" onclick="navigateToCatalog('sales'); return false;">Sale's</a>
+                <a href="#" class="menu-item" onclick="navigateToCatalog('seeAll'); return false;">See all</a>
+                <a href="#" class="menu-item menu-item-special catalog-only" id="addRequestBtn" onclick="openRequestModal(); return false;" style="display: none;">
+                    ➕ Add Request
+                </a>
+                <div class="menu-divider catalog-only" id="catalogDivider" style="display: none;"></div>
+                <a href="#" class="menu-item menu-item-special catalog-only" id="viewModeBtn" onclick="toggleCatalogViewMode(); return false;" style="display: none;">
+                    <span id="viewModeText">📋 List Mode</span>
+                </a>
+                <a href="#" class="menu-item menu-item-special catalog-only" id="currencyBtn" onclick="cycleCatalogCurrency(); return false;" style="display: none;">
+                    <span id="currencyText">💱 GEL</span>
+                </a>
+                <a href="#" class="menu-item menu-item-special catalog-only" id="settingsBtn" onclick="openCatalogCurrencySettings(); return false;" style="display: none;">
+                    ⚙️ Settings
+                </a>
                 <a href="#" class="menu-item menu-item-logout">Logout</a>
             </div>
         </div>
@@ -35,119 +48,230 @@
                 <a href="#" class="tab">Your wish list</a>
             </div>
 
-            <!-- PROFILE CONTENT -->
-            <div class="profile-container">
-                <!-- AVATAR -->
-                <div class="profile-avatar-wrapper">
-                    <div class="profile-avatar">
-                        Just it photo
-                    </div>
-                    <!-- PHOTO UPLOAD -->
-                    <button class="photo-upload-btn" onclick="uploadPhoto()">
-                        ⬇️ Upload Photo
-                    </button>
-                    <!-- ADD ADDITIONAL INFO -->
-                    <button class="btn-additional-info" onclick="toggleAdditionalInfo()">
-                        Add Additional info
-                    </button>
-                    <!-- ADDITIONAL INFO TEXTAREA (hidden by default) -->
-                    <textarea id="additionalInfo" class="additional-info-textarea" placeholder="Тут можно добавить информацию о проблемах со здоровьем и указать какие принимаете медикаменты" style="display: none;"></textarea>
-                    <button class="btn btn-success" id="saveAdditionalInfoBtn" onclick="saveAdditionalInfo()" style="display: none; margin-left: 235px; margin-top: 60px;">
-                        Сохранить
-                    </button>
+            <!-- TAB CONTENT: Go to catalog -->
+            <div id="catalogContent" class="tab-content" style="display: none;">
+                <!-- BREADCRUMBS -->
+                <div class="breadcrumbs" id="catalogBreadcrumbs" style="font-size: 12px; padding: 8px 10px; border-bottom: 1px solid #e0e0e0;">
+                    <a href="#" onclick="showCatalogMain(); return false;" style="color: #3b5bdb; text-decoration: none;">Catalog</a>
+                    <span id="breadcrumbArrow" style="display: none;"> > </span>
+                    <a href="#" id="currentCatalogSection" onclick="showCatalogMain(); return false;" style="color: #3b5bdb; text-decoration: none; display: none;"></a>
+                    <span id="breadcrumbProductArrow" style="display: none;"> > </span>
+                    <span id="currentProductName" style="color: #666;"></span>
                 </div>
 
-                <!-- INFO SECTION -->
-                <div class="profile-info-section">
-                    <div class="profile-info-item">
-                        <div>Your Name is <strong id="displayFullName">John Doe</strong></div>
-                    </div>
-                    <div class="profile-info-item">
-                        <div>Your Phone is <strong id="displayPhone">+995 123 456 789</strong></div>
-                    </div>
-                    <div class="profile-info-item">
-                        <div>Your e-mail is <strong id="displayEmail">user_name@mail.com</strong></div>
-                    </div>
-                    <!-- Age, Sex, Weight, Height Group (hidden by default) -->
-                    <div id="additionalStatsGroup" style="display: none;">
-                        <div class="profile-info-item" id="ageSection" style="margin-bottom: 5px;">
-                            <div>
-                                <span id="ageDisplay">Age - <strong>__</strong></span>
-                                <span id="agePrompt" style="color: var(--blue);">/
-                                    <input type="date" id="birthDateInput" class="form-input-inline" onchange="updateAge()">
-                                </span>
-                            </div>
+                <!-- CATALOG MAIN VIEW -->
+                <div id="catalogMainView">
+                    <!-- CATALOG HEADER -->
+                    <div class="content-header" style="margin-top: 10px;">
+                        <div class="tabs">
+                            <button class="tab-btn active" id="tabCatalogSeeAll" onclick="switchCatalogTab('seeAll')">See All</button>
+                            <button class="tab-btn" id="tabCatalogSales" onclick="switchCatalogTab('sales')">Sale's</button>
+                            <button class="tab-btn" id="tabCatalogOffers" onclick="switchCatalogTab('offers')">Offers</button>
                         </div>
-                        <div class="profile-info-item" id="sexSection" style="margin-bottom: 5px;">
-                            <div>
-                                <span id="genderDisplay">Sex - <strong>__</strong></span>
-                                <span id="genderPrompt" style="color: var(--blue);">/
-                                    <select id="genderSelect" class="form-input-inline" onchange="updateGender()">
-                                        <option value="">add your sex</option>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                        <option value="Other">Other</option>
-                                    </select>
-                                </span>
-                            </div>
-                        </div>
-                        <!-- Weight and Height -->
-                        <div class="profile-info-item" id="weightHeightSection">
-                            <div>
-                                <span id="weightDisplay">Weight - <strong>__ kg</strong></span>
-                                <span id="weightPrompt" style="color: var(--blue);">/
-                                    <input type="number" id="weightInput" class="form-input-inline" placeholder="kg" onchange="updateWeight()">
-                                </span>
-                            </div>
-                            <div style="margin-top: 10px;">
-                                <span id="heightDisplay">Height - <strong>__ cm</strong></span>
-                                <span id="heightPrompt" style="color: var(--blue);">/
-                                    <input type="number" id="heightInput" class="form-input-inline" placeholder="cm" onchange="updateHeight()">
-                                </span>
-                            </div>
+                        <div class="btn-group">
+                            <input type="text" class="search-box" placeholder="Search..." id="catalogSearchBox" oninput="searchCatalog()">
+                            <button class="btn btn-primary" onclick="openCatalogFiltersModal()">Filters</button>
                         </div>
                     </div>
-                    <!-- Edit Profile Info Button (hidden by default) -->
-                    <button class="btn btn-edit profile-field" id="editProfileInfoBtn" onclick="editProfileInfo()" style="display: none; margin-top: 15px;">
-                        Edit Profile-info
-                    </button>
-                    <!-- Add Weight/Height Button -->
-                    <button class="btn btn-secondary" id="addWeightHeightBtn" onclick="toggleWeightHeight()" style="margin-top: 15px; font-size: 12px;">
-                        Add Weight/Height
-                    </button>
+
+                    <!-- TABLE HEADER (for List Mode) -->
+                    <div class="table-header" id="catalogListModeHeader" style="display: none; grid-template-columns: 2fr 0.6fr 1fr 1fr 0.8fr 1fr;">
+                        <div class="table-header-cell" style="padding-left: 10px;">Product Name</div>
+                        <div class="table-header-cell">Photo</div>
+                        <div class="table-header-cell">Brand</div>
+                        <div class="table-header-cell">Category</div>
+                        <div class="table-header-cell">Price</div>
+                        <div class="table-header-cell" style="text-align: right;">Actions</div>
+                    </div>
+
+                    <!-- LIST MODE (Table View) -->
+                    <div class="table-container" id="catalogListModeContainer" style="display: none; max-height: 550px; overflow-y: auto;">
+                        <table>
+                            <tbody id="catalogListTable">
+                                <!-- Content will be populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- INFO MODE (Grid View) - Default -->
+                    <div class="info-mode-container" id="catalogInfoModeContainer" style="max-height: 580px; overflow-y: auto;">
+                        <!-- Content will be populated by JS -->
+                    </div>
                 </div>
 
-                <!-- PROFILE FORM -->
-                <div class="profile-form">
-                    <!-- Settings Button -->
-                    <button class="btn-settings" onclick="toggleProfileFields()" title="Settings">
-                        ⚙️
-                    </button>
-
-                    <!-- FULL NAME -->
-                    <div class="form-group profile-field" style="display: none;">
-                        <input type="text" class="form-input" placeholder="your full name" id="fullName">
-                        <button class="btn btn-edit" onclick="toggleEditField('fullName')">Edit</button>
-                    </div>
-
-                    <!-- PHONE -->
-                    <div class="form-group profile-field" style="display: none;">
-                        <input type="text" class="form-input" placeholder="your contact phone" id="phone">
-                        <button class="btn btn-edit" onclick="toggleEditField('phone')">Edit</button>
-                    </div>
-
-                    <!-- EMAIL -->
-                    <div class="form-group profile-field" style="display: none;">
-                        <input type="text" class="form-input" placeholder="your e-mail @" id="email">
-                        <button class="btn btn-edit" onclick="toggleEditField('email')">Edit</button>
-                    </div>
-
-                    <!-- SAVE CHANGES BUTTON (hidden by default) -->
-                    <button class="btn btn-success" id="saveChangesBtn" onclick="saveChanges()" style="display: none; margin-top: 20px;">
-                        Save Changes
-                    </button>
+                <!-- PRODUCT DETAIL VIEW -->
+                <div id="productDetailView" style="display: none;">
+                    <!-- Content will be populated by JS -->
                 </div>
             </div>
+
+            <!-- TAB CONTENT: Profile settings -->
+            <div id="profileContent" class="tab-content">
+                <div class="profile-container">
+                    <!-- AVATAR -->
+                    <div class="profile-avatar-wrapper">
+                        <div class="profile-avatar">
+                            Just it photo
+                        </div>
+                        <!-- PHOTO UPLOAD -->
+                        <button class="photo-upload-btn" onclick="uploadPhoto()">
+                            ⬇️ Upload Photo
+                        </button>
+                        <!-- ADD ADDITIONAL INFO -->
+                        <button class="btn-additional-info" onclick="toggleAdditionalInfo()">
+                            Add Additional info
+                        </button>
+                        <!-- ADDITIONAL INFO TEXTAREA (hidden by default) -->
+                        <textarea id="additionalInfo" class="additional-info-textarea" placeholder="Тут можно добавить информацию о проблемах со здоровьем и указать какие принимаете медикаменты" style="display: none;"></textarea>
+                        <button class="btn btn-success" id="saveAdditionalInfoBtn" onclick="saveAdditionalInfo()" style="display: none; margin-left: 235px; margin-top: 60px;">
+                            Сохранить
+                        </button>
+                    </div>
+
+                    <!-- INFO SECTION -->
+                    <div class="profile-info-section">
+                        <div class="profile-info-item">
+                            <div>Your Name is <strong id="displayFullName">John Doe</strong></div>
+                        </div>
+                        <div class="profile-info-item">
+                            <div>Your Phone is <strong id="displayPhone">+995 123 456 789</strong></div>
+                        </div>
+                        <div class="profile-info-item">
+                            <div>Your e-mail is <strong id="displayEmail">user_name@mail.com</strong></div>
+                        </div>
+                        <!-- Age, Sex, Weight, Height Group (hidden by default) -->
+                        <div id="additionalStatsGroup" style="display: none;">
+                            <div class="profile-info-item" id="ageSection" style="margin-bottom: 5px;">
+                                <div>
+                                    <span id="ageDisplay">Age - <strong>__</strong></span>
+                                    <span id="agePrompt" style="color: var(--blue);">/
+                                        <input type="date" id="birthDateInput" class="form-input-inline" onchange="updateAge()">
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="profile-info-item" id="sexSection" style="margin-bottom: 5px;">
+                                <div>
+                                    <span id="genderDisplay">Sex - <strong>__</strong></span>
+                                    <span id="genderPrompt" style="color: var(--blue);">/
+                                        <select id="genderSelect" class="form-input-inline" onchange="updateGender()">
+                                            <option value="">add your sex</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- Weight and Height -->
+                            <div class="profile-info-item" id="weightHeightSection">
+                                <div>
+                                    <span id="weightDisplay">Weight - <strong>__ kg</strong></span>
+                                    <span id="weightPrompt" style="color: var(--blue);">/
+                                        <input type="number" id="weightInput" class="form-input-inline" placeholder="kg" onchange="updateWeight()">
+                                    </span>
+                                </div>
+                                <div style="margin-top: 10px;">
+                                    <span id="heightDisplay">Height - <strong>__ cm</strong></span>
+                                    <span id="heightPrompt" style="color: var(--blue);">/
+                                        <input type="number" id="heightInput" class="form-input-inline" placeholder="cm" onchange="updateHeight()">
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Edit Profile Info Button (hidden by default) -->
+                        <button class="btn btn-edit profile-field" id="editProfileInfoBtn" onclick="editProfileInfo()" style="display: none; margin-top: 15px;">
+                            Edit Profile-info
+                        </button>
+                        <!-- Add Weight/Height Button -->
+                        <button class="btn btn-secondary" id="addWeightHeightBtn" onclick="toggleWeightHeight()" style="margin-top: 15px; font-size: 12px;">
+                            Add Weight/Height
+                        </button>
+                    </div>
+
+                    <!-- PROFILE FORM -->
+                    <div class="profile-form">
+                        <!-- Settings Button -->
+                        <button class="btn-settings" onclick="toggleProfileFields()" title="Settings">
+                            ⚙️
+                        </button>
+
+                        <!-- FULL NAME -->
+                        <div class="form-group profile-field" style="display: none;">
+                            <input type="text" class="form-input" placeholder="your full name" id="fullName">
+                            <button class="btn btn-edit" onclick="toggleEditField('fullName')">Edit</button>
+                        </div>
+
+                        <!-- PHONE -->
+                        <div class="form-group profile-field" style="display: none;">
+                            <input type="text" class="form-input" placeholder="your contact phone" id="phone">
+                            <button class="btn btn-edit" onclick="toggleEditField('phone')">Edit</button>
+                        </div>
+
+                        <!-- EMAIL -->
+                        <div class="form-group profile-field" style="display: none;">
+                            <input type="text" class="form-input" placeholder="your e-mail @" id="email">
+                            <button class="btn btn-edit" onclick="toggleEditField('email')">Edit</button>
+                        </div>
+
+                        <!-- SAVE CHANGES BUTTON (hidden by default) -->
+                        <button class="btn btn-success" id="saveChangesBtn" onclick="saveChanges()" style="display: none; margin-top: 20px;">
+                            Save Changes
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB CONTENT: Your wish list -->
+            <div id="wishlistContent" class="tab-content" style="display: none;">
+                <!-- Content will be added here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Add Request -->
+    <div id="requestModal" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 400px; max-height: 450px; padding: 15px; overflow-y: auto;">
+            <span class="close" onclick="closeRequestModal()">&times;</span>
+            <h2 style="font-size: 16px; margin-bottom: 12px; margin-top: 0;">Add Product Request</h2>
+            <form id="requestForm">
+                <div class="form-group" style="margin-bottom: 8px;">
+                    <label style="font-size: 11px; margin-bottom: 3px; display: block;">Product Name *</label>
+                    <input type="text" id="requestProductName" class="form-input" style="font-size: 11px; padding: 5px;" placeholder="Enter product name" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 8px;">
+                    <label style="font-size: 11px; margin-bottom: 3px; display: block;">Category *</label>
+                    <input type="text" id="requestCategory" class="form-input" style="font-size: 11px; padding: 5px;" placeholder="Enter category" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 8px;">
+                    <label style="font-size: 11px; margin-bottom: 3px; display: block;">Manufacturer/Brand *</label>
+                    <input type="text" id="requestManufacturer" class="form-input" style="font-size: 11px; padding: 5px;" placeholder="Enter manufacturer or brand" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 8px;">
+                    <label style="font-size: 11px; margin-bottom: 3px; display: block;">Photo (optional)</label>
+                    <input type="file" id="requestPhoto" class="form-input" style="font-size: 10px; padding: 4px;" accept="image/*">
+                    <div id="requestPhotoPreview" style="margin-top: 6px;"></div>
+                </div>
+                <div class="form-group" style="margin-bottom: 8px;">
+                    <label style="font-size: 11px; margin-bottom: 3px; display: block;">Link (optional)</label>
+                    <input type="url" id="requestLink" class="form-input" style="font-size: 11px; padding: 5px;" placeholder="https://example.com/product">
+                </div>
+                <div class="form-group" style="margin-bottom: 8px;">
+                    <label style="font-size: 11px; margin-bottom: 3px; display: block;">Additional Notes (optional)</label>
+                    <textarea id="requestNotes" class="form-input" style="font-size: 11px; padding: 5px;" rows="2" placeholder="Any additional information..."></textarea>
+                </div>
+                <div class="modal-actions" style="margin-top: 10px; margin-bottom: 0;">
+                    <button type="button" class="btn btn-secondary" style="font-size: 11px; padding: 5px 10px;" onclick="closeRequestModal()">Cancel</button>
+                    <button type="submit" class="btn btn-success" style="font-size: 11px; padding: 5px 10px;" onclick="submitRequest(event)">Create Request</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: Photo Preview -->
+    <div id="photoModal" class="modal" style="display: none;">
+        <div class="photo-modal-content" style="max-width: 350px; max-height: 250px; margin: auto; position: relative;">
+            <span class="close" onclick="closePhotoModal()">&times;</span>
+            <img id="photoModalImage" src="" alt="Product Photo" style="width: 100%; height: 100%; object-fit: contain;">
         </div>
     </div>
 

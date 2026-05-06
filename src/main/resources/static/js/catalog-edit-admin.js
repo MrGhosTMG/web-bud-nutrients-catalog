@@ -2113,7 +2113,7 @@ function populateInfoMode() {
             : '';
 
         card.innerHTML = `
-            <div class="info-card-photo">
+            <div class="info-card-photo" style="position: relative;">
                 <img src="${photoUrl}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/200x200?text=No+Photo'">
                 ${saleItem ? '<div class="sale-ribbon">SALE</div>' : ''}
             </div>
