@@ -20,7 +20,15 @@ let salesList = [
     { productId: 18, salePrice: 30 },
     { productId: 21, salePrice: 28 },
     { productId: 26, salePrice: 14 },
-    { productId: 32, salePrice: 12 }
+    { productId: 32, salePrice: 12 },
+    { productId: 2, salePrice: 14 },
+    { productId: 6, salePrice: 16 },
+    { productId: 9, salePrice: 11 },
+    { productId: 16, salePrice: 20 },
+    { productId: 22, salePrice: 19 },
+    { productId: 27, salePrice: 22 },
+    { productId: 35, salePrice: 17 },
+    { productId: 38, salePrice: 13 }
 ];
 
 // Offers list - special offers (buy 1+1, bundle deals, etc.)
@@ -67,6 +75,48 @@ let offersList = [
         offerType: 'bundle',
         bundleWith: 20,
         offerDescription: 'Bundle with CoQ10 - Save $10'
+    },
+    {
+        productId: 4,
+        offerType: 'buy1get1',
+        offerDescription: 'Buy 1 Get 1 Free'
+    },
+    {
+        productId: 10,
+        offerType: 'custom',
+        offerDescription: 'Buy 3 Get 25% Off'
+    },
+    {
+        productId: 17,
+        offerType: 'bundle',
+        bundleWith: 10,
+        offerDescription: 'Bundle with Ashwagandha - Save 15%'
+    },
+    {
+        productId: 19,
+        offerType: 'buy1get1',
+        offerDescription: 'Buy 1 Get 1 Free'
+    },
+    {
+        productId: 25,
+        offerType: 'custom',
+        offerDescription: '2 for the price of 1.5'
+    },
+    {
+        productId: 30,
+        offerType: 'bundle',
+        bundleWith: 29,
+        offerDescription: 'Bundle Deal - Save $8'
+    },
+    {
+        productId: 36,
+        offerType: 'buy1get1',
+        offerDescription: 'Buy 1 Get 1 Free'
+    },
+    {
+        productId: 39,
+        offerType: 'custom',
+        offerDescription: 'Buy 2 Get 30% Off'
     }
 ];
 
@@ -78,7 +128,7 @@ let catalogData = [
         category: 'Herbal',
         myPrice: 20,
         catalogPrice: 25,
-        photo: '../../Images/buds img.jpg',
+        photo: 'img/1_57.jpg',
         description: 'High-quality fish oil supplement',
         isAvailable: true,
         addedDate: '2026-04-15'
@@ -90,7 +140,7 @@ let catalogData = [
         category: 'Mineral',
         myPrice: 15,
         catalogPrice: 18,
-        photo: '../../Images/buds natural img.jpg',
+        photo: 'img/1d9ad1b837c736cca82f2a9906d814f7.jpg',
         description: 'Essential vitamin D supplement',
         isAvailable: true,
         addedDate: '2026-04-16'
@@ -102,7 +152,7 @@ let catalogData = [
         category: 'Medic+',
         myPrice: 25,
         catalogPrice: 30,
-        photo: '../../Images/bud spoon image.png',
+        photo: 'img/401995455.jpg',
         description: 'Complete daily multivitamin',
         isAvailable: true,
         addedDate: '2026-04-17'
@@ -114,7 +164,7 @@ let catalogData = [
         category: 'Cosmethic',
         myPrice: 38,
         catalogPrice: 45,
-        photo: '../../Images/bud not medicine.jpg',
+        photo: 'img/52b6a46665757423de80b2725987b296_600.jpg',
         description: 'Skin and joint support',
         isAvailable: false,
         addedDate: '2026-04-18'
@@ -126,7 +176,7 @@ let catalogData = [
         category: 'Other',
         myPrice: 28,
         catalogPrice: 35,
-        photo: '../../Images/difference.jpg',
+        photo: 'img/758a.gif',
         description: 'Digestive health support',
         isAvailable: true,
         addedDate: '2026-04-19'
@@ -138,7 +188,7 @@ let catalogData = [
         category: 'Mineral',
         myPrice: 16,
         catalogPrice: 20,
-        photo: '../../Images/buds img.jpg',
+        photo: 'img/99eb5c6d0c8deca079e7399980404d3a.jpg',
         description: 'Supports muscle and nerve function',
         isAvailable: true,
         addedDate: '2026-04-20'
@@ -150,7 +200,7 @@ let catalogData = [
         category: 'Herbal',
         myPrice: 23,
         catalogPrice: 28,
-        photo: '../../Images/buds natural img.jpg',
+        photo: 'img/7b60abe1f49f14c8087c957899cf2c36.jpg',
         description: 'Anti-inflammatory support',
         isAvailable: true,
         addedDate: '2026-04-21'
@@ -162,7 +212,7 @@ let catalogData = [
         category: 'Cosmethic',
         myPrice: 18,
         catalogPrice: 22,
-        photo: '../../Images/bud spoon image.png',
+        photo: 'img/95f2a96ecc6188fadba72b31488042ce_er.jpg',
         description: 'Promotes healthy hair growth',
         isAvailable: false,
         addedDate: '2026-04-22'
@@ -174,7 +224,7 @@ let catalogData = [
         category: 'Medic+',
         myPrice: 12,
         catalogPrice: 15,
-        photo: '../../Images/bud not medicine.jpg',
+        photo: 'img/e2feb584f8e29d00946a00d18e45adfb_com.jpg',
         description: 'Boosts immune system',
         isAvailable: true,
         addedDate: '2026-04-23'
@@ -186,7 +236,7 @@ let catalogData = [
         category: 'Herbal',
         myPrice: 26,
         catalogPrice: 32,
-        photo: '../../Images/difference.jpg',
+        photo: 'img/original.jpg',
         description: 'Stress relief and energy support',
         isAvailable: true,
         addedDate: '2026-04-24'
@@ -198,7 +248,7 @@ let catalogData = [
         category: 'Creams',
         myPrice: 14,
         catalogPrice: 18,
-        photo: '../../Images/buds img.jpg',
+        photo: 'img/99eb5c6d0c8deca079e7399980404d3a.jpg',
         description: 'Deep hydration for dry skin',
         isAvailable: true,
         addedDate: '2026-04-25'
@@ -210,7 +260,7 @@ let catalogData = [
         category: 'Creams',
         myPrice: 22,
         catalogPrice: 28,
-        photo: '../../Images/buds natural img.jpg',
+        photo: 'img/7b60abe1f49f14c8087c957899cf2c36.jpg',
         description: 'Reduces wrinkles and fine lines',
         isAvailable: true,
         addedDate: '2026-04-26'
@@ -222,7 +272,7 @@ let catalogData = [
         category: 'Shampoos',
         myPrice: 8,
         catalogPrice: 12,
-        photo: '../../Images/bud spoon image.png',
+        photo: 'img/95f2a96ecc6188fadba72b31488042ce_er.jpg',
         description: 'For dry and damaged hair',
         isAvailable: true,
         addedDate: '2026-04-27'
@@ -234,7 +284,7 @@ let catalogData = [
         category: 'Shampoos',
         myPrice: 9,
         catalogPrice: 13,
-        photo: '../../Images/bud not medicine.jpg',
+        photo: 'img/e2feb584f8e29d00946a00d18e45adfb_com.jpg',
         description: 'Strengthens weak hair',
         isAvailable: true,
         addedDate: '2026-04-28'
@@ -246,7 +296,7 @@ let catalogData = [
         category: 'Cosmethic',
         myPrice: 16,
         catalogPrice: 22,
-        photo: '../../Images/difference.jpg',
+        photo: 'img/original.jpg',
         description: 'Brightens skin tone',
         isAvailable: true,
         addedDate: '2026-04-29'
@@ -258,7 +308,7 @@ let catalogData = [
         category: 'Mineral',
         myPrice: 18,
         catalogPrice: 24,
-        photo: '../../Images/buds img.jpg',
+        photo: 'img/99eb5c6d0c8deca079e7399980404d3a.jpg',
         description: 'Bone health support',
         isAvailable: true,
         addedDate: '2026-04-30'
@@ -270,7 +320,7 @@ let catalogData = [
         category: 'Herbal',
         myPrice: 14,
         catalogPrice: 19,
-        photo: '../../Images/buds natural img.jpg',
+        photo: 'img/7b60abe1f49f14c8087c957899cf2c36.jpg',
         description: 'Antioxidant support',
         isAvailable: true,
         addedDate: '2026-05-01'
@@ -282,7 +332,7 @@ let catalogData = [
         category: 'Creams',
         myPrice: 28,
         catalogPrice: 36,
-        photo: '../../Images/bud spoon image.png',
+        photo: 'img/95f2a96ecc6188fadba72b31488042ce_er.jpg',
         description: 'Reduces dark circles and puffiness',
         isAvailable: true,
         addedDate: '2026-05-02'
@@ -294,7 +344,7 @@ let catalogData = [
         category: 'Shampoos',
         myPrice: 7,
         catalogPrice: 11,
-        photo: '../../Images/bud not medicine.jpg',
+        photo: 'img/e2feb584f8e29d00946a00d18e45adfb_com.jpg',
         description: 'Adds volume to fine hair',
         isAvailable: true,
         addedDate: '2026-05-03'
@@ -306,7 +356,7 @@ let catalogData = [
         category: 'Medic+',
         myPrice: 24,
         catalogPrice: 32,
-        photo: '../../Images/difference.jpg',
+        photo: 'img/original.jpg',
         description: 'Heart health and energy',
         isAvailable: true,
         addedDate: '2026-05-04'
@@ -318,7 +368,7 @@ let catalogData = [
         category: 'Creams',
         myPrice: 26,
         catalogPrice: 34,
-        photo: '../../Images/buds img.jpg',
+        photo: 'img/99eb5c6d0c8deca079e7399980404d3a.jpg',
         description: 'Anti-aging retinol formula',
         isAvailable: false,
         addedDate: '2026-05-05'
@@ -330,7 +380,7 @@ let catalogData = [
         category: 'Shampoos',
         myPrice: 11,
         catalogPrice: 16,
-        photo: '../../Images/buds natural img.jpg',
+        photo: 'img/7b60abe1f49f14c8087c957899cf2c36.jpg',
         description: 'Repairs damaged hair with keratin',
         isAvailable: true,
         addedDate: '2026-05-06'
@@ -342,7 +392,7 @@ let catalogData = [
         category: 'Cosmethic',
         myPrice: 19,
         catalogPrice: 26,
-        photo: '../../Images/bud spoon image.png',
+        photo: 'img/95f2a96ecc6188fadba72b31488042ce_er.jpg',
         description: 'Deep hydration serum',
         isAvailable: true,
         addedDate: '2026-05-07'
@@ -354,7 +404,7 @@ let catalogData = [
         category: 'Mineral',
         myPrice: 10,
         catalogPrice: 14,
-        photo: '../../Images/bud not medicine.jpg',
+        photo: 'img/e2feb584f8e29d00946a00d18e45adfb_com.jpg',
         description: 'Supports red blood cell production',
         isAvailable: true,
         addedDate: '2026-05-08'
@@ -366,7 +416,7 @@ let catalogData = [
         category: 'Herbal',
         myPrice: 15,
         catalogPrice: 21,
-        photo: '../../Images/difference.jpg',
+        photo: 'img/original.jpg',
         description: 'Memory and cognitive support',
         isAvailable: true,
         addedDate: '2026-05-09'
@@ -378,7 +428,7 @@ let catalogData = [
         category: 'Creams',
         myPrice: 12,
         catalogPrice: 17,
-        photo: '../../Images/buds img.jpg',
+        photo: 'img/99eb5c6d0c8deca079e7399980404d3a.jpg',
         description: 'Sun protection face cream',
         isAvailable: true,
         addedDate: '2026-05-10'
@@ -390,7 +440,7 @@ let catalogData = [
         category: 'Shampoos',
         myPrice: 9,
         catalogPrice: 14,
-        photo: '../../Images/buds natural img.jpg',
+        photo: 'img/7b60abe1f49f14c8087c957899cf2c36.jpg',
         description: 'Protects colored hair',
         isAvailable: true,
         addedDate: '2026-05-11'
@@ -402,7 +452,7 @@ let catalogData = [
         category: 'Cosmethic',
         myPrice: 14,
         catalogPrice: 19,
-        photo: '../../Images/bud spoon image.png',
+        photo: 'img/95f2a96ecc6188fadba72b31488042ce_er.jpg',
         description: 'Minimizes pores and evens skin tone',
         isAvailable: true,
         addedDate: '2026-05-12'
@@ -414,7 +464,7 @@ let catalogData = [
         category: 'Medic+',
         myPrice: 17,
         catalogPrice: 23,
-        photo: '../../Images/bud not medicine.jpg',
+        photo: 'img/e2feb584f8e29d00946a00d18e45adfb_com.jpg',
         description: 'Energy and metabolism support',
         isAvailable: true,
         addedDate: '2026-05-13'
@@ -426,7 +476,7 @@ let catalogData = [
         category: 'Herbal',
         myPrice: 13,
         catalogPrice: 18,
-        photo: '../../Images/difference.jpg',
+        photo: 'img/original.jpg',
         description: 'Immune system support',
         isAvailable: true,
         addedDate: '2026-05-14'
@@ -438,7 +488,7 @@ let catalogData = [
         category: 'Creams',
         myPrice: 8,
         catalogPrice: 12,
-        photo: '../../Images/buds img.jpg',
+        photo: 'img/99eb5c6d0c8deca079e7399980404d3a.jpg',
         description: 'Soothing aloe vera for skin',
         isAvailable: true,
         addedDate: '2026-05-15'
@@ -450,7 +500,7 @@ let catalogData = [
         category: 'Shampoos',
         myPrice: 10,
         catalogPrice: 15,
-        photo: '../../Images/buds natural img.jpg',
+        photo: 'img/7b60abe1f49f14c8087c957899cf2c36.jpg',
         description: 'Eliminates dandruff',
         isAvailable: true,
         addedDate: '2026-05-16'
@@ -462,7 +512,7 @@ let catalogData = [
         category: 'Cosmethic',
         myPrice: 18,
         catalogPrice: 24,
-        photo: '../../Images/bud spoon image.png',
+        photo: 'img/95f2a96ecc6188fadba72b31488042ce_er.jpg',
         description: 'Natural face oil for hydration',
         isAvailable: false,
         addedDate: '2026-05-17'
@@ -474,7 +524,7 @@ let catalogData = [
         category: 'Medic+',
         myPrice: 28,
         catalogPrice: 36,
-        photo: '../../Images/bud not medicine.jpg',
+        photo: 'img/e2feb584f8e29d00946a00d18e45adfb_com.jpg',
         description: 'Joint health support',
         isAvailable: true,
         addedDate: '2026-05-18'
@@ -486,7 +536,7 @@ let catalogData = [
         category: 'Herbal',
         myPrice: 16,
         catalogPrice: 22,
-        photo: '../../Images/difference.jpg',
+        photo: 'img/original.jpg',
         description: 'Liver health support',
         isAvailable: true,
         addedDate: '2026-05-19'
@@ -498,7 +548,7 @@ let catalogData = [
         category: 'Creams',
         myPrice: 6,
         catalogPrice: 10,
-        photo: '../../Images/buds img.jpg',
+        photo: 'img/99eb5c6d0c8deca079e7399980404d3a.jpg',
         description: 'Deep moisturizing hand cream',
         isAvailable: true,
         addedDate: '2026-05-20'
@@ -510,7 +560,7 @@ let catalogData = [
         category: 'Shampoos',
         myPrice: 12,
         catalogPrice: 17,
-        photo: '../../Images/buds natural img.jpg',
+        photo: 'img/7b60abe1f49f14c8087c957899cf2c36.jpg',
         description: 'Nourishes with Moroccan argan oil',
         isAvailable: true,
         addedDate: '2026-05-21'
@@ -522,7 +572,7 @@ let catalogData = [
         category: 'Cosmethic',
         myPrice: 21,
         catalogPrice: 28,
-        photo: '../../Images/bud spoon image.png',
+        photo: 'img/95f2a96ecc6188fadba72b31488042ce_er.jpg',
         description: 'Anti-aging peptide formula',
         isAvailable: true,
         addedDate: '2026-05-22'
@@ -534,7 +584,7 @@ let catalogData = [
         category: 'Medic+',
         myPrice: 11,
         catalogPrice: 16,
-        photo: '../../Images/bud not medicine.jpg',
+        photo: 'img/e2feb584f8e29d00946a00d18e45adfb_com.jpg',
         description: 'Promotes restful sleep',
         isAvailable: true,
         addedDate: '2026-05-23'
@@ -546,7 +596,7 @@ let catalogData = [
         category: 'Herbal',
         myPrice: 14,
         catalogPrice: 19,
-        photo: '../../Images/difference.jpg',
+        photo: 'img/original.jpg',
         description: 'Natural sleep and relaxation support',
         isAvailable: true,
         addedDate: '2026-05-24'

@@ -19,7 +19,15 @@ let salesList = [
     { productId: 18, salePrice: 30 },
     { productId: 21, salePrice: 28 },
     { productId: 26, salePrice: 14 },
-    { productId: 32, salePrice: 12 }
+    { productId: 32, salePrice: 12 },
+    { productId: 2, salePrice: 14 },
+    { productId: 6, salePrice: 16 },
+    { productId: 9, salePrice: 11 },
+    { productId: 16, salePrice: 20 },
+    { productId: 22, salePrice: 19 },
+    { productId: 27, salePrice: 22 },
+    { productId: 35, salePrice: 17 },
+    { productId: 38, salePrice: 13 }
 ];
 
 // Offers list
@@ -31,26 +39,34 @@ let offersList = [
     { productId: 20, offerType: 'custom', offerDescription: '3 for the price of 2' },
     { productId: 23, offerType: 'buy1get1', offerDescription: 'Buy 1 Get 1 Free' },
     { productId: 28, offerType: 'custom', offerDescription: 'Buy 2 Get 20% Off' },
-    { productId: 34, offerType: 'bundle', bundleWith: 20, offerDescription: 'Bundle with CoQ10 - Save $10' }
+    { productId: 34, offerType: 'bundle', bundleWith: 20, offerDescription: 'Bundle with CoQ10 - Save $10' },
+    { productId: 4, offerType: 'buy1get1', offerDescription: 'Buy 1 Get 1 Free' },
+    { productId: 10, offerType: 'custom', offerDescription: 'Buy 3 Get 25% Off' },
+    { productId: 17, offerType: 'bundle', bundleWith: 10, offerDescription: 'Bundle with Ashwagandha - Save 15%' },
+    { productId: 19, offerType: 'buy1get1', offerDescription: 'Buy 1 Get 1 Free' },
+    { productId: 25, offerType: 'custom', offerDescription: '2 for the price of 1.5' },
+    { productId: 30, offerType: 'bundle', bundleWith: 29, offerDescription: 'Bundle Deal - Save $8' },
+    { productId: 36, offerType: 'buy1get1', offerDescription: 'Buy 1 Get 1 Free' },
+    { productId: 39, offerType: 'custom', offerDescription: 'Buy 2 Get 30% Off' }
 ];
 
 // Catalog data (only available products will be shown to users)
 let catalogData = [
-    { id: 1, name: 'Omega-3 Fish Oil', manufacturer: 'Nature Made', category: 'Herbal', myPrice: 20, catalogPrice: 25, photo: '../../Images/buds img.jpg', description: 'High-quality fish oil supplement', isAvailable: true, addedDate: '2026-04-15' },
-    { id: 2, name: 'Vitamin D3', manufacturer: 'Solgar', category: 'Mineral', myPrice: 15, catalogPrice: 18, photo: '../../Images/buds natural img.jpg', description: 'Essential vitamin D supplement', isAvailable: true, addedDate: '2026-04-16' },
-    { id: 3, name: 'Multivitamin Complex', manufacturer: 'Centrum', category: 'Medic+', myPrice: 25, catalogPrice: 30, photo: '../../Images/bud spoon image.png', description: 'Complete daily multivitamin', isAvailable: true, addedDate: '2026-04-17' },
-    { id: 4, name: 'Collagen Peptides', manufacturer: 'Vital Proteins', category: 'Cosmethic', myPrice: 38, catalogPrice: 45, photo: '../../Images/bud not medicine.jpg', description: 'Skin and joint support', isAvailable: false, addedDate: '2026-04-18' },
-    { id: 5, name: 'Probiotics', manufacturer: 'Garden of Life', category: 'Other', myPrice: 28, catalogPrice: 35, photo: '../../Images/difference.jpg', description: 'Digestive health support', isAvailable: true, addedDate: '2026-04-19' },
-    { id: 6, name: 'Magnesium Citrate', manufacturer: 'Nature Made', category: 'Mineral', myPrice: 16, catalogPrice: 20, photo: '../../Images/buds img.jpg', description: 'Supports muscle and nerve function', isAvailable: true, addedDate: '2026-04-20' },
-    { id: 7, name: 'Turmeric Curcumin', manufacturer: 'Solgar', category: 'Herbal', myPrice: 23, catalogPrice: 28, photo: '../../Images/buds natural img.jpg', description: 'Anti-inflammatory support', isAvailable: true, addedDate: '2026-04-21' },
-    { id: 8, name: 'Biotin Hair Growth', manufacturer: 'Nature Bounty', category: 'Cosmethic', myPrice: 18, catalogPrice: 22, photo: '../../Images/bud spoon image.png', description: 'Promotes healthy hair growth', isAvailable: false, addedDate: '2026-04-22' },
-    { id: 9, name: 'Zinc Immune Support', manufacturer: 'NOW Foods', category: 'Medic+', myPrice: 12, catalogPrice: 15, photo: '../../Images/bud not medicine.jpg', description: 'Boosts immune system', isAvailable: true, addedDate: '2026-04-23' },
-    { id: 10, name: 'Ashwagandha Extract', manufacturer: 'Himalaya', category: 'Herbal', myPrice: 26, catalogPrice: 32, photo: '../../Images/difference.jpg', description: 'Stress relief and energy support', isAvailable: true, addedDate: '2026-04-24' },
-    { id: 11, name: 'Hydrating Face Cream', manufacturer: 'Neutrogena', category: 'Creams', myPrice: 14, catalogPrice: 18, photo: '../../Images/buds img.jpg', description: 'Deep hydration for dry skin', isAvailable: true, addedDate: '2026-04-25' },
-    { id: 12, name: 'Anti-Aging Night Cream', manufacturer: 'Olay', category: 'Creams', myPrice: 22, catalogPrice: 28, photo: '../../Images/buds natural img.jpg', description: 'Reduces wrinkles and fine lines', isAvailable: true, addedDate: '2026-04-26' },
-    { id: 13, name: 'Moisturizing Shampoo', manufacturer: 'Pantene', category: 'Shampoos', myPrice: 8, catalogPrice: 12, photo: '../../Images/bud spoon image.png', description: 'For dry and damaged hair', isAvailable: true, addedDate: '2026-04-27' },
-    { id: 14, name: 'Strengthening Shampoo', manufacturer: 'Dove', category: 'Shampoos', myPrice: 9, catalogPrice: 13, photo: '../../Images/bud not medicine.jpg', description: 'Strengthens weak hair', isAvailable: true, addedDate: '2026-04-28' },
-    { id: 15, name: 'Vitamin C Serum', manufacturer: 'The Ordinary', category: 'Cosmethic', myPrice: 16, catalogPrice: 22, photo: '../../Images/difference.jpg', description: 'Brightens skin tone', isAvailable: true, addedDate: '2026-04-29' }
+    { id: 1, name: 'Omega-3 Fish Oil', manufacturer: 'Nature Made', category: 'Herbal', myPrice: 20, catalogPrice: 25, photo: 'img/1_57.jpg', description: 'High-quality fish oil supplement', isAvailable: true, addedDate: '2026-04-15' },
+    { id: 2, name: 'Vitamin D3', manufacturer: 'Solgar', category: 'Mineral', myPrice: 15, catalogPrice: 18, photo: 'img/1d9ad1b837c736cca82f2a9906d814f7.jpg', description: 'Essential vitamin D supplement', isAvailable: true, addedDate: '2026-04-16' },
+    { id: 3, name: 'Multivitamin Complex', manufacturer: 'Centrum', category: 'Medic+', myPrice: 25, catalogPrice: 30, photo: 'img/401995455.jpg', description: 'Complete daily multivitamin', isAvailable: true, addedDate: '2026-04-17' },
+    { id: 4, name: 'Collagen Peptides', manufacturer: 'Vital Proteins', category: 'Cosmethic', myPrice: 38, catalogPrice: 45, photo: 'img/52b6a46665757423de80b2725987b296_600.jpg', description: 'Skin and joint support', isAvailable: false, addedDate: '2026-04-18' },
+    { id: 5, name: 'Probiotics', manufacturer: 'Garden of Life', category: 'Other', myPrice: 28, catalogPrice: 35, photo: 'img/758a.gif', description: 'Digestive health support', isAvailable: true, addedDate: '2026-04-19' },
+    { id: 6, name: 'Magnesium Citrate', manufacturer: 'Nature Made', category: 'Mineral', myPrice: 16, catalogPrice: 20, photo: 'img/99eb5c6d0c8deca079e7399980404d3a.jpg', description: 'Supports muscle and nerve function', isAvailable: true, addedDate: '2026-04-20' },
+    { id: 7, name: 'Turmeric Curcumin', manufacturer: 'Solgar', category: 'Herbal', myPrice: 23, catalogPrice: 28, photo: 'img/7b60abe1f49f14c8087c957899cf2c36.jpg', description: 'Anti-inflammatory support', isAvailable: true, addedDate: '2026-04-21' },
+    { id: 8, name: 'Biotin Hair Growth', manufacturer: 'Nature Bounty', category: 'Cosmethic', myPrice: 18, catalogPrice: 22, photo: 'img/95f2a96ecc6188fadba72b31488042ce_er.jpg', description: 'Promotes healthy hair growth', isAvailable: false, addedDate: '2026-04-22' },
+    { id: 9, name: 'Zinc Immune Support', manufacturer: 'NOW Foods', category: 'Medic+', myPrice: 12, catalogPrice: 15, photo: 'img/e2feb584f8e29d00946a00d18e45adfb_com.jpg', description: 'Boosts immune system', isAvailable: true, addedDate: '2026-04-23' },
+    { id: 10, name: 'Ashwagandha Extract', manufacturer: 'Himalaya', category: 'Herbal', myPrice: 26, catalogPrice: 32, photo: 'img/original.jpg', description: 'Stress relief and energy support', isAvailable: true, addedDate: '2026-04-24' },
+    { id: 11, name: 'Hydrating Face Cream', manufacturer: 'Neutrogena', category: 'Creams', myPrice: 14, catalogPrice: 18, photo: 'img/tmb_228606_804182.jpg', description: 'Deep hydration for dry skin', isAvailable: true, addedDate: '2026-04-25' },
+    { id: 12, name: 'Anti-Aging Night Cream', manufacturer: 'Olay', category: 'Creams', myPrice: 22, catalogPrice: 28, photo: 'img/1795200_348643071942653_1736965814_o.jpg', description: 'Reduces wrinkles and fine lines', isAvailable: true, addedDate: '2026-04-26' },
+    { id: 13, name: 'Moisturizing Shampoo', manufacturer: 'Pantene', category: 'Shampoos', myPrice: 8, catalogPrice: 12, photo: 'img/Ghost in Wires by pcbots.png', description: 'For dry and damaged hair', isAvailable: true, addedDate: '2026-04-27' },
+    { id: 14, name: 'Strengthening Shampoo', manufacturer: 'Dove', category: 'Shampoos', myPrice: 9, catalogPrice: 13, photo: 'img/luxfon.com-39694.jpg', description: 'Strengthens weak hair', isAvailable: true, addedDate: '2026-04-28' },
+    { id: 15, name: 'Vitamin C Serum', manufacturer: 'The Ordinary', category: 'Cosmethic', myPrice: 16, catalogPrice: 22, photo: 'img/space-universe-stars-3337.jpg', description: 'Brightens skin tone', isAvailable: true, addedDate: '2026-04-29' }
 ];
 
 document.addEventListener('DOMContentLoaded', function() {
