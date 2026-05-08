@@ -1184,36 +1184,3 @@ WELCOME / LOGIN / REGISTRATION - FULL MERGE & REFACTOR ✓
 TOTAL REDUCTION: 7 files → 1 file (index.html)
 
 ================================================================================
-                    UPDATE: 2026-05-08 (Part 3)
-================================================================================
-
-ADMIN PAGES - FULL MERGE & REFACTOR ✓
-
-1. ADMIN.HTML - SINGLE ENTRY POINT (46 lines)
-   ✓ Merged all 8 admin views into ONE admin.html
-   ✓ Dynamic content injection via JS (pageHTML templates)
-   ✓ Sidebar menu calls switchPage() to switch between views
-   ✓ Right panel buttons rendered dynamically per page
-
-2. ADMIN.JS - PAGE MANAGER (admin-header.js → admin.js)
-   ✓ switchPage() manages view switching and HTML injection
-   ✓ Dynamic script loading: each page's JS loads on demand
-   ✓ Right panel buttons configured per page via pageButtons[]
-   ✓ Sidebar special items (Manufacturers, Categories, etc.) per page
-   ✓ Shared dispatchers: cycleCurrency(), openFiltersModal(), etc.
-
-3. FILES MOVED TO макеты/
-   ✗ admin-users.html, admin-user-wishes.html, advanced.html, bud's.html
-   ✗ catalog-edit-admin.html, in-stock.html, my-wishes.html, orders.html
-   ✗ js/ backups copied to макеты/js/ for reference
-
-4. FILES KEPT IN js/ (loaded dynamically by admin.html)
-   ✓ buds.js, admin-users.js, admin-wishlist.js, advanced.js
-   ✓ catalog-edit-admin.js, in-stock.js, orders.js, my-wishes.js
-
-5. LOGIN FIX
-   ✓ Admin login now redirects to admin.html (not admin-users.html)
-
-TOTAL REDUCTION: 8 HTML files → 1 admin.html
-
-================================================================================
