@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="header">
+        <span class="header-username">user_name</span>
+        <span class="header-title">Welcome to bud's catalog !!!</span>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <div class="menu-title">MENU</div>
+            <div class="menu-items" id="sidebarMenu">
+                <a href="#" class="menu-item" onclick="switchPage('users')">Users</a>
+                <a href="#" class="menu-item" onclick="switchPage('userWishes')">User's wishes</a>
+                <a href="#" class="menu-item" onclick="switchPage('buds')">Buds</a>
+                <a href="#" class="menu-item" onclick="switchPage('advanced')">Advanced</a>
+                <a href="#" class="menu-item" onclick="switchPage('inStock')">In stock</a>
+                <a href="#" class="menu-item" onclick="switchPage('orders')">Orders</a>
+                <a href="#" class="menu-item" onclick="switchPage('myWishes')">My wishes</a>
+                <a href="#" class="menu-item">Win/Loss</a>
+                <a href="#" class="menu-item" onclick="switchPage('catalogEdit')">Catalog edit</a>
+                <div class="menu-divider" id="specialDivider" style="display: none;"></div>
+                <div id="specialMenuItems"></div>
+            </div>
+        </div>
+
+        <div class="main-content" id="mainContent">
+            <!-- Content generated dynamically by JS -->
+        </div>
+
+        <div class="right-panel">
+            <div id="rightPanelButtons"></div>
+            <div id="rightPanelContent"></div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>
