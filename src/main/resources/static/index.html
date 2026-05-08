@@ -5,22 +5,653 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome - Bud's Catalog</title>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/welcome.css">
+    <style>
+        /* ===== WELCOME STYLES ===== */
+        .welcome-header {
+            background-color: white;
+            border: 3px solid var(--primary-green);
+            padding: 15px 20px;
+            margin: 10px;
+            text-align: center;
+            font-size: 20px;
+            width: 100%;
+        }
+        .welcome-header-username { color: var(--light-green); font-weight: bold; }
+        .welcome-header-title { color: var(--light-green); font-weight: bold; }
+        .welcome-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+        .welcome-button {
+            background-color: white;
+            border: 3px solid var(--primary-green);
+            padding: 25px 50px;
+            border-radius: 20px;
+            font-size: 24px;
+            color: var(--light-green);
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .welcome-button:hover {
+            background-color: var(--light-green);
+            color: white;
+            transform: scale(1.05);
+        }
+        .welcome-buttons { display: flex; gap: 20px; }
+        .background-image {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            color: var(--dark-gray);
+            font-style: italic;
+            opacity: 0.5;
+        }
+
+        /* ===== AUTH STYLES ===== */
+        .auth-header {
+            background-color: white;
+            border: 3px solid var(--primary-green);
+            padding: 15px 20px;
+            margin: 10px;
+            text-align: center;
+            font-size: 20px;
+            width: 100%;
+        }
+        .auth-header-username { color: var(--light-green); font-weight: bold; }
+        .auth-header-title { color: var(--light-green); font-weight: bold; }
+        .auth-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .auth-form {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            width: 100%;
+        }
+        .auth-title {
+            text-align: center;
+            font-size: 28px;
+            color: var(--primary-green);
+            font-weight: bold;
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 3px solid var(--primary-green);
+            border-radius: 10px;
+        }
+        .auth-title-btn {
+            display: block;
+            width: 100%;
+            background-color: var(--primary-green);
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            padding: 15px;
+            border: 3px solid var(--primary-green);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+        }
+        .auth-title-btn:hover {
+            background-color: var(--light-green);
+            border-color: var(--light-green);
+        }
+        .form-section { margin-bottom: 20px; position: relative; }
+        .form-section-label {
+            text-align: center;
+            color: var(--light-green);
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        .auth-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 3px solid var(--primary-green);
+            border-radius: 10px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: var(--blue);
+            box-sizing: border-box;
+        }
+        .auth-input::placeholder { color: #999; }
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 25px 0;
+        }
+        .save-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--blue);
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .save-checkbox input { width: 18px; height: 18px; cursor: pointer; }
+        .forgot-password {
+            color: var(--dark-gray);
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .forgot-password:hover {
+            color: var(--primary-green);
+            text-decoration: underline;
+        }
+        .error-message {
+            color: var(--primary-green);
+            text-align: center;
+            font-size: 14px;
+            margin: 15px 0;
+            display: none;
+        }
+        .auth-button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .auth-btn {
+            padding: 12px 30px;
+            border: 3px solid;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .auth-btn-primary {
+            background-color: var(--light-green);
+            color: white;
+            border-color: var(--light-green);
+        }
+        .auth-btn-primary:hover {
+            background-color: var(--primary-green);
+            border-color: var(--primary-green);
+        }
+        .auth-btn-secondary {
+            background-color: white;
+            color: var(--light-green);
+            border-color: var(--light-green);
+        }
+        .auth-btn-secondary:hover {
+            background-color: var(--light-green);
+            color: white;
+        }
+        .button-icon { font-size: 20px; margin-right: 8px; }
+        .registration-link { display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .registration-icon { font-size: 18px; }
+
+        /* ===== REGISTRATION SPECIFIC ===== */
+        #registrationView.auth-content { max-width: 900px; }
+        .form-header-text {
+            text-align: center;
+            color: var(--dark-gray);
+            font-size: 14px;
+            margin-bottom: 25px;
+            display: flex;
+            gap: 30px;
+            justify-content: space-around;
+        }
+        .form-rows {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+            align-items: start;
+        }
+        .form-row-single { grid-column: 1 / -1; }
+        .form-column { display: flex; flex-direction: column; gap: 15px; justify-content: space-between; }
+        .form-section {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        #registrationView .form-section-label {
+            color: var(--dark-gray);
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+        .warning-icon {
+            position: absolute;
+            right: 10px;
+            top: 28px;
+            font-size: 24px;
+            display: none;
+        }
+        .warning-icon.show { display: block; }
+        .password-info {
+            font-size: 12px;
+            color: var(--dark-gray);
+            margin-top: 5px;
+            min-height: 18px;
+            line-height: 1.4;
+            transition: all 0.2s ease;
+        }
+        .info-text {
+            text-align: center;
+            font-size: 12px;
+            color: var(--dark-gray);
+            margin: 20px 0;
+        }
+        #registrationView .auth-btn-secondary {
+            background-color: white;
+            color: var(--light-green);
+            border-color: var(--light-green);
+        }
+        #registrationView .auth-btn-secondary:hover {
+            background-color: var(--light-green);
+            color: white;
+        }
+    </style>
 </head>
 <body>
     <!-- HEADER -->
-    <div class="welcome-header">
-        <span class="welcome-header-username">guest</span>
-        <span class="welcome-header-title">Welcome to bud's catalog !!!</span>
+    <div class="auth-header">
+        <span class="auth-header-username">guest</span>
+        <span class="auth-header-title">Welcome to bud's catalog !!!</span>
     </div>
 
-    <!-- WELCOME CONTENT -->
-    <div class="welcome-content">
+    <!-- WELCOME VIEW -->
+    <div id="welcomeView" class="welcome-content">
         <div class="welcome-buttons">
-            <a href="login.html" class="welcome-button">Login</a>
-            <a href="registration.html" class="welcome-button">Registration</a>
+            <button class="welcome-button" onclick="showView('login')">Login</button>
+            <button class="welcome-button" onclick="showView('registration')">Registration</button>
         </div>
         <div class="background-image">Background image</div>
     </div>
+
+    <!-- LOGIN VIEW -->
+    <div id="loginView" class="auth-content" style="display: none;">
+        <div class="auth-form">
+            <div class="auth-title">Login</div>
+
+            <div class="form-section">
+                <div class="form-section-label">please enter your username or phone number or Email</div>
+                <input type="text" class="auth-input" placeholder="your user_name here" id="loginUsername">
+            </div>
+
+            <div class="form-section">
+                <div class="form-section-label">please enter password</div>
+                <input type="password" class="auth-input" placeholder="your password here" id="loginPassword">
+            </div>
+
+            <div class="form-footer">
+                <label class="save-checkbox">
+                    <input type="checkbox" id="rememberMe">
+                    <span>Save</span>
+                </label>
+                <a href="#" class="forgot-password" onclick="forgotPassword(event)">forget you password ?</a>
+            </div>
+
+            <div class="error-message" id="errorMessage">Oop's some data is incorrect! Please check</div>
+
+            <div class="auth-button-group">
+                <button class="auth-btn auth-btn-primary" onclick="login()">Login</button>
+                <button class="auth-btn auth-btn-secondary registration-link" onclick="showView('registration')">
+                    <span class="registration-icon">📝</span>Go to registration
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- REGISTRATION VIEW -->
+    <div id="registrationView" class="auth-content" style="display: none;">
+        <div class="auth-form">
+            <button class="auth-title-btn" onclick="showView('registration')">Registration</button>
+
+            <div class="form-rows">
+                <div class="form-column">
+                    <div class="form-section">
+                        <div class="form-section-label">Your username or phone number or email address to register login</div>
+                        <input type="text" class="auth-input" placeholder="" id="regUsername" onchange="validateUsername()">
+                        <div class="warning-icon" id="usernameWarning">⚠️</div>
+                        <div class="password-info" id="usernameInfo"></div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-label">Pick strong password min 8 characters example "Adqw123@"</div>
+                        <input type="password" class="auth-input" placeholder="" id="regPassword" onchange="validatePassword()">
+                        <div class="warning-icon" id="passwordWarning">⚠️</div>
+                        <div class="password-info" id="passwordInfo"></div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-label">E-mail @</div>
+                        <input type="email" class="auth-input" placeholder="" id="regEmail" onchange="validateEmail()">
+                        <div class="warning-icon" id="emailWarning">⚠️</div>
+                    </div>
+                </div>
+
+                <div class="form-column">
+                    <div class="form-section">
+                        <div class="form-section-label">Your name and lastname (example: John Doe)</div>
+                        <input type="text" class="auth-input" placeholder="" id="regFullName" onchange="validateFullName()">
+                        <div class="warning-icon" id="fullNameWarning">⚠️</div>
+                        <div class="password-info" id="fullNameInfo"></div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-label">repeat your password</div>
+                        <input type="password" class="auth-input" placeholder="" id="regPasswordRepeat" onchange="validatePasswordRepeat()">
+                        <div class="warning-icon" id="passwordRepeatWarning">⚠️</div>
+                        <div class="password-info" id="passwordRepeatInfo"></div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-label">Phone number  +(your country code than number)</div>
+                        <input type="tel" class="auth-input" placeholder="" id="regPhone" onchange="validatePhone()">
+                        <div class="warning-icon" id="phoneWarning">⚠️</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-text">email @ and phone number can be edited later in profile settings</div>
+
+            <div class="auth-button-group">
+                <button class="auth-btn auth-btn-primary" onclick="register()">Register and login in profile</button>
+                <label class="save-checkbox">
+                    <input type="checkbox" id="saveOnly">
+                    <span>Stay in</span>
+                </label>
+                <button class="auth-btn auth-btn-secondary" onclick="showView('login')">Go to login</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== VIEW NAVIGATION =====
+        function showView(view) {
+            document.getElementById('welcomeView').style.display = 'none';
+            document.getElementById('loginView').style.display = 'none';
+            document.getElementById('registrationView').style.display = 'none';
+
+            if (view === 'login') {
+                document.getElementById('loginView').style.display = 'flex';
+            } else if (view === 'registration') {
+                document.getElementById('registrationView').style.display = 'flex';
+            } else {
+                document.getElementById('welcomeView').style.display = 'flex';
+            }
+        }
+
+        // ===== LOGIN FUNCTIONS =====
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('.auth-input');
+            inputs.forEach(input => {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        const loginBtn = document.querySelector('#loginView .auth-btn-primary');
+                        if (loginBtn && isVisible(loginBtn)) {
+                            login();
+                        } else {
+                            register();
+                        }
+                    }
+                });
+            });
+        });
+
+        function isVisible(el) {
+            return el && el.closest('[style*="display: none"]') === null;
+        }
+
+        function login() {
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            const errorMessage = document.getElementById('errorMessage');
+
+            if (!username || !password) {
+                errorMessage.style.display = 'block';
+                return;
+            }
+
+            if (username === 'admin' && password === 'password') {
+                alert('Login successful!');
+                window.location.href = 'admin-users.html';
+            } else if (username && password.length >= 6) {
+                alert('Login successful!');
+                sessionStorage.setItem('currentUser', username);
+                window.location.href = 'user-profile.html';
+            } else {
+                errorMessage.style.display = 'block';
+            }
+        }
+
+        function forgotPassword(event) {
+            event.preventDefault();
+            alert('Password reset link would be sent to your email');
+        }
+
+        // ===== REGISTRATION FUNCTIONS =====
+        function validateUsername() {
+            const username = document.getElementById('regUsername').value.trim();
+            const warning = document.getElementById('usernameWarning');
+            const info = document.getElementById('usernameInfo');
+
+            if (!username) {
+                warning.classList.remove('show');
+                info.textContent = '';
+                return false;
+            }
+
+            if (username.length < 6) {
+                warning.classList.add('show');
+                info.textContent = 'Username must be at least 6 characters ❌';
+                info.style.color = 'var(--primary-green)';
+                return false;
+            }
+
+            warning.classList.remove('show');
+            info.textContent = 'Username is valid ✓';
+            info.style.color = 'var(--light-green)';
+            return true;
+        }
+
+        function validateFullName() {
+            const fullName = document.getElementById('regFullName').value.trim();
+            const warning = document.getElementById('fullNameWarning');
+            const info = document.getElementById('fullNameInfo');
+
+            if (!fullName) {
+                warning.classList.remove('show');
+                info.textContent = '';
+                return false;
+            }
+
+            const parts = fullName.split(/\s+/);
+
+            if (parts.length < 2) {
+                warning.classList.add('show');
+                info.textContent = 'Please enter both first name and last name (e.g., John Doe) ❌';
+                info.style.color = 'var(--primary-green)';
+                return false;
+            }
+
+            if (parts.length > 2) {
+                warning.classList.add('show');
+                info.textContent = 'Please enter only first name and last name (two words) ❌';
+                info.style.color = 'var(--primary-green)';
+                return false;
+            }
+
+            const firstName = parts[0];
+            const lastName = parts[1];
+            const nameRegex = /^[A-Za-zА-Яа-яЁё]+$/;
+
+            if (!nameRegex.test(firstName) || !nameRegex.test(lastName)) {
+                warning.classList.add('show');
+                info.textContent = 'Names should contain only letters ❌';
+                info.style.color = 'var(--primary-green)';
+                return false;
+            }
+
+            warning.classList.remove('show');
+            info.textContent = 'Welcome, ' + firstName + ' ' + lastName + ' ✓';
+            info.style.color = 'var(--light-green)';
+            return true;
+        }
+
+        function validatePassword() {
+            const password = document.getElementById('regPassword').value;
+            const warning = document.getElementById('passwordWarning');
+            const info = document.getElementById('passwordInfo');
+
+            if (!password) {
+                warning.classList.remove('show');
+                info.textContent = '';
+                return false;
+            }
+
+            if (password.length < 8) {
+                warning.classList.add('show');
+                info.textContent = 'Password must be at least 8 characters';
+                return false;
+            }
+
+            if (!/[A-Z]/.test(password) || !/[0-9]/.test(password) || !/[@!#$%]/.test(password)) {
+                warning.classList.add('show');
+                info.textContent = 'Must contain uppercase, number, and special character';
+                return false;
+            }
+
+            warning.classList.remove('show');
+            info.textContent = 'Strong password ✓';
+            info.style.color = 'var(--light-green)';
+            return true;
+        }
+
+        function validatePasswordRepeat() {
+            const password = document.getElementById('regPassword').value;
+            const passwordRepeat = document.getElementById('regPasswordRepeat').value;
+            const warning = document.getElementById('passwordRepeatWarning');
+            const info = document.getElementById('passwordRepeatInfo');
+
+            if (!passwordRepeat) {
+                warning.classList.remove('show');
+                info.textContent = '';
+                return true;
+            }
+
+            if (password !== passwordRepeat) {
+                warning.classList.add('show');
+                info.textContent = 'Passwords do not match ❌';
+                info.style.color = 'var(--primary-green)';
+                return false;
+            }
+
+            warning.classList.remove('show');
+            info.textContent = 'Passwords match ✓';
+            info.style.color = 'var(--light-green)';
+            return true;
+        }
+
+        function validateEmail() {
+            const email = document.getElementById('regEmail').value;
+            const warning = document.getElementById('emailWarning');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!email) {
+                warning.classList.remove('show');
+                return true;
+            }
+
+            if (!emailRegex.test(email)) {
+                warning.classList.add('show');
+                return false;
+            }
+
+            warning.classList.remove('show');
+            return true;
+        }
+
+        function validatePhone() {
+            const phone = document.getElementById('regPhone').value;
+            const warning = document.getElementById('phoneWarning');
+            const phoneRegex = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/;
+
+            if (!phone) {
+                warning.classList.remove('show');
+                return true;
+            }
+
+            if (!phoneRegex.test(phone)) {
+                warning.classList.add('show');
+                return false;
+            }
+
+            warning.classList.remove('show');
+            return true;
+        }
+
+        function validateAllFields() {
+            const usernameValid = validateUsername();
+            const fullNameValid = validateFullName();
+            const passwordValid = validatePassword();
+            const passwordRepeatValid = validatePasswordRepeat();
+            const email = document.getElementById('regEmail').value;
+            const emailValid = validateEmail();
+
+            if (!usernameValid) {
+                alert('Username must be at least 6 characters');
+                return false;
+            }
+            if (!fullNameValid) {
+                alert('Please enter your first name and last name separated by a space');
+                return false;
+            }
+            if (!passwordValid) {
+                alert('Password is not strong enough');
+                return false;
+            }
+            if (!passwordRepeatValid) {
+                alert('Passwords do not match');
+                return false;
+            }
+            if (!email) {
+                alert('Please enter your email');
+                return false;
+            }
+            if (!emailValid) {
+                alert('Email is invalid');
+                return false;
+            }
+            const phone = document.getElementById('regPhone').value;
+            if (phone && !validatePhone()) {
+                alert('Phone number is invalid');
+                return false;
+            }
+            return true;
+        }
+
+        function register() {
+            if (!validateAllFields()) return;
+            alert('Registration successful! You can now login.');
+            sessionStorage.setItem('currentUser', document.getElementById('regUsername').value);
+            sessionStorage.setItem('fullName', document.getElementById('regFullName').value);
+            window.location.href = 'user-profile.html';
+        }
+
+        function showRegistrationForm() {}
+    </script>
 </body>
 </html>

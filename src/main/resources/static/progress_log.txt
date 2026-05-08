@@ -1150,3 +1150,37 @@ FILES MODIFIED:
 - js/user-profile.js (wishlist/requests grid, collapsible, photo functions)
 
 ================================================================================
+                    UPDATE: 2026-05-08 (Part 2)
+================================================================================
+
+WELCOME / LOGIN / REGISTRATION - FULL MERGE & REFACTOR ✓
+
+1. SINGLE FILE ARCHITECTURE
+   ✓ Merged index.html (welcome), login.html, registration.html into ONE index.html
+   ✓ Tab-based navigation between Welcome → Login → Registration views
+   ✓ All links converted to showView() internal navigation
+
+2. CSS CONSOLIDATION
+   ✓ Merged auth.css (205 lines) → inline <style> in index.html
+   ✓ Merged registration.css (82 lines) → inline <style> in index.html
+   ✓ Merged welcome.css (71 lines) → inline <style> in index.html
+   ✓ No external CSS dependencies for auth/welcome pages
+
+3. JS CONSOLIDATION
+   ✓ Merged login.js (48 lines) → inline <script> in index.html
+   ✓ Merged registration.js (252 lines) → inline <script> in index.html
+   ✓ Enter key handler works across both login and registration forms
+   ✓ All validation functions preserved
+
+4. FILES REMOVED
+   ✗ login.html (replaced by internal view)
+   ✗ registration.html (replaced by internal view)
+   ✗ css/auth.css (merged inline)
+   ✗ css/registration.css (merged inline)
+   ✗ css/welcome.css (merged inline)
+   ✗ js/login.js (merged inline)
+   ✗ js/registration.js (merged inline)
+
+TOTAL REDUCTION: 7 files → 1 file (index.html)
+
+================================================================================

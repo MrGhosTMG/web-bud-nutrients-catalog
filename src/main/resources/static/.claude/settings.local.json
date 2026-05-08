@@ -27,7 +27,12 @@
       "Bash(xargs -I {} sed -i 's|<a href=\"#\" class=\"menu-item\">Catalog edit</a>|<a href=\"catalog-edit-admin.html\" class=\"menu-item\">Catalog edit</a>|g' {})",
       "Bash(git add *)",
       "Bash(git commit -m 'docs: Update progress log with complete Catalog Edit implementation details *)",
-      "Bash(grep -n '\\\\$\\\\${product\\\\.price}' in-stock.js orders.js)"
+      "Bash(grep -n '\\\\$\\\\${product\\\\.price}' in-stock.js orders.js)",
+      "Bash(git commit *)",
+      "Bash(grep -E \"^\\\\s+\\\\{$\" js/catalog-edit-admin.js)",
+      "Bash(awk '/^let catalogData = \\\\[/,/^\\\\];/' js/user-profile.js)",
+      "Bash(awk '/^let catalogData = \\\\[/,/^\\\\];/' js/catalog-edit-admin.js)",
+      "Bash(node -c js/user-profile.js)"
     ]
   }
 }
