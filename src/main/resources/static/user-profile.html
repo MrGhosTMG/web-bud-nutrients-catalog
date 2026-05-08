@@ -237,38 +237,40 @@
 
     <!-- MODAL: Add Request -->
     <div id="requestModal" class="modal" style="display: none;">
-        <div class="modal-content" style="max-width: 400px; max-height: 450px; padding: 15px; overflow-y: auto;">
+        <div class="modal-content" style="max-width: 400px; padding: 12px; align-self: flex-start;">
             <span class="close" onclick="closeRequestModal()">&times;</span>
-            <h2 style="font-size: 16px; margin-bottom: 12px; margin-top: 0;">Add Product Request</h2>
+            <h2 style="font-size: 15px; margin-bottom: 8px; margin-top: 0;">Add Product Request</h2>
             <form id="requestForm">
-                <div class="form-group" style="margin-bottom: 8px;">
-                    <label style="font-size: 11px; margin-bottom: 3px; display: block;">Product Name *</label>
-                    <input type="text" id="requestProductName" class="form-input" style="font-size: 11px; padding: 5px;" placeholder="Enter product name" required>
+                <div class="form-group" style="display: flex; align-items: center; margin-bottom: 5px; gap: 6px;">
+                    <input type="text" id="requestProductName" class="form-input" style="flex: 1; font-size: 11px; padding: 4px 6px; box-sizing: border-box;" placeholder="Enter product name" required>
+                    <label style="font-size: 11px; white-space: nowrap; min-width: 95px; text-align: right;">Product Name *</label>
                 </div>
-                <div class="form-group" style="margin-bottom: 8px;">
-                    <label style="font-size: 11px; margin-bottom: 3px; display: block;">Category *</label>
-                    <input type="text" id="requestCategory" class="form-input" style="font-size: 11px; padding: 5px;" placeholder="Enter category" required>
+                <div class="form-group" style="display: flex; align-items: center; margin-bottom: 5px; gap: 6px;">
+                    <input type="text" id="requestCategory" class="form-input" style="flex: 1; font-size: 11px; padding: 4px 6px; box-sizing: border-box;" placeholder="Enter category" required>
+                    <label style="font-size: 11px; white-space: nowrap; min-width: 95px; text-align: right;">Category *</label>
                 </div>
-                <div class="form-group" style="margin-bottom: 8px;">
-                    <label style="font-size: 11px; margin-bottom: 3px; display: block;">Manufacturer/Brand *</label>
-                    <input type="text" id="requestManufacturer" class="form-input" style="font-size: 11px; padding: 5px;" placeholder="Enter manufacturer or brand" required>
+                <div class="form-group" style="display: flex; align-items: center; margin-bottom: 5px; gap: 6px;">
+                    <input type="text" id="requestManufacturer" class="form-input" style="flex: 1; font-size: 11px; padding: 4px 6px; box-sizing: border-box;" placeholder="Enter manufacturer or brand" required>
+                    <label style="font-size: 11px; white-space: nowrap; min-width: 95px; text-align: right;">Manufacturer *</label>
                 </div>
-                <div class="form-group" style="margin-bottom: 8px;">
-                    <label style="font-size: 11px; margin-bottom: 3px; display: block;">Photo (optional)</label>
-                    <input type="file" id="requestPhoto" class="form-input" style="font-size: 10px; padding: 4px;" accept="image/*">
-                    <div id="requestPhotoPreview" style="margin-top: 6px;"></div>
+                <div class="form-group" style="display: flex; align-items: center; margin-bottom: 5px; gap: 6px;">
+                    <div style="flex: 1; font-size: 10px; padding: 3px 6px;">
+                        <input type="file" id="requestPhoto" accept="image/*" style="font-size: 10px; width: 100%; box-sizing: border-box;">
+                    </div>
+                    <label style="font-size: 11px; white-space: nowrap; min-width: 95px; text-align: right;">Photo</label>
                 </div>
-                <div class="form-group" style="margin-bottom: 8px;">
-                    <label style="font-size: 11px; margin-bottom: 3px; display: block;">Link (optional)</label>
-                    <input type="url" id="requestLink" class="form-input" style="font-size: 11px; padding: 5px;" placeholder="https://example.com/product">
+                <div id="requestPhotoPreview" style="margin-bottom: 4px; text-align: center;"></div>
+                <div class="form-group" style="display: flex; align-items: center; margin-bottom: 5px; gap: 6px;">
+                    <input type="url" id="requestLink" class="form-input" style="flex: 1; font-size: 11px; padding: 4px 6px; box-sizing: border-box;" placeholder="https://">
+                    <label style="font-size: 11px; white-space: nowrap; min-width: 95px; text-align: right;">Link</label>
                 </div>
-                <div class="form-group" style="margin-bottom: 8px;">
-                    <label style="font-size: 11px; margin-bottom: 3px; display: block;">Additional Notes (optional)</label>
-                    <textarea id="requestNotes" class="form-input" style="font-size: 11px; padding: 5px;" rows="2" placeholder="Any additional information..."></textarea>
+                <div class="form-group" style="margin-bottom: 5px;">
+                    <label style="font-size: 11px; display: block; margin-bottom: 2px;">Additional Notes</label>
+                    <textarea id="requestNotes" class="form-input" style="width: 100%; font-size: 11px; padding: 4px 6px; box-sizing: border-box; resize: none; height: 52px; overflow-y: auto;" rows="3" placeholder="Any additional information..."></textarea>
                 </div>
-                <div class="modal-actions" style="margin-top: 10px; margin-bottom: 0;">
-                    <button type="button" class="btn btn-secondary" style="font-size: 11px; padding: 5px 10px;" onclick="closeRequestModal()">Cancel</button>
-                    <button type="submit" class="btn btn-success" style="font-size: 11px; padding: 5px 10px;" onclick="submitRequest(event)">Create Request</button>
+                <div class="modal-actions" style="display: flex; justify-content: flex-end; gap: 6px; margin-top: 6px; margin-bottom: 0;">
+                    <button type="button" class="btn btn-secondary" style="flex: 1; max-width: 100px; font-size: 11px; padding: 4px 8px;" onclick="closeRequestModal()">Cancel</button>
+                    <button type="submit" class="btn btn-success" style="flex: 1; max-width: 100px; font-size: 11px; padding: 4px 8px;" onclick="submitRequest(event)">Create</button>
                 </div>
             </form>
         </div>

@@ -889,13 +889,17 @@ function submitRequest(event) {
         return;
     }
 
-    // Create request object
+    // Capture photo data from preview
+    const previewDiv = document.getElementById('requestPhotoPreview');
+    const previewImg = previewDiv ? previewDiv.querySelector('img') : null;
+    const photoData = previewImg ? previewImg.src : null;
+
     const request = {
         id: nextRequestId++,
         productName: productName,
         category: category,
         manufacturer: manufacturer,
-        photo: null,
+        photo: photoData,
         link: link,
         notes: notes,
         dateAdded: new Date().toISOString().split('T')[0]
@@ -1288,8 +1292,12 @@ function populateWishlist() {
         <div style="padding: 20px;">
             <!-- WISHLIST SECTION -->
             <div style="margin-bottom: 40px;">
-                <h2 style="font-size: 20px; margin-bottom: 15px;">Your Wishlist (${userWishlist.length} items)</h2>
+                <div class="section-toggle" onclick="toggleSection('wishlist')" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 20px; margin-bottom: 15px;">
+                    <h2 style="margin: 0;">Your Wishlist (${userWishlist.length} items)</h2>
+                    <span id="wishlistToggleIcon">▼</span>
+                </div>
 
+                <div id="wishlistSectionContent">
                 <!-- TABLE HEADER -->
                 <div class="table-header" style="display: grid; grid-template-columns: 2fr 0.6fr 1fr 1fr 0.8fr 1fr; background: #f5f5f5; padding: 10px; border-radius: 5px; font-weight: 600; margin-bottom: 10px;">
                     <div class="table-header-cell" style="padding-left: 10px;">Product Name</div>
@@ -1301,7 +1309,7 @@ function populateWishlist() {
                 </div>
 
                 <!-- TABLE CONTENT -->
-                <div class="table-container" style="max-height: 400px; overflow-y: auto; border: 1px solid #e0e0e0; border-radius: 5px;">
+                <div id="wishlistTableContainer" style="max-height: 220px; overflow-y: auto; border: 1px solid #e0e0e0; border-radius: 5px;">
     `;
 
     if (userWishlist.length === 0) {
@@ -1313,33 +1321,25 @@ function populateWishlist() {
     } else {
         const wishlistProducts = catalogData.filter(p => userWishlist.includes(p.id));
 
-        html += '<table style="width: 100%;"><tbody>';
-
         wishlistProducts.forEach(product => {
-            const photoUrl = product.photo || 'https://via.placeholder.com/50x50?text=No+Photo';
-
             const saleItem = salesList.find(s => s.productId === product.id);
             const priceDisplay = saleItem
                 ? `<span class="original-price" style="text-decoration: line-through; color: #999; font-size: 12px;">${formatPrice(product.catalogPrice)}</span> <span class="sale-price" style="color: #e74c3c; font-weight: 600;">${formatPrice(saleItem.salePrice)}</span>`
                 : `<span style="font-weight: 600;">${formatPrice(product.catalogPrice)}</span>`;
 
             html += `
-                <tr style="border-bottom: 1px solid #f0f0f0;">
-                    <td style="padding: 10px;">${product.name}</td>
-                    <td style="padding: 10px; text-align: center;">
-                        <img src="${photoUrl}" alt="${product.name}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
-                    </td>
-                    <td style="padding: 10px;">${product.manufacturer}</td>
-                    <td style="padding: 10px;">${product.category}</td>
-                    <td style="padding: 10px;">${priceDisplay}</td>
-                    <td style="padding: 10px; text-align: right;">
+                <div class="table-row" style="display: grid; grid-template-columns: 2fr 0.6fr 1fr 1fr 0.8fr 1fr; gap: 10px; padding: 10px 0; border-bottom: 1px solid #f0f0f0; align-items: center;">
+                    <div style="padding-left: 10px;">${product.name}</div>
+                    <div><a href="#" class="user-photo-link" onclick="event.stopPropagation(); viewCatalogPhoto(${product.id}); return false;">View photo</a></div>
+                    <div>${product.manufacturer}</div>
+                    <div>${product.category}</div>
+                    <div>${priceDisplay}</div>
+                    <div style="text-align: right; padding-right: 10px;">
                         <button class="btn btn-danger" style="font-size: 11px; padding: 5px 10px;" onclick="removeFromWishlist(${product.id})">Delete</button>
-                    </td>
-                </tr>
+                    </div>
+                </div>
             `;
         });
-
-        html += '</tbody></table>';
     }
 
     html += `
@@ -1349,15 +1349,21 @@ function populateWishlist() {
                 <div style="margin-top: 15px; text-align: right;">
                     <button class="btn btn-primary" style="padding: 8px 20px;" onclick="sendWishlist()">Send my WishList</button>
                 </div>
+                </div>
             </div>
 
             <!-- REQUESTS SECTION -->
             <div>
-                <h2 style="font-size: 20px; margin-bottom: 15px;">Your Requests (${userRequests.length} items)</h2>
+                <div class="section-toggle" onclick="toggleSection('requests')" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 20px; margin-bottom: 15px;">
+                    <h2 style="margin: 0;">Your Requests (${userRequests.length} items)</h2>
+                    <span id="requestsToggleIcon">▼</span>
+                </div>
 
+                <div id="requestsSectionContent">
                 <!-- TABLE HEADER -->
-                <div class="table-header" style="display: grid; grid-template-columns: 2fr 1fr 1fr 2fr 1fr; background: #f5f5f5; padding: 10px; border-radius: 5px; font-weight: 600; margin-bottom: 10px;">
+                <div class="table-header" style="display: grid; grid-template-columns: 2fr 0.6fr 1fr 1fr 1.5fr 1fr; background: #f5f5f5; padding: 10px; border-radius: 5px; font-weight: 600; margin-bottom: 10px;">
                     <div class="table-header-cell" style="padding-left: 10px;">Product Name</div>
+                    <div class="table-header-cell">Photo</div>
                     <div class="table-header-cell">Brand</div>
                     <div class="table-header-cell">Category</div>
                     <div class="table-header-cell">Notes</div>
@@ -1365,7 +1371,7 @@ function populateWishlist() {
                 </div>
 
                 <!-- TABLE CONTENT -->
-                <div class="table-container" style="max-height: 400px; overflow-y: auto; border: 1px solid #e0e0e0; border-radius: 5px;">
+                <div id="requestsTableContainer" style="max-height: 220px; overflow-y: auto; border: 1px solid #e0e0e0; border-radius: 5px;">
     `;
 
     if (userRequests.length === 0) {
@@ -1375,25 +1381,26 @@ function populateWishlist() {
             </div>
         `;
     } else {
-        html += '<table style="width: 100%;"><tbody>';
-
         userRequests.forEach(request => {
             const notesDisplay = request.notes ? request.notes : '<span style="color: #999;">No notes</span>';
 
+            const photoDisplay = request.photo
+                ? `<a href="#" class="user-photo-link" onclick="event.stopPropagation(); viewRequestPhoto(${request.id}); return false;">View photo</a>`
+                : `<a href="#" class="user-photo-link" onclick="event.stopPropagation(); addRequestPhoto(${request.id}); return false;">Add photo</a>`;
+
             html += `
-                <tr style="border-bottom: 1px solid #f0f0f0;">
-                    <td style="padding: 10px;">${request.productName}</td>
-                    <td style="padding: 10px;">${request.manufacturer}</td>
-                    <td style="padding: 10px;">${request.category}</td>
-                    <td style="padding: 10px; font-size: 12px; color: #666;">${notesDisplay}</td>
-                    <td style="padding: 10px; text-align: right;">
+                <div class="table-row" style="display: grid; grid-template-columns: 2fr 0.6fr 1fr 1fr 1.5fr 1fr; gap: 10px; padding: 10px 0; border-bottom: 1px solid #f0f0f0; align-items: center;">
+                    <div style="padding-left: 10px;">${request.productName}</div>
+                    <div>${photoDisplay}</div>
+                    <div>${request.manufacturer}</div>
+                    <div>${request.category}</div>
+                    <div style="font-size: 12px; color: #666;">${notesDisplay}</div>
+                    <div style="text-align: right; padding-right: 10px;">
                         <button class="btn btn-danger" style="font-size: 11px; padding: 5px 10px;" onclick="deleteRequest(${request.id})">Delete</button>
-                    </td>
-                </tr>
+                    </div>
+                </div>
             `;
         });
-
-        html += '</tbody></table>';
     }
 
     html += `
@@ -1402,6 +1409,7 @@ function populateWishlist() {
                 <!-- SEND REQUESTS BUTTON -->
                 <div style="margin-top: 15px; text-align: right;">
                     <button class="btn btn-primary" style="padding: 8px 20px;" onclick="sendRequests()">Send my Requests</button>
+                </div>
                 </div>
             </div>
         </div>
@@ -1508,6 +1516,62 @@ function openWishlistCurrencySettings() {
         // Refresh wishlist to show new prices
         populateWishlist();
     }
+}
+
+// ============================================
+// SECTION TOGGLE FUNCTIONS
+// ============================================
+
+function toggleSection(section) {
+    const content = document.getElementById(section + 'SectionContent');
+    const icon = document.getElementById(section + 'ToggleIcon');
+    if (!content || !icon) return;
+
+    if (content.style.display === 'none') {
+        content.style.display = 'block';
+        icon.textContent = '▼';
+    } else {
+        content.style.display = 'none';
+        icon.textContent = '▶';
+    }
+}
+
+// ============================================
+// REQUEST PHOTO FUNCTIONS
+// ============================================
+
+function viewRequestPhoto(requestId) {
+    const request = userRequests.find(r => r.id === requestId);
+    if (!request || !request.photo) return;
+
+    const modal = document.getElementById('photoModal');
+    const img = document.getElementById('photoModalImage');
+    if (modal && img) {
+        img.src = request.photo;
+        img.alt = request.productName;
+        modal.style.display = 'flex';
+    }
+}
+
+function addRequestPhoto(requestId) {
+    const request = userRequests.find(r => r.id === requestId);
+    if (!request) return;
+
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                request.photo = event.target.result;
+                populateWishlist();
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+    input.click();
 }
 
 

@@ -1108,3 +1108,45 @@ NEXT STEPS (HIGH PRIORITY):
    - Admin actions: review, add to catalog, mark fulfilled
 
 ================================================================================
+                    UPDATE: 2026-05-08
+================================================================================
+
+USER PROFILE - YOUR WISHLIST TAB FIXES & ENHANCEMENTS ✓
+
+1. WISHLIST LIST MODE - COLUMN FIX
+   ✓ Fixed broken column alignment in "Your Wishlist" table
+   ✓ Rows now use display: grid with grid-template-columns: 2fr 0.6fr 1fr 1fr 0.8fr 1fr
+   ✓ Photo column changed from <img> thumbnail to "View photo" link (matches catalog)
+   ✓ Only Delete button remains in Actions column
+
+2. REQUESTS LIST - COMPLETE REDESIGN
+   ✓ Added Photo column to Requests table header and rows
+   ✓ Fixed grid layout with columns: 2fr 0.6fr 1fr 1fr 1.5fr 1fr
+   ✓ "View photo" link if photo exists (opens photo modal)
+   ✓ "Add photo" link if no photo (opens device file picker)
+   ✓ New functions: viewRequestPhoto(), addRequestPhoto()
+
+3. COLLAPSIBLE SECTIONS
+   ✓ Both Wishlist and Requests sections can collapse/expand via toggle
+   ✓ Toggle icon: ▼ (expanded) / ▶ (collapsed)
+   ✓ toggleSection() function manages state
+
+4. SCROLL CONTAINERS
+   ✓ Both lists: max-height 220px (~5 rows), overflow-y: auto
+
+5. ADD REQUEST MODAL - REDESIGN
+   ✓ Input fields on left, labels on right (flex row layout)
+   ✓ All inputs uniform size (flex: 1, padding: 4px 6px)
+   ✓ Textarea: full width, 3 rows, scroll if more content
+   ✓ Buttons: Cancel and Create same size (max-width: 100px)
+   ✓ Modal sizes to content (no empty space)
+
+6. PHOTO SAVING IN REQUESTS
+   ✓ submitRequest() now captures and stores photo dataURL
+   ✓ Photo persists in request object for later viewing
+
+FILES MODIFIED:
+- user-profile.html (modal redesign)
+- js/user-profile.js (wishlist/requests grid, collapsible, photo functions)
+
+================================================================================
