@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -122,16 +122,16 @@
                         </div>
                         <!-- PHOTO UPLOAD -->
                         <button class="photo-upload-btn" onclick="uploadPhoto()">
-                            ⬇️ Upload Photo
+                             Upload Photo
                         </button>
                         <!-- ADD ADDITIONAL INFO -->
                         <button class="btn-additional-info" onclick="toggleAdditionalInfo()">
                             Add Additional info
                         </button>
                         <!-- ADDITIONAL INFO TEXTAREA (hidden by default) -->
-                        <textarea id="additionalInfo" class="additional-info-textarea" placeholder="Тут можно добавить информацию о проблемах со здоровьем и указать какие принимаете медикаменты" style="display: none;"></textarea>
+                        <textarea id="additionalInfo" class="additional-info-textarea" placeholder="Add your additional heals info or current medic usage" style="display: none;"></textarea>
                         <button class="btn btn-success" id="saveAdditionalInfoBtn" onclick="saveAdditionalInfo()" style="display: none; margin-left: 235px; margin-top: 60px;">
-                            Сохранить
+                            Update info
                         </button>
                     </div>
 
@@ -284,6 +284,8 @@
         </div>
     </div>
 
+    <script src="js/sharedData.js"></script>
     <script src="js/user-profile.js"></script>
 </body>
 </html>
+

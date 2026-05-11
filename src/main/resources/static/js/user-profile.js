@@ -52,6 +52,9 @@ let offersList = [
 
 // User's wishlist - stores product IDs
 let userWishlist = [1, 5, 12, 15, 20, 23, 28, 35]; // Example wishlist with 8 products
+let nextHistoryId = 1;
+let wishlistHistory = [];
+let currentWishlistView = 'wishlist'; // 'wishlist' or 'history'
 
 // User's product requests - stores custom requests
 let userRequests = [
@@ -1265,6 +1268,9 @@ function addToWishlist(productId) {
     userWishlist.push(productId);
     alert(`"${product.name}" has been added to your wishlist!`);
 
+    // Switch back to wishlist view when items are added
+    currentWishlistView = 'wishlist';
+
     // Refresh wishlist view if currently displayed
     if (document.getElementById('wishlistContent').style.display === 'block') {
         populateWishlist();
@@ -1288,46 +1294,59 @@ function removeFromWishlist(productId) {
 function populateWishlist() {
     const wishlistContent = document.getElementById('wishlistContent');
 
-    let html = `
-        <div style="padding: 20px;">
-            <!-- WISHLIST SECTION -->
-            <div style="margin-bottom: 40px;">
-                <div class="section-toggle" onclick="toggleSection('wishlist')" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 20px; margin-bottom: 15px;">
-                    <h2 style="margin: 0;">Your Wishlist (${userWishlist.length} items)</h2>
-                    <span id="wishlistToggleIcon">▼</span>
-                </div>
+    const hasItems = userWishlist.length > 0;
+    const hasHistory = wishlistHistory.length > 0;
 
-                <div id="wishlistSectionContent">
-                <!-- TABLE HEADER -->
-                <div class="table-header" style="display: grid; grid-template-columns: 2fr 0.6fr 1fr 1fr 0.8fr 1fr; background: #f5f5f5; padding: 10px; border-radius: 5px; font-weight: 600; margin-bottom: 10px;">
-                    <div class="table-header-cell" style="padding-left: 10px;">Product Name</div>
-                    <div class="table-header-cell">Photo</div>
-                    <div class="table-header-cell">Brand</div>
-                    <div class="table-header-cell">Category</div>
-                    <div class="table-header-cell">Price</div>
-                    <div class="table-header-cell" style="text-align: right;">Actions</div>
-                </div>
+    // Determine if history view should be shown
+    if (!hasItems && hasHistory) {
+        currentWishlistView = 'history';
+    }
 
-                <!-- TABLE CONTENT -->
-                <div id="wishlistTableContainer" style="max-height: 220px; overflow-y: auto; border: 1px solid #e0e0e0; border-radius: 5px;">
-    `;
+    let html = '<div style="padding: 20px;">';
 
-    if (userWishlist.length === 0) {
+    // ========== WISHLIST / HISTORY SECTION ==========
+    if (currentWishlistView === 'wishlist') {
+        // --- WISHLIST VIEW ---
+        const historyLink = hasHistory
+            ? `<a href="#" onclick="switchToHistoryView(); return false;" style="font-size: 13px; margin-left: 10px; color: var(--blue); text-decoration: none;">History</a>`
+            : '';
+
         html += `
-            <div style="text-align: center; padding: 30px; color: #666;">
-                <p>Your wishlist is empty. Browse the catalog to add products!</p>
+        <div style="margin-bottom: 40px;">
+            <div class="section-toggle" onclick="toggleSection('wishlist')" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 20px; margin-bottom: 15px;">
+                <h2 style="margin: 0;">Your Wishlist (${userWishlist.length} items) ${historyLink}</h2>
+                <span id="wishlistToggleIcon">▼</span>
             </div>
+
+            <div id="wishlistSectionContent">
+            <!-- TABLE HEADER -->
+            <div class="table-header" style="display: grid; grid-template-columns: 2fr 0.6fr 1fr 1fr 0.8fr 1fr; background: #f5f5f5; padding: 10px; border-radius: 5px; font-weight: 600; margin-bottom: 10px;">
+                <div class="table-header-cell" style="padding-left: 10px;">Product Name</div>
+                <div class="table-header-cell">Photo</div>
+                <div class="table-header-cell">Brand</div>
+                <div class="table-header-cell">Category</div>
+                <div class="table-header-cell">Price</div>
+                <div class="table-header-cell" style="text-align: right;">Actions</div>
+            </div>
+
+            <div id="wishlistTableContainer" style="max-height: 220px; overflow-y: auto; border: 1px solid #e0e0e0; border-radius: 5px;">
         `;
-    } else {
-        const wishlistProducts = catalogData.filter(p => userWishlist.includes(p.id));
 
-        wishlistProducts.forEach(product => {
-            const saleItem = salesList.find(s => s.productId === product.id);
-            const priceDisplay = saleItem
-                ? `<span class="original-price" style="text-decoration: line-through; color: #999; font-size: 12px;">${formatPrice(product.catalogPrice)}</span> <span class="sale-price" style="color: #e74c3c; font-weight: 600;">${formatPrice(saleItem.salePrice)}</span>`
-                : `<span style="font-weight: 600;">${formatPrice(product.catalogPrice)}</span>`;
-
+        if (!hasItems) {
             html += `
+                <div style="text-align: center; padding: 30px; color: #666;">
+                    <p>Your wishlist is empty. Browse the catalog to add products!</p>
+                </div>
+            `;
+        } else {
+            const wishlistProducts = catalogData.filter(p => userWishlist.includes(p.id));
+            wishlistProducts.forEach(product => {
+                const saleItem = salesList.find(s => s.productId === product.id);
+                const priceDisplay = saleItem
+                    ? `<span class="original-price" style="text-decoration: line-through; color: #999; font-size: 12px;">${formatPrice(product.catalogPrice)}</span> <span class="sale-price" style="color: #e74c3c; font-weight: 600;">${formatPrice(saleItem.salePrice)}</span>`
+                    : `<span style="font-weight: 600;">${formatPrice(product.catalogPrice)}</span>`;
+
+                html += `
                 <div class="table-row" style="display: grid; grid-template-columns: 2fr 0.6fr 1fr 1fr 0.8fr 1fr; gap: 10px; padding: 10px 0; border-bottom: 1px solid #f0f0f0; align-items: center;">
                     <div style="padding-left: 10px;">${product.name}</div>
                     <div><a href="#" class="user-photo-link" onclick="event.stopPropagation(); viewCatalogPhoto(${product.id}); return false;">View photo</a></div>
@@ -1337,41 +1356,102 @@ function populateWishlist() {
                     <div style="text-align: right; padding-right: 10px;">
                         <button class="btn btn-danger" style="font-size: 11px; padding: 5px 10px;" onclick="removeFromWishlist(${product.id})">Delete</button>
                     </div>
-                </div>
-            `;
-        });
-    }
+                </div>`;
+            });
+        }
 
-    html += `
-                </div>
-
-                <!-- SEND WISHLIST BUTTON -->
-                <div style="margin-top: 15px; text-align: right;">
-                    <button class="btn btn-primary" style="padding: 8px 20px;" onclick="sendWishlist()">Send my WishList</button>
-                </div>
-                </div>
+        html += `
             </div>
 
-            <!-- REQUESTS SECTION -->
-            <div>
-                <div class="section-toggle" onclick="toggleSection('requests')" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 20px; margin-bottom: 15px;">
-                    <h2 style="margin: 0;">Your Requests (${userRequests.length} items)</h2>
-                    <span id="requestsToggleIcon">▼</span>
-                </div>
+            <div style="margin-top: 15px; text-align: right;">
+                <button class="btn btn-primary" style="padding: 8px 20px;" onclick="sendWishlist()">Send my WishList</button>
+            </div>
+            </div>
+        </div>`;
 
-                <div id="requestsSectionContent">
-                <!-- TABLE HEADER -->
-                <div class="table-header" style="display: grid; grid-template-columns: 2fr 0.6fr 1fr 1fr 1.5fr 1fr; background: #f5f5f5; padding: 10px; border-radius: 5px; font-weight: 600; margin-bottom: 10px;">
-                    <div class="table-header-cell" style="padding-left: 10px;">Product Name</div>
-                    <div class="table-header-cell">Photo</div>
-                    <div class="table-header-cell">Brand</div>
-                    <div class="table-header-cell">Category</div>
-                    <div class="table-header-cell">Notes</div>
-                    <div class="table-header-cell" style="text-align: right;">Actions</div>
-                </div>
+    } else {
+        // --- HISTORY VIEW (collapsed by default) ---
+        html += `
+        <div style="margin-bottom: 40px;">
+            <div class="section-toggle" onclick="toggleSection('wishlist')" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 20px; margin-bottom: 15px;">
+                <h2 style="margin: 0;">Your Wishlist History</h2>
+                <span id="wishlistToggleIcon">▶</span>
+            </div>
 
-                <!-- TABLE CONTENT -->
-                <div id="requestsTableContainer" style="max-height: 220px; overflow-y: auto; border: 1px solid #e0e0e0; border-radius: 5px;">
+            <div id="wishlistSectionContent" style="display: none;">
+            <!-- TABLE HEADER -->
+            <div class="table-header" style="display: grid; grid-template-columns: 1.5fr 1.5fr 1fr 0.8fr; background: #f5f5f5; padding: 10px; border-radius: 5px; font-weight: 600; margin-bottom: 10px;">
+                <div class="table-header-cell" style="padding-left: 10px;">Date Sent</div>
+                <div class="table-header-cell">Items</div>
+                <div class="table-header-cell">Total</div>
+                <div class="table-header-cell" style="text-align: right; padding-right: 10px;">Actions</div>
+            </div>
+
+            <div id="historyTableContainer" style="max-height: 300px; overflow-y: auto; border: 1px solid #e0e0e0; border-radius: 5px;">
+        `;
+
+        if (!hasHistory) {
+            html += `
+                <div style="text-align: center; padding: 30px; color: #666;">
+                    <p>No sent wishlists yet.</p>
+                </div>
+            `;
+        } else {
+            // Sort by date sent (newest first)
+            const sortedHistory = [...wishlistHistory].sort((a, b) => new Date(b.dateSent) - new Date(a.dateSent));
+
+            sortedHistory.forEach(entry => {
+                const date = new Date(entry.dateSent);
+                const dateStr = date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                const completedBadge = entry.completed
+                    ? '<span style="color: var(--primary-green); font-weight: 600;">✓ Completed</span>'
+                    : '<span style="color: #999;">Pending</span>';
+
+                html += `
+                <div class="table-row" style="display: grid; grid-template-columns: 1.5fr 1.5fr 1fr 0.8fr; gap: 10px; padding: 10px 0; border-bottom: 1px solid #f0f0f0; align-items: center;">
+                    <div style="padding-left: 10px; font-size: 13px;">${dateStr}</div>
+                    <div style="font-size: 13px;">${entry.items.length} items</div>
+                    <div style="font-weight: 600;">${formatPriceInGEL(entry.totalPrice)}</div>
+                    <div style="text-align: right; padding-right: 10px; display: flex; gap: 5px; justify-content: flex-end;">
+                        <button class="btn-small btn-info" onclick="viewHistoryInfo(${entry.id})" title="Info">ℹ️</button>
+                        ${!entry.completed
+                            ? `<button class="btn-small btn-success" onclick="markHistoryCompleted(${entry.id})" title="Mark as completed">✓</button>`
+                            : ''}
+                    </div>
+                </div>`;
+            });
+        }
+
+        html += `
+            </div>
+
+            <div style="margin-top: 15px; text-align: left;">
+                <button class="btn btn-secondary" style="padding: 6px 15px; font-size: 12px;" onclick="switchToWishlistView()">← Back to Wishlist</button>
+            </div>
+            </div>
+        </div>`;
+    }
+
+    // ========== REQUESTS SECTION ==========
+    html += `
+        <div>
+            <div class="section-toggle" onclick="toggleSection('requests')" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 20px; margin-bottom: 15px;">
+                <h2 style="margin: 0;">Your Requests (${userRequests.length} items)</h2>
+                <span id="requestsToggleIcon">▼</span>
+            </div>
+
+            <div id="requestsSectionContent">
+            <!-- TABLE HEADER -->
+            <div class="table-header" style="display: grid; grid-template-columns: 2fr 0.6fr 1fr 1fr 1.5fr 1fr; background: #f5f5f5; padding: 10px; border-radius: 5px; font-weight: 600; margin-bottom: 10px;">
+                <div class="table-header-cell" style="padding-left: 10px;">Product Name</div>
+                <div class="table-header-cell">Photo</div>
+                <div class="table-header-cell">Brand</div>
+                <div class="table-header-cell">Category</div>
+                <div class="table-header-cell">Notes</div>
+                <div class="table-header-cell" style="text-align: right;">Actions</div>
+            </div>
+
+            <div id="requestsTableContainer" style="max-height: 220px; overflow-y: auto; border: 1px solid #e0e0e0; border-radius: 5px;">
     `;
 
     if (userRequests.length === 0) {
@@ -1383,7 +1463,6 @@ function populateWishlist() {
     } else {
         userRequests.forEach(request => {
             const notesDisplay = request.notes ? request.notes : '<span style="color: #999;">No notes</span>';
-
             const photoDisplay = request.photo
                 ? `<a href="#" class="user-photo-link" onclick="event.stopPropagation(); viewRequestPhoto(${request.id}); return false;">View photo</a>`
                 : `<a href="#" class="user-photo-link" onclick="event.stopPropagation(); addRequestPhoto(${request.id}); return false;">Add photo</a>`;
@@ -1398,22 +1477,19 @@ function populateWishlist() {
                     <div style="text-align: right; padding-right: 10px;">
                         <button class="btn btn-danger" style="font-size: 11px; padding: 5px 10px;" onclick="deleteRequest(${request.id})">Delete</button>
                     </div>
-                </div>
-            `;
+                </div>`;
         });
     }
 
     html += `
-                </div>
+            </div>
 
-                <!-- SEND REQUESTS BUTTON -->
-                <div style="margin-top: 15px; text-align: right;">
-                    <button class="btn btn-primary" style="padding: 8px 20px;" onclick="sendRequests()">Send my Requests</button>
-                </div>
-                </div>
+            <div style="margin-top: 15px; text-align: right;">
+                <button class="btn btn-primary" style="padding: 8px 20px;" onclick="sendRequests()">Send my Requests</button>
+            </div>
             </div>
         </div>
-    `;
+    </div>`;
 
     wishlistContent.innerHTML = html;
 }
@@ -1432,7 +1508,7 @@ function deleteRequest(requestId) {
     }
 }
 
-// Send wishlist to admin
+// Send wishlist - saves to history and clears
 function sendWishlist() {
     if (userWishlist.length === 0) {
         alert('Your wishlist is empty!');
@@ -1440,10 +1516,131 @@ function sendWishlist() {
     }
 
     const wishlistProducts = catalogData.filter(p => userWishlist.includes(p.id));
-    const productNames = wishlistProducts.map(p => p.name).join(', ');
 
-    alert(`Your wishlist has been sent to admin!\n\nProducts (${userWishlist.length}):\n${productNames}\n\nAdmin will contact you soon.`);
-    // TODO: Implement actual API call to notify admin
+    const historyEntry = {
+        id: nextHistoryId++,
+        dateSent: new Date().toISOString(),
+        items: wishlistProducts.map(p => ({
+            productId: p.id,
+            name: p.name,
+            manufacturer: p.manufacturer,
+            category: p.category,
+            price: p.catalogPrice,
+            salePrice: (salesList.find(s => s.productId === p.id) || {}).salePrice || null
+        })),
+        totalPrice: wishlistProducts.reduce((sum, p) => {
+            const sale = salesList.find(s => s.productId === p.id);
+            return sum + (sale ? sale.salePrice : p.catalogPrice);
+        }, 0),
+        completed: false
+    };
+
+    wishlistHistory.push(historyEntry);
+    userWishlist = [];
+    currentWishlistView = 'history';
+
+    populateWishlist();
+}
+
+// Switch to history view
+function switchToHistoryView() {
+    currentWishlistView = 'history';
+    populateWishlist();
+}
+
+// Switch to wishlist view
+function switchToWishlistView() {
+    currentWishlistView = 'wishlist';
+    populateWishlist();
+}
+
+// View history entry info in modal
+function viewHistoryInfo(historyId) {
+    const entry = wishlistHistory.find(e => e.id === historyId);
+    if (!entry) return;
+
+    const date = new Date(entry.dateSent);
+    const dateStr = date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    let itemsHtml = entry.items.map(item => {
+        const priceDisplay = item.salePrice
+            ? `<span style="text-decoration: line-through; color: #999;">${formatPriceInGEL(item.price)}</span> <span style="color: #e74c3c; font-weight: 600;">${formatPriceInGEL(item.salePrice)}</span>`
+            : `<span style="font-weight: 600;">${formatPriceInGEL(item.price)}</span>`;
+        return `
+        <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 10px; padding: 8px 0; border-bottom: 1px solid #f0f0f0; align-items: center;">
+            <div>${item.name}</div>
+            <div style="font-size: 12px; color: #666;">${item.manufacturer}</div>
+            <div style="font-size: 12px; color: #666;">${item.category}</div>
+            <div style="text-align: right;">${priceDisplay}</div>
+        </div>`;
+    }).join('');
+
+    const completedBadge = entry.completed
+        ? '<span style="color: var(--primary-green); font-weight: 600; font-size: 14px;">✓ Completed</span>'
+        : `<button class="btn btn-success" style="font-size: 12px; padding: 5px 12px;" onclick="markHistoryCompleted(${entry.id}); closeHistoryInfoModal();">Mark as Completed</button>`;
+
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.style.display = 'flex';
+    modal.id = 'historyInfoModal';
+    modal.innerHTML = `
+        <div class="modal-content" style="max-width: 650px; max-height: 80vh; padding: 20px; align-self: flex-start; overflow-y: auto;">
+            <span class="close" onclick="closeHistoryInfoModal()">&times;</span>
+            <h2 style="font-size: 18px; margin-bottom: 5px; margin-top: 0;">Sent Wishlist</h2>
+            <div style="font-size: 13px; color: #666; margin-bottom: 15px;">${dateStr}</div>
+
+            <!-- ITEMS TABLE HEADER -->
+            <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 10px; padding: 8px 10px; background: #f5f5f5; border-radius: 5px; font-weight: 600; font-size: 13px; margin-bottom: 5px;">
+                <div>Product Name</div>
+                <div>Brand</div>
+                <div>Category</div>
+                <div style="text-align: right;">Price</div>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                ${itemsHtml}
+            </div>
+
+            <!-- TOTAL -->
+            <div style="display: flex; justify-content: flex-end; padding: 10px 0; border-top: 2px solid #e0e0e0; font-size: 16px; font-weight: bold; margin-bottom: 15px;">
+                <span>Total: ${formatPriceInGEL(entry.totalPrice)}</span>
+            </div>
+
+            <!-- COMPLETED STATUS -->
+            <div style="text-align: center; padding-top: 10px; border-top: 1px solid #e0e0e0;">
+                ${completedBadge}
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    // Click outside to close
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeHistoryInfoModal();
+        }
+    });
+}
+
+// Close history info modal
+function closeHistoryInfoModal() {
+    const modal = document.getElementById('historyInfoModal');
+    if (modal) modal.remove();
+}
+
+// Mark history entry as completed
+function markHistoryCompleted(historyId) {
+    const entry = wishlistHistory.find(e => e.id === historyId);
+    if (!entry) return;
+
+    entry.completed = true;
+    populateWishlist();
+}
+
+// Format price in base GEL (helper for history)
+function formatPriceInGEL(price) {
+    return `₾${Number(price).toFixed(2)}`;
 }
 
 // Send requests to admin

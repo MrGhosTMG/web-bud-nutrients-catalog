@@ -828,9 +828,9 @@ function viewUserWishlist(userId) {
         <!-- TABLE HEADER -->
         <div class="table-header" style="display: grid; grid-template-columns: 50px 1.5fr 1fr 1.2fr 1fr 0.8fr 0.8fr 1.2fr; background: var(--blue); color: white; padding: 12px; border-radius: 5px 5px 0 0; font-weight: bold;">
             <div class="table-header-cell"><input type="checkbox" id="selectAllWishlist" onchange="toggleSelectAllWishlist()" style="cursor: pointer;"></div>
-            <div class="table-header-cell">Bud Name</div>
+            <div class="table-header-cell">Product Name</div>
             <div class="table-header-cell">Photo</div>
-            <div class="table-header-cell">Manufacturer</div>
+            <div class="table-header-cell">Brand</div>
             <div class="table-header-cell">Category</div>
             <div class="table-header-cell">Price</div>
             <div class="table-header-cell">In Stock</div>
@@ -1059,7 +1059,7 @@ function showWishlistProductInfo(userId, productId) {
 
             <div class="user-info-item">
                 <label>Price:</label>
-                <div class="value">$${product.price}</div>
+                <div class="value">${formatPrice(product.catalogPrice)}</div>
             </div>
 
             <div class="user-info-item">
@@ -1432,14 +1432,14 @@ function populateAvailableProducts(userId) {
                        data-product-name="${product.name}"
                        data-product-manufacturer="${product.manufacturer}"
                        data-product-category="${product.category}"
-                       data-product-price="${product.price}"
+                       data-product-catalogPrice="${product.catalogPrice}"
                        data-product-instock="${product.inStock}"
                        data-product-description="${product.description || ''}">
             </td>
             <td>${product.name}</td>
             <td>${product.manufacturer}</td>
             <td>${product.category}</td>
-            <td>$${product.price}</td>
+            <td>${formatPrice(product.catalogPrice)}</td>
             <td>${inStockBadge}</td>
         `;
         tbody.appendChild(row);

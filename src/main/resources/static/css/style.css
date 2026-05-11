@@ -303,6 +303,33 @@ body {
     grid-template-columns: 1.5fr 1fr 1.2fr 1fr 0.8fr 1fr;
 }
 
+.table-header.orders-table-header {
+    grid-template-columns: 1.5fr 1fr 1fr 1fr 0.6fr 0.8fr 1.2fr;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.status-ordered {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-ordernow {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.status-delivered {
+    background-color: #d4edda;
+    color: #155724;
+}
+
 .table-header-cell {
     padding: 0 12px;
 }
@@ -363,6 +390,10 @@ tbody tr.in-stock-table-row {
 tbody tr.my-wishes-table-row {
     grid-template-columns: 1.5fr 1fr 1.2fr 1fr 0.8fr 1fr;
     position: relative;
+}
+
+tbody tr.orders-table-row {
+    grid-template-columns: 1.5fr 1fr 1fr 1fr 0.6fr 0.8fr 1.2fr;
 }
 
 tbody tr.my-wishes-table-row.selected {
@@ -1277,6 +1308,9 @@ tr.selected {
     text-align: center;
     transition: all 0.3s ease;
     font-size: 12px;
+    width: 100%;
+    display: block;
+    margin-bottom: 5px;
 }
 
 .action-btn-check {
@@ -2063,6 +2097,16 @@ tr.selected {
     background-color: #1976d2;
 }
 
+.btn-small.btn-info {
+    background-color: #e3f2fd;
+    color: #1976d2;
+    border: 1px solid #90caf9;
+}
+
+.btn-small.btn-info:hover {
+    background-color: #bbdefb;
+}
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
     .content-header {
@@ -2489,5 +2533,15 @@ tr.selected {
 
 .currency-btn:hover {
     background-color: var(--primary-green);
+}
+
+/* ===== ORDERS TABS ===== */
+.tab-panel {
+    animation: tabFadeIn 0.2s ease;
+}
+
+@keyframes tabFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
