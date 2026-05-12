@@ -1,0 +1,9 @@
+package com.budsapp.repository;
+
+import com.budsapp.entity.WishlistHistory;
+import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
+
+public interface WishlistHistoryRepository extends JpaRepository<WishlistHistory, Long> {
+    List<WishlistHistory> findByUserId(Long userId);
+}

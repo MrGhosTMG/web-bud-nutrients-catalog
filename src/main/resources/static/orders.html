@@ -23,7 +23,7 @@
                 <a href="#" class="menu-item" data-tab="instock" onclick="switchTab('instock'); return false;">In stock</a>
                 <a href="#" class="menu-item active" data-tab="orders" onclick="switchTab('orders'); return false;">Orders</a>
                 <a href="#" class="menu-item" data-tab="mywishes" onclick="switchTab('mywishes'); return false;">My wishes</a>
-                <a href="#" class="menu-item">Win/Loss</a>
+                <a href="win-loss.html" class="menu-item">Win/Loss</a>
                 <a href="catalog-edit-admin.html" class="menu-item">Catalog edit</a>
                 <div class="menu-divider"></div>
                 <a href="#" class="menu-item menu-item-special" id="sidebarBrands" onclick="openManufacturerListModal(); return false;">Brands</a>
@@ -40,14 +40,26 @@
             </div>
 
             <div class="content-header">
-                <span class="content-title" id="pageTitle">Buds</span>
-                <button class="currency-btn" style="width: 85px;" onclick="cycleCurrency()">
-                    <span id="currencyText">💱 GEL</span>
-                </button>
-                <button class="currency-btn" style="width: 85px;" onclick="openCurrencySettings()">
-                    ⚙️ Settings
-                </button>
+                <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+                    <span class="content-title" id="pageTitle">Buds</span>
+                    <div class="sort-range-group" id="stockFilterGroup" style="display:none;">
+                        <button class="sort-btn" onclick="stock_sortByAvailable()" id="stockBtnAvailable">Available</button>
+                        <button class="sort-btn" onclick="stock_sortByOutOfStock()" id="stockBtnOutOfStock">Out of Stock</button>
+                        <button class="sort-btn" onclick="stock_sortByLowStock()" id="stockBtnLowStock">Low Stock</button>
+                    </div>
+                    <div class="sort-range-group" id="ordersFilterGroup" style="display:none;">
+                        <button class="sort-btn" onclick="ord_showOrdered()" id="ordersBtnOrdered">Ordered</button>
+                        <button class="sort-btn" onclick="ord_showOrderNow()" id="ordersBtnOrderNow">Order Now</button>
+                        <button class="sort-btn" onclick="ord_showDelivered()" id="ordersBtnDelivered">Delivered</button>
+                    </div>
+                </div>
                 <div class="btn-group">
+                    <button class="currency-btn" onclick="cycleCurrency()" style="width:85px;">
+                        <span id="currencyText">💱 GEL</span>
+                    </button>
+                    <button class="currency-btn" onclick="openCurrencySettings()" style="width:85px;">
+                        ⚙️ Settings
+                    </button>
                     <input type="text" class="search-box" placeholder="Search..." id="searchBox">
                     <button class="btn btn-primary" onclick="openFiltersModal()">Filters</button>
                 </div>
@@ -159,12 +171,11 @@
                 <button class="action-btn action-btn-add" onclick="addInOrders()">Add in orders</button>
             </div>
             <div id="panel-instock" style="display: none;">
-                <button class="action-btn action-btn-sort-available" onclick="sortByAvailable()">Available (by quantity)</button>
-                <button class="action-btn action-btn-sort-outofstock" onclick="sortByOutOfStock()">Out of Stock</button>
-                <button class="action-btn action-btn-sort-lowstock" onclick="sortByLowStock()">Low Stock (lowest first)</button>
                 <button class="action-btn action-btn-info" onclick="showInfo()">Info</button>
                 <button class="action-btn action-btn-edit" onclick="stock_setQuantity()">Set Quantity</button>
                 <button class="action-btn action-btn-delete" onclick="deleteProduct()">Delete</button>
+                <button class="action-btn action-btn-sale" onclick="stock_showExpiryList()">Expiry List</button>
+                <button class="action-btn action-btn-edit" onclick="stock_setExpDate()">Set Exp Date</button>
             </div>
             <div id="panel-mywishes" style="display: none;">
                 <button class="action-btn action-btn-add-bud" onclick="openAddWishModal()"><span style="font-size: 20px; margin-right: 5px;">+</span> Add wish</button>
@@ -182,12 +193,10 @@
             </div>
 
             <div id="panel-orders" style="display: none;">
-                <button class="action-btn action-btn-sort-available" onclick="ord_showOrdered()">Ordered</button>
-                <button class="action-btn action-btn-sort-outofstock" onclick="ord_showOrderNow()">Order Now</button>
-                <button class="action-btn action-btn-sort-lowstock" onclick="ord_showDelivered()">Delivered</button>
                 <button class="action-btn action-btn-info" onclick="showInfo()">Info</button>
                 <button class="action-btn action-btn-edit" onclick="ord_setQuantity()">Set Quantity</button>
                 <button class="action-btn action-btn-delete" onclick="deleteProduct()">Delete</button>
+                <button class="action-btn action-btn-add" onclick="ord_markSold()">Mark Sold</button>
             </div>
 
             <div id="rightPanelContent"></div>

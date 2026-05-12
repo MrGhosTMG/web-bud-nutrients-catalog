@@ -6,14 +6,14 @@ let buds_data = []; let buds_allData = []; let buds_selectedId = null; let buds_
 // Advanced tab
 let adv_data = []; let adv_allData = []; let adv_selectedId = null; let adv_panel = null;
 // In Stock tab
-let stock_data = []; let stock_allData = []; let stock_selectedId = null; let stock_panel = null;
+let stock_data = []; let stock_allData = []; let stock_selectedId = null; let stock_panel = null; let stock_currentFilter = '';
 // My Wishes tab
 let mw_data = []; let mw_allData = []; let mw_selectedId = null; let mw_panel = null;
 // User's Wishes tab
 let uw_data = []; let uw_allData = []; let uw_selectedId = null; let uw_panel = null;
 let uw_navigationPath = ['Users'];
 // Orders tab
-let ord_data = []; let ord_allData = []; let ord_selectedId = null;
+let ord_data = []; let ord_allData = []; let ord_selectedId = null; let ord_currentFilter = '';
 
 // Shared lists
 let manufacturersList = []; let categoriesList = [];
@@ -55,6 +55,8 @@ function switchTab(tab) {
             document.getElementById('breadcrumbFilters').textContent = 'Buds (A-Z)';
             document.getElementById('sidebarBrands').style.display = '';
             document.getElementById('sidebarCategories').style.display = '';
+            document.getElementById('stockFilterGroup').style.display = 'none';
+            document.getElementById('ordersFilterGroup').style.display = 'none';
             buds_populateTable(); break;
         case 'advanced':
             adv_data = sharedProducts.filter(p => p.sourceType === 'advanced');
@@ -64,6 +66,8 @@ function switchTab(tab) {
             document.getElementById('breadcrumbFilters').textContent = 'Advanced (A-Z)';
             document.getElementById('sidebarBrands').style.display = '';
             document.getElementById('sidebarCategories').style.display = '';
+            document.getElementById('stockFilterGroup').style.display = 'none';
+            document.getElementById('ordersFilterGroup').style.display = 'none';
             adv_populateTable(); break;
         case 'instock':
             stock_data = [...sharedProducts];
@@ -73,6 +77,10 @@ function switchTab(tab) {
             document.getElementById('breadcrumbFilters').textContent = 'In Stock (All)';
             document.getElementById('sidebarBrands').style.display = 'none';
             document.getElementById('sidebarCategories').style.display = 'none';
+            document.getElementById('stockFilterGroup').style.display = '';
+            document.getElementById('ordersFilterGroup').style.display = 'none';
+            stock_currentFilter = '';
+            document.querySelectorAll('#stockFilterGroup .sort-btn').forEach(b => b.classList.remove('sort-btn-active'));
             stock_populateTable(); break;
         case 'mywishes':
             mw_data = sharedProducts.filter(p => [1, 4, 7, 10, 13].includes(p.id));
@@ -81,6 +89,8 @@ function switchTab(tab) {
             document.getElementById('breadcrumbFilters').textContent = 'My Wishes (All)';
             document.getElementById('sidebarBrands').style.display = 'none';
             document.getElementById('sidebarCategories').style.display = 'none';
+            document.getElementById('stockFilterGroup').style.display = 'none';
+            document.getElementById('ordersFilterGroup').style.display = 'none';
             mw_populateTable(); break;
         case 'userwishes':
             alluw_wishesData = [...uw_wishesData];
@@ -89,6 +99,8 @@ function switchTab(tab) {
             document.getElementById('breadcrumbFilters').textContent = "User's wishes (A-Z)";
             document.getElementById('sidebarBrands').style.display = 'none';
             document.getElementById('sidebarCategories').style.display = 'none';
+            document.getElementById('stockFilterGroup').style.display = 'none';
+            document.getElementById('ordersFilterGroup').style.display = 'none';
             uw_populateTable(); break;
         case 'orders':
             ord_data = sharedProducts.filter(p => p.orderStatus === 'ordered' || p.orderStatus === 'ordernow' || p.orderStatus === 'delivered');
@@ -97,6 +109,10 @@ function switchTab(tab) {
             document.getElementById('breadcrumbFilters').textContent = 'Orders (All)';
             document.getElementById('sidebarBrands').style.display = 'none';
             document.getElementById('sidebarCategories').style.display = 'none';
+            document.getElementById('stockFilterGroup').style.display = 'none';
+            document.getElementById('ordersFilterGroup').style.display = '';
+            ord_currentFilter = '';
+            document.querySelectorAll('#ordersFilterGroup .sort-btn').forEach(b => b.classList.remove('sort-btn-active'));
             ord_populateTable(); break;
     }
     setupSearch();
@@ -143,6 +159,7 @@ function openFiltersModal() {
     if (currentTab === 'instock') return stock_openFiltersModal();
     if (currentTab === 'mywishes') return mw_openFiltersModal();
     if (currentTab === 'userwishes') return uw_openFiltersModal();
+    if (currentTab === 'orders') return ord_openFiltersModal();
 }
 function applyAdvancedFilters() {
     if (currentTab === 'buds') return buds_applyAdvancedFilters();
@@ -150,6 +167,7 @@ function applyAdvancedFilters() {
     if (currentTab === 'instock') return stock_applyAdvancedFilters();
     if (currentTab === 'mywishes') return mw_applyAdvancedFilters();
     if (currentTab === 'userwishes') return uw_applyAdvancedFilters();
+    if (currentTab === 'orders') return ord_applyAdvancedFilters();
 }
 function resetFilters() {
     if (currentTab === 'buds') return buds_resetFilters();
@@ -157,6 +175,7 @@ function resetFilters() {
     if (currentTab === 'instock') return stock_resetFilters();
     if (currentTab === 'mywishes') return mw_resetFilters();
     if (currentTab === 'userwishes') return uw_resetFilters();
+    if (currentTab === 'orders') return ord_resetFilters();
 }
 function applyFilters() {
     if (currentTab === 'buds') return buds_applyFilters();
@@ -164,6 +183,7 @@ function applyFilters() {
     if (currentTab === 'instock') return stock_applyFilters();
     if (currentTab === 'mywishes') return mw_applyFilters();
     if (currentTab === 'userwishes') return uw_applyFilters();
+    if (currentTab === 'orders') return ord_applyFilters();
 }
 function updateBreadcrumbFilters() {
     if (currentTab === 'buds') return buds_updateBreadcrumb();
@@ -171,6 +191,7 @@ function updateBreadcrumbFilters() {
     if (currentTab === 'instock') return stock_updateBreadcrumb();
     if (currentTab === 'mywishes') return mw_updateBreadcrumb();
     if (currentTab === 'userwishes') return uw_updateBreadcrumb();
+    if (currentTab === 'orders') return ord_updateBreadcrumb();
 }
 function setupSearch() {
     if (currentTab === 'buds') return buds_setupSearch();
@@ -178,6 +199,7 @@ function setupSearch() {
     if (currentTab === 'instock') return stock_setupSearch();
     if (currentTab === 'mywishes') return mw_setupSearch();
     if (currentTab === 'userwishes') return uw_setupSearch();
+    if (currentTab === 'orders') return ord_setupSearch();
 }
 function addPhoto() { if (currentTab === 'buds') return buds_addPhoto(); if (currentTab === 'advanced') return adv_addPhoto(); if (currentTab === 'instock') return stock_addPhoto(); if (currentTab === 'mywishes') return mw_addPhoto(); }
 function changePhoto() { if (currentTab === 'buds') return buds_changePhoto(); if (currentTab === 'advanced') return adv_changePhoto(); if (currentTab === 'instock') return stock_changePhoto(); if (currentTab === 'mywishes') return mw_changePhoto(); }
@@ -262,6 +284,9 @@ function saveNewBud() {
 }
 function saveNewProduct() {
     if (currentTab === 'advanced') return adv_saveNewProduct();
+}
+function saveNewWish() {
+    if (currentTab === 'mywishes') return mw_saveNewWish();
 }
 
 // ===== SHARED UTILITY FUNCTIONS =====
@@ -659,7 +684,11 @@ function buds_saveNewBud() {
         description: document.getElementById('newBudDescription').value.trim() || '',
         orderStatus: '',
         sourceType: 'bud',
-        inStock: document.getElementById('newBudInStock').value === 'true'
+        inStock: document.getElementById('newBudInStock').value === 'true',
+        soldQuantity: 0,
+        expiryDate: null,
+        orderDate: null,
+        forSale: false
     };
 
     sharedProducts.push(newBud);
@@ -779,6 +808,86 @@ function buds_delete() {
         document.getElementById('rightPanelContent').innerHTML = '';
         alert('Product deleted successfully');
     }
+}
+
+function buds_setupSearch() {
+    const sb = document.getElementById('searchBox');
+    if (sb) sb.addEventListener('input', function() {
+        const term = this.value.toLowerCase();
+        document.querySelectorAll('#budsTable tr').forEach(r => {
+            const cells = r.querySelectorAll('td');
+            if (cells.length > 0) r.style.display = cells[0].textContent.toLowerCase().includes(term) ? '' : 'none';
+        });
+    });
+}
+
+function buds_applyFilters() {
+    let filtered = [...buds_allData];
+    if (currentFilters.category) filtered = filtered.filter(p => p.category === currentFilters.category);
+    if (currentFilters.manufacturer) filtered = filtered.filter(p => p.manufacturer === currentFilters.manufacturer);
+    if (currentFilters.priceMin) filtered = filtered.filter(p => p.catalogPrice >= parseInt(currentFilters.priceMin));
+    if (currentFilters.priceMax) filtered = filtered.filter(p => p.catalogPrice <= parseInt(currentFilters.priceMax));
+    if (currentFilters.sortOrder === 'asc') filtered.sort((a, b) => a.name.localeCompare(b.name));
+    else if (currentFilters.sortOrder === 'desc') filtered.sort((a, b) => b.name.localeCompare(a.name));
+    buds_data = filtered;
+    buds_populateTable();
+    updateBreadcrumbFilters();
+}
+
+function buds_updateBreadcrumb() {
+    const bc = document.getElementById('breadcrumbFilters');
+    if (!bc) return;
+    let text = 'Buds';
+    text += currentFilters.sortOrder === 'desc' ? ' (Z-A)' : ' (A-Z)';
+    const active = [];
+    if (currentFilters.category) active.push(currentFilters.category);
+    if (currentFilters.manufacturer) active.push(currentFilters.manufacturer);
+    if (currentFilters.priceMin || currentFilters.priceMax) active.push('$' + (currentFilters.priceMin || '0') + '-' + (currentFilters.priceMax || '∞'));
+    if (active.length > 0) text += ' | ' + active.join(', ');
+    bc.textContent = text;
+}
+
+function buds_openFiltersModal() {
+    const modal = document.createElement('div');
+    modal.className = 'filters-modal';
+    modal.onclick = function(e) { if (e.target === modal) closeFiltersModal(); };
+    const mc = document.createElement('div');
+    mc.className = 'filters-modal-content';
+    mc.innerHTML = '<button class="filters-modal-close" onclick="closeFiltersModal()">&times;</button>' +
+        '<div class="filters-modal-title">Filter Products</div>' +
+        '<div class="filter-group"><label class="filter-label">Sort by Name:</label><select class="filter-select" id="filterSortOrder">' +
+        '<option value="asc"' + (currentFilters.sortOrder === 'asc' ? ' selected' : '') + '>A - Z</option>' +
+        '<option value="desc"' + (currentFilters.sortOrder === 'desc' ? ' selected' : '') + '>Z - A</option></select></div>' +
+        '<div class="filter-group"><label class="filter-label">Brand:</label><select class="filter-select" id="filterManufacturer">' +
+        '<option value="">All</option>' + manufacturersList.map(m => '<option value="' + m + '"' + (currentFilters.manufacturer === m ? ' selected' : '') + '>' + m + '</option>').join('') + '</select></div>' +
+        '<div class="filter-group"><label class="filter-label">Category:</label><select class="filter-select" id="filterCategory">' +
+        '<option value="">All</option>' + categoriesList.map(c => '<option value="' + c + '"' + (currentFilters.category === c ? ' selected' : '') + '>' + c + '</option>').join('') + '</select></div>' +
+        '<div class="filter-group"><label class="filter-label">Price Range ($):</label><div class="filter-range">' +
+        '<input type="number" placeholder="Min" id="filterPriceMin" value="' + currentFilters.priceMin + '"><span>-</span>' +
+        '<input type="number" placeholder="Max" id="filterPriceMax" value="' + currentFilters.priceMax + '"></div></div>' +
+        '<div class="filter-actions"><button class="btn-apply-filters">Apply Filters</button>' +
+        '<button class="btn-reset-filters" onclick="resetFilters()">Reset</button></div>';
+    modal.appendChild(mc);
+    document.body.appendChild(modal);
+    mc.querySelector('.btn-apply-filters').addEventListener('click', function() { applyAdvancedFilters(); });
+}
+
+function buds_applyAdvancedFilters() {
+    currentFilters.sortOrder = document.getElementById('filterSortOrder').value;
+    currentFilters.manufacturer = document.getElementById('filterManufacturer').value;
+    currentFilters.category = document.getElementById('filterCategory').value;
+    currentFilters.priceMin = document.getElementById('filterPriceMin').value;
+    currentFilters.priceMax = document.getElementById('filterPriceMax').value;
+    buds_applyFilters();
+    closeFiltersModal();
+}
+
+function buds_resetFilters() {
+    currentFilters = { search: '', category: '', manufacturer: '', priceMin: '', priceMax: '', sortOrder: 'asc' };
+    buds_data = [...buds_allData];
+    buds_populateTable();
+    closeFiltersModal();
+    updateBreadcrumbFilters();
 }
 
 // ===== ADVANCED TAB =====
@@ -982,7 +1091,11 @@ function adv_saveNewProduct() {
         description: document.getElementById('newProductDescription').value.trim() || '',
         orderStatus: '',
         sourceType: 'advanced',
-        inStock: document.getElementById('newProductInStock').value === 'true'
+        inStock: document.getElementById('newProductInStock').value === 'true',
+        soldQuantity: 0,
+        expiryDate: null,
+        orderDate: null,
+        forSale: false
     };
 
     sharedProducts.push(newProduct);
@@ -1363,19 +1476,46 @@ function stock_addInOrders() {
 }
 
 function stock_sortByAvailable() {
-    stock_data = [...stock_allData].filter(p => p.quantity > 5).sort((a, b) => b.quantity - a.quantity);
+    if (stock_currentFilter === 'available') {
+        stock_currentFilter = '';
+        document.querySelectorAll('#stockFilterGroup .sort-btn').forEach(b => b.classList.remove('sort-btn-active'));
+        stock_data = [...stock_allData];
+    } else {
+        stock_currentFilter = 'available';
+        document.querySelectorAll('#stockFilterGroup .sort-btn').forEach(b => b.classList.remove('sort-btn-active'));
+        document.getElementById('stockBtnAvailable').classList.add('sort-btn-active');
+        stock_data = [...stock_allData].filter(p => p.quantity > 5).sort((a, b) => b.quantity - a.quantity);
+    }
     stock_populateTable();
     updateBreadcrumbFilters();
 }
 
 function stock_sortByOutOfStock() {
-    stock_data = [...stock_allData].filter(p => p.quantity === 0);
+    if (stock_currentFilter === 'outofstock') {
+        stock_currentFilter = '';
+        document.querySelectorAll('#stockFilterGroup .sort-btn').forEach(b => b.classList.remove('sort-btn-active'));
+        stock_data = [...stock_allData];
+    } else {
+        stock_currentFilter = 'outofstock';
+        document.querySelectorAll('#stockFilterGroup .sort-btn').forEach(b => b.classList.remove('sort-btn-active'));
+        document.getElementById('stockBtnOutOfStock').classList.add('sort-btn-active');
+        stock_data = [...stock_allData].filter(p => p.quantity === 0);
+    }
     stock_populateTable();
     updateBreadcrumbFilters();
 }
 
 function stock_sortByLowStock() {
-    stock_data = [...stock_allData].filter(p => p.quantity > 0).sort((a, b) => a.quantity - b.quantity);
+    if (stock_currentFilter === 'lowstock') {
+        stock_currentFilter = '';
+        document.querySelectorAll('#stockFilterGroup .sort-btn').forEach(b => b.classList.remove('sort-btn-active'));
+        stock_data = [...stock_allData];
+    } else {
+        stock_currentFilter = 'lowstock';
+        document.querySelectorAll('#stockFilterGroup .sort-btn').forEach(b => b.classList.remove('sort-btn-active'));
+        document.getElementById('stockBtnLowStock').classList.add('sort-btn-active');
+        stock_data = [...stock_allData].filter(p => p.quantity > 0).sort((a, b) => a.quantity - b.quantity);
+    }
     stock_populateTable();
     updateBreadcrumbFilters();
 }
@@ -1384,6 +1524,8 @@ function stock_showAll() {
     currentFilters = { search: '', category: '', manufacturer: '', priceMin: '', priceMax: '', sortOrder: 'asc' };
     const sb = document.getElementById('searchBox');
     if (sb) sb.value = '';
+    stock_currentFilter = '';
+    document.querySelectorAll('#stockFilterGroup .sort-btn').forEach(b => b.classList.remove('sort-btn-active'));
     stock_data = [...stock_allData];
     stock_populateTable();
     updateBreadcrumbFilters();
@@ -1413,6 +1555,31 @@ function stock_saveQuantity() {
     alert('Quantity updated');
 }
 
+function stock_setExpDate() {
+    if (!stock_selectedId) { alert('Select a product first'); return; }
+    const product = stock_data.find(p => p.id === stock_selectedId);
+    if (!product) return;
+    const panel = document.getElementById('rightPanelContent');
+    const currentExp = product.expiryDate || '';
+    panel.innerHTML = '<div class="right-panel-content"><h3>Set Expiry Date</h3>' +
+        '<div class="user-info-item"><label>Product:</label><div class="value">' + product.name + '</div></div>' +
+        '<div class="user-info-item"><label>Current Expiry:</label><div class="value">' + currentExp + '</div></div>' +
+        '<div class="user-info-item"><label>New Expiry Date:</label><input type="date" class="edit-input" id="stockNewExpDate" value="' + currentExp + '"></div>' +
+        '<button class="save-user-btn" onclick="stock_saveExpDate()">Set</button></div>';
+}
+
+function stock_saveExpDate() {
+    if (!stock_selectedId) { alert('Select a product first'); return; }
+    const product = stock_data.find(p => p.id === stock_selectedId);
+    if (!product) return;
+    const newDate = document.getElementById('stockNewExpDate').value;
+    if (!newDate) { alert('Select a date'); return; }
+    product.expiryDate = newDate;
+    const sp = sharedProducts.find(p => p.id === stock_selectedId);
+    if (sp) sp.expiryDate = newDate;
+    document.getElementById('rightPanelContent').innerHTML = '';
+    stock_populateTable();
+}
 function stock_showInfo() {
     if (!stock_selectedId) { alert('Select a product first'); return; }
     if (stock_panel === 'info') { document.getElementById('rightPanelContent').innerHTML = ''; stock_panel = null; return; }
@@ -1574,7 +1741,11 @@ function stock_saveNewBud() {
         description: document.getElementById('newBudDescription').value.trim() || '',
         orderStatus: '',
         sourceType: 'bud',
-        inStock: document.getElementById('newBudInStock').value === 'true'
+        inStock: document.getElementById('newBudInStock').value === 'true',
+        soldQuantity: 0,
+        expiryDate: null,
+        orderDate: null,
+        forSale: false
     };
     sharedProducts.push(newBud);
     stock_allData.push(newBud);
@@ -1917,17 +2088,17 @@ function mw_openAddWishModal() {
     modalContent.className = 'add-product-modal-content';
 
     modalContent.innerHTML = `
-        <button class="add-user-modal-close" onclick="closeAddWishModal()">Г—</button>
+        <button class="add-user-modal-close" onclick="closeAddWishModal()">&times;</button>
 
-        <div class="add-user-modal-title">Add New Bud</div>
+        <div class="add-user-modal-title">Add New Product</div>
 
         <div class="form-rows">
             <!-- Left Column -->
             <div class="form-column">
                 <div class="form-section">
-                    <div class="form-section-label">Bud Name *</div>
+                    <div class="form-section-label">Product Name *</div>
                     <input type="text" class="auth-input" placeholder="Enter product name" id="newBudName">
-                    <div class="warning-icon" id="newBudNameWarning">вљ пёЏ</div>
+                    <div class="warning-icon" id="newBudNameWarning">&#9888;&#65039;</div>
                     <div class="password-info" id="newBudNameInfo"></div>
                 </div>
 
@@ -1937,7 +2108,7 @@ function mw_openAddWishModal() {
                         <option value="">Select brand</option>
                         ${manufacturersList.map(m => `<option value="${m}">${m}</option>`).join('')}
                     </select>
-                    <div class="warning-icon" id="newBudManufacturerWarning">вљ пёЏ</div>
+                    <div class="warning-icon" id="newBudManufacturerWarning">&#9888;&#65039;</div>
                 </div>
 
                 <div class="form-section">
@@ -1946,7 +2117,15 @@ function mw_openAddWishModal() {
                         <option value="">Select category</option>
                         ${categoriesList.map(c => `<option value="${c}">${c}</option>`).join('')}
                     </select>
-                    <div class="warning-icon" id="newBudCategoryWarning">вљ пёЏ</div>
+                    <div class="warning-icon" id="newBudCategoryWarning">&#9888;&#65039;</div>
+                </div>
+
+                <div class="form-section">
+                    <div class="form-section-label">Type</div>
+                    <select class="auth-input" id="newWishType">
+                        <option value="bud">Buds (Supplement)</option>
+                        <option value="advanced">Advanced (Cosmetics)</option>
+                    </select>
                 </div>
             </div>
 
@@ -1955,7 +2134,7 @@ function mw_openAddWishModal() {
                 <div class="form-section">
                     <div class="form-section-label">Price ($) *</div>
                     <input type="number" class="auth-input" placeholder="0" id="newBudPrice" min="0">
-                    <div class="warning-icon" id="newBudPriceWarning">вљ пёЏ</div>
+                    <div class="warning-icon" id="newBudPriceWarning">&#9888;&#65039;</div>
                 </div>
 
                 <div class="form-section">
@@ -1982,7 +2161,7 @@ function mw_openAddWishModal() {
         <div class="info-text">* Required fields</div>
 
         <button class="save-user-btn" onclick="saveNewWish()">
-            вњ“ Save new Bud
+            &#10003; Save new Product
         </button>
     `;
 
@@ -2116,14 +2295,18 @@ function mw_saveNewWish() {
         photo: photoUrl,
         description: document.getElementById('newBudDescription').value.trim() || '',
         orderStatus: '',
-        sourceType: 'bud',
-        inStock: document.getElementById('newBudInStock').value === 'true'
+        sourceType: document.getElementById('newWishType').value,
+        inStock: document.getElementById('newBudInStock').value === 'true',
+        soldQuantity: 0,
+        expiryDate: null,
+        orderDate: null,
+        forSale: false
     };
 
     sharedProducts.push(newBud);
     mw_allData.push(newBud);
     mw_data.push(newBud);
-    populatewishesTable();
+    mw_populateTable();
     closeAddWishModal();
 
     alert('New product added successfully!');
@@ -2285,7 +2468,7 @@ function mw_saveBudChanges() {
     product.quantity = product.inStock ? (product.quantity || 10) : 0;
     product.description = document.getElementById('editDescription').value;
 
-    populatewishesTable();
+    mw_populateTable();
     showInfo();
 
     alert('Changes saved successfully!');
@@ -2372,7 +2555,7 @@ function mw_delete() {
         if (index > -1) {
             mw_data.splice(index, 1);
             mw_allData = mw_data.filter(b => mw_allData.some(ab => ab.id === b.id));
-            populatewishesTable();
+            mw_populateTable();
             mw_selectedId = null;
             mw_panel = null;
             document.getElementById('rightPanelContent').innerHTML = '';
@@ -2615,7 +2798,7 @@ function mw_applyFilters() {
     }
 
     mw_data = filtered;
-    populatewishesTable();
+    mw_populateTable();
     updateBreadcrumbFilters();
 }
 
@@ -2623,7 +2806,7 @@ function mw_updateBreadcrumb() {
     const breadcrumb = document.getElementById('breadcrumbFilters');
     if (!breadcrumb) return;
 
-    let filterText = 'Stock';
+    let filterText = 'My Wishes';
 
     // Sort order
     if (currentFilters.sortOrder === 'desc') {
@@ -2663,7 +2846,7 @@ function mw_openFiltersModal() {
     modalContent.innerHTML = `
         <button class="filters-modal-close" onclick="closeFiltersModal()">Г—</button>
 
-        <div class="filters-modal-title">Filter Stock</div>
+        <div class="filters-modal-title">Filter My Wishes</div>
 
         <div class="filter-group">
             <label class="filter-label">Sort by Name:</label>
@@ -2735,7 +2918,7 @@ function mw_resetFilters() {
     };
 
     mw_data = [...mw_allData];
-    populatewishesTable();
+    mw_populateTable();
     closeFiltersModal();
     updateBreadcrumbFilters();
 }
@@ -2800,7 +2983,7 @@ function mw_delete() {
         if (index > -1) {
             mw_data.splice(index, 1);
             mw_allData = mw_allData.filter(p => p.id !== mw_selectedId);
-            populatewishesTable();
+            mw_populateTable();
             mw_selectedId = null;
             mw_panel = null;
             document.getElementById('rightPanelContent').innerHTML = '';
@@ -4080,6 +4263,10 @@ function ord_applyAction(productId) {
     switch(action) {
         case 'finished':
             product.orderStatus = 'delivered';
+            if (!product.expiryDate) {
+                ord_setExpiryDate(productId);
+                return;
+            }
             alert(product.name + ' moved to Finished (Delivered)!');
             break;
         case 'ordered':
@@ -4113,17 +4300,44 @@ function ord_applyAction(productId) {
 }
 
 function ord_showOrdered() {
-    ord_data = [...ord_allData].filter(p => p.orderStatus === 'ordered');
+    if (ord_currentFilter === 'ordered') {
+        ord_currentFilter = '';
+        document.querySelectorAll('#ordersFilterGroup .sort-btn').forEach(b => b.classList.remove('sort-btn-active'));
+        ord_data = [...ord_allData];
+    } else {
+        ord_currentFilter = 'ordered';
+        document.querySelectorAll('#ordersFilterGroup .sort-btn').forEach(b => b.classList.remove('sort-btn-active'));
+        document.getElementById('ordersBtnOrdered').classList.add('sort-btn-active');
+        ord_data = [...ord_allData].filter(p => p.orderStatus === 'ordered');
+    }
     ord_populateTable();
 }
 
 function ord_showOrderNow() {
-    ord_data = [...ord_allData].filter(p => p.orderStatus === 'ordernow');
+    if (ord_currentFilter === 'ordernow') {
+        ord_currentFilter = '';
+        document.querySelectorAll('#ordersFilterGroup .sort-btn').forEach(b => b.classList.remove('sort-btn-active'));
+        ord_data = [...ord_allData];
+    } else {
+        ord_currentFilter = 'ordernow';
+        document.querySelectorAll('#ordersFilterGroup .sort-btn').forEach(b => b.classList.remove('sort-btn-active'));
+        document.getElementById('ordersBtnOrderNow').classList.add('sort-btn-active');
+        ord_data = [...ord_allData].filter(p => p.orderStatus === 'ordernow');
+    }
     ord_populateTable();
 }
 
 function ord_showDelivered() {
-    ord_data = [...ord_allData].filter(p => p.orderStatus === 'delivered');
+    if (ord_currentFilter === 'delivered') {
+        ord_currentFilter = '';
+        document.querySelectorAll('#ordersFilterGroup .sort-btn').forEach(b => b.classList.remove('sort-btn-active'));
+        ord_data = [...ord_allData];
+    } else {
+        ord_currentFilter = 'delivered';
+        document.querySelectorAll('#ordersFilterGroup .sort-btn').forEach(b => b.classList.remove('sort-btn-active'));
+        document.getElementById('ordersBtnDelivered').classList.add('sort-btn-active');
+        ord_data = [...ord_allData].filter(p => p.orderStatus === 'delivered');
+    }
     ord_populateTable();
 }
 
@@ -4140,5 +4354,200 @@ function ord_delete() {
         alert('Product deleted successfully');
     }
 }
+
+function ord_setupSearch() {
+    const sb = document.getElementById('searchBox');
+    if (sb) sb.addEventListener('input', function() {
+        const term = this.value.toLowerCase();
+        document.querySelectorAll('#ordersTable tr').forEach(r => {
+            const cells = r.querySelectorAll('td');
+            if (cells.length > 0) r.style.display = cells[0].textContent.toLowerCase().includes(term) ? '' : 'none';
+        });
+    });
+}
+
+function ord_applyFilters() {
+    let filtered = [...ord_allData];
+    if (currentFilters.category) filtered = filtered.filter(p => p.category === currentFilters.category);
+    if (currentFilters.manufacturer) filtered = filtered.filter(p => p.manufacturer === currentFilters.manufacturer);
+    if (currentFilters.priceMin) filtered = filtered.filter(p => p.catalogPrice >= parseInt(currentFilters.priceMin));
+    if (currentFilters.priceMax) filtered = filtered.filter(p => p.catalogPrice <= parseInt(currentFilters.priceMax));
+    if (currentFilters.sortOrder === 'asc') filtered.sort((a, b) => a.name.localeCompare(b.name));
+    else if (currentFilters.sortOrder === 'desc') filtered.sort((a, b) => b.name.localeCompare(a.name));
+    ord_data = filtered;
+    ord_populateTable();
+    updateBreadcrumbFilters();
+}
+
+function ord_updateBreadcrumb() {
+    const bc = document.getElementById('breadcrumbFilters');
+    if (!bc) return;
+    let text = 'Orders';
+    text += currentFilters.sortOrder === 'desc' ? ' (Z-A)' : ' (A-Z)';
+    const active = [];
+    if (currentFilters.category) active.push(currentFilters.category);
+    if (currentFilters.manufacturer) active.push(currentFilters.manufacturer);
+    if (currentFilters.priceMin || currentFilters.priceMax) active.push('$' + (currentFilters.priceMin || '0') + '-' + (currentFilters.priceMax || '∞'));
+    if (active.length > 0) text += ' | ' + active.join(', ');
+    bc.textContent = text;
+}
+
+function ord_openFiltersModal() {
+    const modal = document.createElement('div');
+    modal.className = 'filters-modal';
+    modal.onclick = function(e) { if (e.target === modal) closeFiltersModal(); };
+    const mc = document.createElement('div');
+    mc.className = 'filters-modal-content';
+    mc.innerHTML = '<button class="filters-modal-close" onclick="closeFiltersModal()">&times;</button>' +
+        '<div class="filters-modal-title">Filter Orders</div>' +
+        '<div class="filter-group"><label class="filter-label">Sort by Name:</label><select class="filter-select" id="filterSortOrder">' +
+        '<option value="asc"' + (currentFilters.sortOrder === 'asc' ? ' selected' : '') + '>A - Z</option>' +
+        '<option value="desc"' + (currentFilters.sortOrder === 'desc' ? ' selected' : '') + '>Z - A</option></select></div>' +
+        '<div class="filter-group"><label class="filter-label">Brand:</label><select class="filter-select" id="filterManufacturer">' +
+        '<option value="">All</option>' + manufacturersList.map(m => '<option value="' + m + '"' + (currentFilters.manufacturer === m ? ' selected' : '') + '>' + m + '</option>').join('') + '</select></div>' +
+        '<div class="filter-group"><label class="filter-label">Category:</label><select class="filter-select" id="filterCategory">' +
+        '<option value="">All</option>' + categoriesList.map(c => '<option value="' + c + '"' + (currentFilters.category === c ? ' selected' : '') + '>' + c + '</option>').join('') + '</select></div>' +
+        '<div class="filter-group"><label class="filter-label">Price Range ($):</label><div class="filter-range">' +
+        '<input type="number" placeholder="Min" id="filterPriceMin" value="' + currentFilters.priceMin + '"><span>-</span>' +
+        '<input type="number" placeholder="Max" id="filterPriceMax" value="' + currentFilters.priceMax + '"></div></div>' +
+        '<div class="filter-actions"><button class="btn-apply-filters">Apply Filters</button>' +
+        '<button class="btn-reset-filters" onclick="resetFilters()">Reset</button></div>';
+    modal.appendChild(mc);
+    document.body.appendChild(modal);
+    mc.querySelector('.btn-apply-filters').addEventListener('click', function() { applyAdvancedFilters(); });
+}
+
+function ord_applyAdvancedFilters() {
+    currentFilters.sortOrder = document.getElementById('filterSortOrder').value;
+    currentFilters.manufacturer = document.getElementById('filterManufacturer').value;
+    currentFilters.category = document.getElementById('filterCategory').value;
+    currentFilters.priceMin = document.getElementById('filterPriceMin').value;
+    currentFilters.priceMax = document.getElementById('filterPriceMax').value;
+    ord_applyFilters();
+    closeFiltersModal();
+}
+
+function ord_resetFilters() {
+    currentFilters = { search: '', category: '', manufacturer: '', priceMin: '', priceMax: '', sortOrder: 'asc' };
+    ord_data = [...ord_allData];
+    ord_populateTable();
+    closeFiltersModal();
+    updateBreadcrumbFilters();
+}
+
+function stock_showExpiryList() {
+    const allProducts = [...stock_allData];
+    const expiring = allProducts.filter(p => p.expiryDate && daysUntil(p.expiryDate) !== null && daysUntil(p.expiryDate) <= 60 && daysUntil(p.expiryDate) >= 0)
+        .sort((a, b) => daysUntil(a.expiryDate) - daysUntil(b.expiryDate));
+    const expired = allProducts.filter(p => p.expiryDate && daysUntil(p.expiryDate) !== null && daysUntil(p.expiryDate) < 0)
+        .sort((a, b) => daysUntil(a.expiryDate) - daysUntil(b.expiryDate));
+
+    if (expiring.length === 0 && expired.length === 0) {
+        alert('No products expiring within 2 months.');
+        return;
+    }
+
+    const modal = document.createElement('div');
+    modal.className = 'add-user-modal';
+    modal.onclick = function(e) { if (e.target === modal) modal.remove(); };
+    const mc = document.createElement('div');
+    mc.className = 'add-product-modal-content';
+    mc.style.maxWidth = '700px';
+    let html = '<button class="add-user-modal-close" onclick="this.closest(\'.add-user-modal\').remove()">&times;</button><div class="add-user-modal-title">Expiry List</div>';
+
+    if (expired.length > 0) {
+        html += '<h4 style="color:#e03131;margin:10px 0;">Expired</h4>';
+        html += '<div style="max-height:200px;overflow-y:auto;margin-bottom:15px;"><table style="width:100%;border-collapse:collapse;"><tr style="background:#fff5f5;"><th style="padding:6px;text-align:left;">Product</th><th style="padding:6px;text-align:left;">Expired</th><th style="padding:6px;text-align:left;">Stock</th></tr>';
+        expired.forEach(p => html += '<tr><td style="padding:6px;border-bottom:1px solid #ffc9c9;">' + p.name + '</td><td style="padding:6px;border-bottom:1px solid #ffc9c9;color:#e03131;">' + p.expiryDate + '</td><td style="padding:6px;border-bottom:1px solid #ffc9c9;">' + p.quantity + '</td></tr>');
+        html += '</table></div>';
+    }
+
+    if (expiring.length > 0) {
+        html += '<h4 style="color:#e8590c;margin:10px 0;">Expiring within 2 months</h4>';
+        html += '<div style="max-height:300px;overflow-y:auto;"><table style="width:100%;border-collapse:collapse;"><tr style="background:#fff4e6;"><th style="padding:6px;text-align:left;">Product</th><th style="padding:6px;text-align:left;">Expiry</th><th style="padding:6px;text-align:left;">Days Left</th><th style="padding:6px;text-align:left;">Stock</th></tr>';
+        expiring.forEach(p => {
+            const du = daysUntil(p.expiryDate);
+            const cls = du <= 30 ? 'style="color:#e03131;font-weight:600;"' : 'style="color:#e8590c;"';
+            html += '<tr><td style="padding:6px;border-bottom:1px solid #ffd8a8;">' + p.name + '</td><td style="padding:6px;border-bottom:1px solid #ffd8a8;">' + p.expiryDate + '</td><td ' + cls + '>' + du + ' days</td><td style="padding:6px;border-bottom:1px solid #ffd8a8;">' + p.quantity + '</td></tr>';
+        });
+        html += '</table></div>';
+    }
+
+    mc.innerHTML = html;
+    modal.appendChild(mc);
+    document.body.appendChild(modal);
+}
+
+function ord_markSold() {
+    if (!ord_selectedId) { alert('Select a product first'); return; }
+    const product = ord_data.find(p => p.id === ord_selectedId);
+    if (!product) return;
+
+    const modal = document.createElement('div');
+    modal.className = 'add-user-modal';
+    modal.onclick = function(e) { if (e.target === modal) modal.remove(); };
+    const mc = document.createElement('div');
+    mc.className = 'add-product-modal-content';
+    mc.innerHTML = `
+        <button class="add-user-modal-close" onclick="this.closest('.add-user-modal').remove()">&times;</button>
+        <div class="add-user-modal-title">Mark Sold: ${product.name}</div>
+        <div class="form-section"><div class="form-section-label">Quantity sold:</div>
+        <input type="number" id="ordSoldQty" value="1" min="1" max="${product.quantity}" style="width:100%;padding:10px;border:2px solid var(--border-color);border-radius:5px;"></div>
+        <div class="form-section"><div class="form-section-label">Current stock:</div><div style="padding:8px 0;">${product.quantity} pcs</div></div>
+        <button class="save-user-btn" style="margin-top:15px;width:100%;" onclick="ord_confirmSold()">Confirm Sold</button>`;
+    modal.appendChild(mc);
+    document.body.appendChild(modal);
+}
+
+function ord_confirmSold() {
+    const qty = parseInt(document.getElementById('ordSoldQty').value);
+    if (isNaN(qty) || qty <= 0) { alert('Enter a valid quantity'); return; }
+    const product = ord_data.find(p => p.id === ord_selectedId);
+    if (!product) return;
+    if (qty > product.quantity) { alert('Not enough stock! Only ' + product.quantity + ' available.'); return; }
+    product.soldQuantity = (product.soldQuantity || 0) + qty;
+    product.quantity -= qty;
+    if (product.quantity === 0) product.inStock = false;
+    const sp = sharedProducts.find(p => p.id === product.id);
+    if (sp) { sp.soldQuantity = product.soldQuantity; sp.quantity = product.quantity; sp.inStock = product.inStock; }
+    document.querySelector('.add-user-modal')?.remove();
+    ord_populateTable();
+    alert(qty + ' pcs marked as sold!');
+}
+
+function ord_setExpiryDate(productId) {
+    const product = ord_data.find(p => p.id === productId);
+    if (!product) return;
+
+    const modal = document.createElement('div');
+    modal.className = 'add-user-modal';
+    modal.onclick = function(e) { if (e.target === modal) modal.remove(); };
+    const mc = document.createElement('div');
+    mc.className = 'add-product-modal-content';
+    mc.innerHTML = `
+        <button class="add-user-modal-close" onclick="this.closest('.add-user-modal').remove()">&times;</button>
+        <div class="add-user-modal-title">Enter Expiry Date: ${product.name}</div>
+        <div class="form-section"><div class="form-section-label">Expiry Date:</div>
+        <input type="date" id="ordExpiryDate" style="width:100%;padding:10px;border:2px solid var(--border-color);border-radius:5px;"></div>
+        <button class="save-user-btn" style="margin-top:15px;width:100%;" onclick="ord_saveExpiryDate(${productId})">Save</button>`;
+    modal.appendChild(mc);
+    document.body.appendChild(modal);
+}
+
+function ord_saveExpiryDate(productId) {
+    const date = document.getElementById('ordExpiryDate').value;
+    if (!date) { alert('Select a date'); return; }
+    const product = ord_data.find(p => p.id === productId);
+    if (!product) return;
+    product.expiryDate = date;
+    const sp = sharedProducts.find(p => p.id === productId);
+    if (sp) sp.expiryDate = date;
+    const select = document.getElementById('orderTarget' + productId);
+    if (select) select.value = '';
+    document.querySelector('.add-user-modal')?.remove();
+    ord_populateTable();
+    alert(product.name + ' moved to Finished (Delivered)! Expiry: ' + date);
+}
+
 
 

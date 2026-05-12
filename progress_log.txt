@@ -257,3 +257,89 @@ JavaScript функционал:
 - 4011e7a: refactor: Relocate currency controls to content-header across all pages
 
 Последнее обновление: 2026-05-05
+
+BudsApp/
+├── pom.xml                                    # Maven (Spring Boot 3.2, MySQL, JWT, Lombok)
+├── src/main/java/com/budsapp/
+│   ├── BudsAppApplication.java                # Точка входа
+│   ├── config/
+│   │   ├── SecurityConfig.java                # Spring Security + JWT фильтр
+│   │   ├── WebConfig.java                     # CORS + static resources
+│   │   └── DataInitializer.java               # Seed data (admin, валюты, бренды, категории)
+│   ├── controller/
+│   │   ├── AuthController.java                # POST /api/auth/login, /register
+│   │   ├── UserController.java                # CRUD /api/users
+│   │   ├── ProductController.java             # CRUD /api/products + search
+│   │   ├── SalesController.java               # /api/sales
+│   │   ├── OfferController.java               # /api/offers
+│   │   ├── WishlistController.java            # /api/wishlist
+│   │   ├── RequestController.java             # /api/requests
+│   │   ├── CurrencyController.java            # /api/currencies
+│   │   ├── ManufacturerController.java        # /api/manufacturers
+│   │   ├── CategoryController.java            # /api/categories
+│   │   └── PhotoController.java               # /api/upload (файлы)
+│   ├── dto/ (12 классов)                      # LoginRequest, RegisterRequest, AuthResponse,
+│   │                                           # ApiResponse, UserDTO, ProductDTO, SalesItemDTO,
+│   │                                           # OfferItemDTO, WishlistItemDTO, ProductRequestDTO,
+│   │                                           # CurrencyDTO, PasswordChangeRequest
+│   ├── entity/
+│   │   ├── User.java                          # id, username, password, fullName, email, phone,
+│   │   │                                       # age, gender, weight, height, photo, additionalInfo, role
+│   │   ├── Product.java                       # id, name, manufacturer, category, myPrice,
+│   │   │                                       # catalogPrice, quantity, photo, description,
+│   │   │                                       # isAvailable, orderStatus, sourceType, inStock
+│   │   ├── SalesItem.java                     # product, salePrice
+│   │   ├── OfferItem.java                     # product, offerType, offerDescription, bundleWith
+│   │   ├── UserWishlistItem.java              # user, product, isDone
+│   │   ├── ProductRequest.java                # user, productName, category, manufacturer, link, notes
+│   │   ├── WishlistHistory.java               # user, itemsJson, totalPrice, completed
+│   │   ├── Currency.java                      # code (PK), name, symbol, rateToUSD
+│   │   ├── Manufacturer.java                  # id, name
+│   │   └── Category.java                      # id, name
+│   ├── repository/ (10 interfaces)            # JPA репозитории
+│   ├── service/ (10 классов)                  # Бизнес-логика
+│   ├── security/
+│   │   ├── JwtTokenProvider.java              # Генерация/валидация JWT
+│   │   ├── JwtAuthenticationFilter.java       # Фильтр аутентификации
+│   │   └── CustomUserDetailsService.java      # Загрузка пользователя
+│   └── exception/
+│       ├── ResourceNotFoundException.java
+│       ├── BadRequestException.java
+│       ├── UnauthorizedException.java
+│       └── GlobalExceptionHandler.java        # @RestControllerAdvice
+└── src/main/resources/
+    └── application.yml                        # MySQL, JPA, JWT, file upload config
+10 entities — полностью покрывают фронтенд (User, Product, SalesItem, OfferItem, UserWishlistItem, ProductRequest, WishlistHistory, Currency, Manufacturer, Category).
+11 контроллеров — REST API на все действия с фронтенда.
+База данных: MySQL (настраивается в application.yml). При первом запуске ddl-auto: update создаст таблицы автоматически, плюс DataInitializer заполнит начальные данные (admin, валюты, бренды, категории).
+
+=== ПОСЛЕДНИЕ ИЗМЕНЕНИЯ (2026-05-12) ===
+
+**Frontend: Исправление фильтров и поиска (orders.js):**
+1. Buds — добавлены 6 недостающих функций: buds_setupSearch, buds_applyFilters, buds_updateBreadcrumb, buds_openFiltersModal, buds_applyAdvancedFilters, buds_resetFilters
+2. Orders — добавлены 6 недостающих функций: ord_setupSearch, ord_applyFilters, ord_updateBreadcrumb, ord_openFiltersModal, ord_applyAdvancedFilters, ord_resetFilters
+3. Orders — обновлены dispatcher-функции (openFiltersModal, applyAdvancedFilters, resetFilters, applyFilters, updateBreadcrumbFilters, setupSearch) — теперь включают вкладку orders
+4. My Wishes — исправлены баги:
+   - populatewishesTable() → mw_populateTable() (4 вызова)
+   - breadcrumb: "Stock" → "My Wishes"
+   - модалка фильтра: "Filter Stock" → "Filter My Wishes"
+
+**Backend: Создана полная структура Spring Boot:**
+1. pom.xml — Maven (Spring Boot 3.2, MySQL, JWT, Lombok)
+2. Все Java файлы — entity, repository, service, controller, dto, config, security, exception
+3. DataInitializer — seed data (admin, GEL/USD, бренды, категории)
+
+**Backend: Добавлен Win/Loss модуль:**
+1. Transaction entity — единая таблица, type (PURCHASE/SALE), product, quantity, unitPrice, totalAmount, date, user
+2. TransactionRepository — фильтры по типу, продукту, дате; суммы totals
+3. TransactionService — создание транзакций, расчет WinLossSummary (grossProfit, profitMargin)
+4. TransactionController — POST/GET/DELETE + GET /summary с расчетом прибыли
+5. WinLossSummaryDTO — totalPurchases, totalSales, totalPurchaseCost, totalSalesRevenue, grossProfit, profitMargin
+
+=== СЛЕДУЮЩИЕ ШАГИ ===
+
+1. Реализовать фронтенд для Win/Loss (описание от заказчика)
+2. Реализовать Catalog edit функционал
+3. Backend интеграция (соединить фронтенд с REST API)
+4. Мобильная адаптация
+5. Browse markets

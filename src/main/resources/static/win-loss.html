@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Win/Loss</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="header">
+        <span class="header-username">user_name</span>
+        <span class="header-title">Welcome to bud's catalog !!!</span>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <div class="menu-title">MENU</div>
+            <div class="menu-items">
+                <a href="admin-users.html" class="menu-item">Users</a>
+                <a href="orders.html?tab=userwishes" class="menu-item">User's wishes</a>
+                <a href="orders.html?tab=buds" class="menu-item">Buds</a>
+                <a href="orders.html?tab=advanced" class="menu-item">Advanced</a>
+                <a href="orders.html?tab=instock" class="menu-item">In stock</a>
+                <a href="orders.html" class="menu-item">Orders</a>
+                <a href="orders.html?tab=mywishes" class="menu-item">My wishes</a>
+                <a href="win-loss.html" class="menu-item active">Win/Loss</a>
+                <a href="catalog-edit-admin.html" class="menu-item">Catalog edit</a>
+                <div class="menu-divider"></div>
+                <a href="#" class="menu-item menu-item-special" onclick="openSaleProductsModal(); return false;">Sale Products</a>
+                <a href="#" class="menu-item menu-item-special" onclick="openExpiryModal(); return false;">Expiring</a>
+                <div class="menu-divider"></div>
+                <a href="#" class="menu-item menu-item-special">Browse markets</a>
+                <a href="#" class="menu-item menu-item-special">Add market</a>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="breadcrumbs">
+                <span class="breadcrumb-current" id="breadcrumbFilters">Win/Loss</span>
+            </div>
+
+            <div class="content-header">
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <span class="content-title">Win / Loss</span>
+                    <div class="time-range-group" id="timeRangeGroup">
+                        <button class="time-btn time-btn-active" onclick="wl_setTimeRange('week')" id="timeBtnWeek">Week</button>
+                        <button class="time-btn" onclick="wl_setTimeRange('month')" id="timeBtnMonth">Month</button>
+                        <button class="time-btn" onclick="wl_setTimeRange('all')" id="timeBtnAll">All Time</button>
+                    </div>
+                    <div class="sort-range-group" id="sortRangeGroup">
+                        <button class="sort-btn" onclick="wl_sortByProfit()" id="sortBtnProfit">By Profit</button>
+                        <button class="sort-btn" onclick="wl_sortBySold()" id="sortBtnSold">By Sold</button>
+                        <button class="sort-btn" onclick="wl_sortByOldest()" id="sortBtnOldest">Oldest Orders</button>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button class="currency-btn" onclick="cycleCurrency()" style="width:85px;">
+                        <span id="currencyText">💱 GEL</span>
+                    </button>
+                    <button class="currency-btn" onclick="openCurrencySettings()" style="width:85px;">
+                        ⚙️ Settings
+                    </button>
+                    <input type="text" class="search-box" placeholder="Search product..." id="searchBox">
+                    <button class="btn btn-primary" onclick="openFiltersModal()">Filters</button>
+                    <button class="btn btn-secondary" onclick="wl_refreshSummary()">Refresh</button>
+                </div>
+            </div>
+
+            <div id="summaryBar" class="summary-bar">
+                <span id="summaryTotalRevenue">Revenue: $0</span>
+                <span id="summaryTotalCost">Cost: $0</span>
+                <span id="summaryGrossProfit">Profit: $0</span>
+                <span id="summaryProfitMargin">Margin: 0%</span>
+                <span id="summarySoldItems">Sold: 0 items</span>
+            </div>
+
+            <div class="table-header winloss-table-header">
+                <div class="table-header-cell">Product Name</div>
+                <div class="table-header-cell">Brand</div>
+                <div class="table-header-cell">Category</div>
+                <div class="table-header-cell">Ordered</div>
+                <div class="table-header-cell">Sold</div>
+                <div class="table-header-cell">In Stock</div>
+                <div class="table-header-cell">Buy Price</div>
+                <div class="table-header-cell">Sell Price</div>
+                <div class="table-header-cell">Profit</div>
+                <div class="table-header-cell">Status</div>
+                <div class="table-header-cell" style="text-align: right;">Actions</div>
+            </div>
+            <div class="table-container" style="max-height:540px;">
+                <table><tbody id="winlossTable"></tbody></table>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div id="panel-main">
+                <button class="action-btn action-btn-sale" onclick="wl_markForSale()">Mark for Sale</button>
+                <button class="action-btn action-btn-info" onclick="wl_showInfo()">Info</button>
+                <button class="action-btn action-btn-edit" onclick="wl_editSold()">Edit Sold</button>
+                <button class="action-btn action-btn-add" onclick="wl_addPurchase()">Add Purchase</button>
+                <button class="action-btn action-btn-edit" onclick="wl_editPrices()">Edit Prices</button>
+            </div>
+            <div id="rightPanelContent"></div>
+            
+        </div>
+    </div>
+
+    <script src="js/sharedData.js"></script>
+    <script src="js/win-loss.js"></script>
+</body>
+</html>
